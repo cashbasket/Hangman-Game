@@ -1,0 +1,26 @@
+#chuckHolder {
+	position: relative;
+	height: 100%;
+	width: 100%;
+	max-width: 500px;
+	max-height: 331px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+#chuckHolder > img {
+	width: 100%;
+		height: 100%;
+	background-image: url(../images/chucknorrismain.jpg);
+}
+
+#blackness { 
+	position: absolute;
+	display: block;
+	height: 331px;
+	width: 100%;
+	background-color: #000;
+	max-height: 331px;
+	max-width: 500px;
+	top: 0;
+}
