@@ -86,11 +86,16 @@ $(document).ready(function () {
 		if(lettersGotten.length == chosenWord.length)
 			winner = true;
 
-		// if the user guesses a new letter and guesses wrong, it's Chuck time
-		if (!gameOver && !alreadyGuessed && !correctGuess && !winner) {
-			revealChuck();
-			playSound('kick');
-			numTries--;
+		// if the user guesses a new letter and guesses wrong, it's Chuck time. Otherwise, play a happy sound.
+		if (!gameOver && !alreadyGuessed && !winner) {
+			if(!correctGuess) {
+				revealChuck();
+				playSound('kick');
+				numTries--;
+			}
+			else {
+				playSound('correct');
+			}
 		}
 		
 		// if the user wins or runs out of tries, the game is over
@@ -147,7 +152,7 @@ function revealChuck() {
 function playSound(type) {
 	var audio = document.getElementById('soundEffect');
 	if (type == 'correct') 
-    	audio.src='assets/mp3/whiff.mp3';
+    	audio.src='assets/mp3/correct.mp3';
     else if (type == 'kick')
     	audio.src='assets/mp3/slap.mp3'; 
     else if (type == 'applause')
