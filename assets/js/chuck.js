@@ -79,6 +79,7 @@ $(document).ready(function () {
 
 			if(winner) {
 				wins++;
+				playSound('applause');
 				$('#wins').text(wins);
 				$('.resultText').text('You guessed the word! Chuck is pleased, and as such will not kick you in the face. He wants to keep playing, so he picked a new word for you. Guess away!');
 			}
@@ -118,6 +119,8 @@ function playSound(type) {
     	audio.src='assets/mp3/whiff.mp3';
     else if (type == 'kick')
     	audio.src='assets/mp3/slap.mp3'; 
+    else if (type == 'applause')
+    	audio.src='assets/mp3/applause.mp3';
     audio.play();     
 }
 

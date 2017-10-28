@@ -23,6 +23,7 @@ h3 {
 
 p {
 	margin-bottom: 1em;
+	line-height: 1.1;
 }
 
 .strong {
@@ -102,4 +103,8 @@ p {
 
 #wins {
 	padding-right: 20px;
+}
+
+.red {
+	color: #f00;
 }
