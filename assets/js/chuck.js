@@ -55,10 +55,6 @@ $(document).ready(function () {
 			}
 		}
 
-		
-
-		
-
 		// check to see if user already guessed the letter
 		for(var i=0; i < triedLetters.length; i++) {
 			if(triedLetters[i] == userGuess) {
@@ -71,11 +67,10 @@ $(document).ready(function () {
 			}
 		}
 
-		
-
+		// add user's guess to list of tried letters
 		if (!alreadyGuessed && !winner) {
 			if ($('#tries').text() != '') {
-				
+
 				$('#tries').append(', ' + userGuess);
 			}
 			else {
@@ -87,21 +82,25 @@ $(document).ready(function () {
 			$('#triesHeader').css('display', 'block');
 		}
 
+		// if the user has guessed all the letters, then s/he is a winner!
 		if(lettersGotten.length == chosenWord.length)
 			winner = true;
 
+		// if the user guesses a new letter and guesses wrong, it's Chuck time
 		if (!gameOver && !alreadyGuessed && !correctGuess && !winner) {
 			revealChuck();
 			playSound('kick');
 			numTries--;
 		}
 		
+		// if the user wins or runs out of tries, the game is over
 		if(winner || numTries == 0)
 			gameOver = true;		
-			
+		
 		if(gameOver) {
 			$('.results').css('display','block');
 
+			// do winner stuff
 			if(winner) {
 				wins++;
 				playSound('applause');
@@ -109,6 +108,7 @@ $(document).ready(function () {
 				$('.results').css('background-color','#b9ddb4');
 				$('.resultText').text('You guessed the word! Chuck is pleased, and as such will not kick you in the face. He wants to keep playing, so he picked a new word for you. Guess away!');
 			}
+			// kick user in face
 			else {
 				faceKicks++;
 				playSound('kick');
@@ -116,6 +116,8 @@ $(document).ready(function () {
 				$('.results').css('background-color', '#eecdcd');
 				$('.resultText').text('You made Chuck mad, and have unfortunately been kicked in the face. However, he is letting you try again with a new word!');
 			}
+
+			//reset everything and pick a new word
 			winner = false;
 			gameOver = false;
 			numTries = 10;
@@ -128,8 +130,6 @@ $(document).ready(function () {
 			$('#triesLeft').text(numTries);
 			chosenWord = chooseWord(words);
 		}
-
-		console.log(gameOver + ', ' + winner + ', ' + numTries);
 	})
 })
 
