@@ -7,15 +7,37 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body class="site">
 	<div class="container">
-		<h2>Don't Let Chuck Norris Kick You in the Face</h2>
-		<div id="chuckHolder">
-			<img src="assets/images/chucknorrismain.jpg" class="img-responsive">
-			<span id="blackness"></span>
+		<h1 class="text-center">Don't Let Chuck Norris Kick You in the Face</h1>
+		<div class="row">
+			<div class="col-md-5">
+				<div id="chuckHolder">
+					<img src="assets/images/chucknorrismain.jpg" class="img-responsive">
+					<span id="blackness"></span>
+				</div>
+				
+			</div>
+			<div class="col-md-7">
+				<div  class="well results">
+					<span class="resultText"></span>
+				</div>
+
+				<p>Don't be fooled; Chuck Norris is around here somewhere. Just because you can't see him doesn't mean he isn't there.</p>
+				<p>It's a well known fact that Chuck likes to kick stuff, but what you might not know is that Chuck absolutely HATES it when he comes up with a random word and people can't guess all the letters in the word. It makes him mad. Real mad. So mad, in fact, that when someone can't guess all the letters in the word after 10 attempts, he kicks that someone in the face. You don't want that to happen to you.</p>
+				<p>Do your best to guess the letters in Chuck's word, but beware: every time you guess incorrectly, Chuck knows about it, and he reveals himself a bit more. Once he's completely revealed, he WILL kick you in the face.</p>
+				<p>Godspeed, brave warrior.</p>
+
+				<p class="big-text">Press any key to get started!</p>
+				
+				<h3>Current word:</h3>
+				<div id="word" class="clearfix"></div>
+				<h3 id="triesHeader">Letters you've tried:</h3>
+				<div id="tries"></div>
+			</div>
 		</div>
-		<button id="shrinkBlackness" class="btn btn-primary">Shrink the Blackness</button>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
