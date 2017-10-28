@@ -11,7 +11,7 @@ strong {
 }
 
 h1 {
-	font-size: 2em;
+	font-size: 2.5em;
 	font-weight: bold;
 	margin-bottom: 30px;
 }
@@ -45,6 +45,7 @@ p {
 	max-height: 331px;
 	margin: 0 auto 10px auto;
 	overflow: hidden;
+	border-radius: 5px;
 }
 
 #chuckHolder > img {
@@ -118,4 +119,5 @@ p {
 	padding: 10px 0;
 	text-align: center;
 	border: 1px solid #666;
+	border-radius: 5px;
 }
