@@ -20,6 +20,7 @@ $(document).ready(function () {
 	words[8] = ['t','e','x','a','s'];
 	words[9] = ['b','r','a','d','d','o','c','k'];
 
+	// create global variables and initialize
 	var chosenWord = chooseWord(words);	
 	var triedLetters = [];
 	var lettersGotten = [];
@@ -28,11 +29,15 @@ $(document).ready(function () {
 	var gameOver = false;
 	var wins = 0;
 	var faceKicks = 0;
+
+	// initialize HTML elements
 	$('#triesLeft').text(numTries);
 	$('#wins').text(wins);
 	$('#faceKicks').text(faceKicks);
 	$('#tries').text('');
 
+
+	// this is the fun part
 	$(document).keyup(function(event) {
 		var userGuess = event.key;
 		var correctGuess = false;
@@ -40,6 +45,7 @@ $(document).ready(function () {
 		$('.results').css('display', 'none');
 		$('#triesLeft').text(numTries);
 
+		// if user guesses correctly, display letter(s)
 		for(var i=0; i <= chosenWord.length - 1; i++) {
 			if ($('#letter' + i).text() == '' && chosenWord[i] == userGuess) {
 				$('#letter' + i).append(userGuess);
@@ -49,23 +55,36 @@ $(document).ready(function () {
 			}
 		}
 
-		triedLetters.push(userGuess);
+		
 
-		if(triedLetters.length == 1) {
-			$('#triesHeader').css('display', 'block');
-		}
-		for(var i=0; i < triedLetters.length - 1; i++) {
-			if(triedLetters[i] == userGuess)
+		
+
+		// check to see if user already guessed the letter
+		for(var i=0; i < triedLetters.length; i++) {
+			if(triedLetters[i] == userGuess) {
 				alreadyGuessed = true;
+				break;
+			}
+			if (i == triedLetters.length - 1 && !alreadyGuessed) {
+				// add letter to guessed letters array
+				triedLetters.push(userGuess);
+			}
 		}
+
+		
 
 		if (!alreadyGuessed && !winner) {
 			if ($('#tries').text() != '') {
+				
 				$('#tries').append(', ' + userGuess);
 			}
 			else {
 				$('#tries').append(userGuess);
 			}
+		}
+
+		if ($('#tries').text() != '') {
+			$('#triesHeader').css('display', 'block');
 		}
 
 		if(lettersGotten.length == chosenWord.length)
