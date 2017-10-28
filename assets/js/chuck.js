@@ -12,14 +12,14 @@ $(document).ready(function () {
 
 	// initialize game object
 	var game = { 
-		'chosenWord': chooseWord(words),
-		'numTries': 6,
-		'lettersGotten': [],
-		'triedLetters': [],
-		'winner': false,
-		'gameOver': false,
-		'wins': 0,
-		'faceKicks': 0
+		chosenWord: chooseWord(words),
+		numTries: 6,
+		lettersGotten: [],
+		triedLetters: [],
+		winner: false,
+		gameOver: false,
+		wins: 0,
+		faceKicks: 0
 	};
 
 	// initialize HTML elements
