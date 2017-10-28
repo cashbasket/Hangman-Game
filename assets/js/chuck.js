@@ -83,12 +83,14 @@ $(document).ready(function () {
 				wins++;
 				playSound('applause');
 				$('#wins').text(wins);
+				$('.results').css('background-color','#b9ddb4');
 				$('.resultText').text('You guessed the word! Chuck is pleased, and as such will not kick you in the face. He wants to keep playing, so he picked a new word for you. Guess away!');
 			}
 			else {
 				faceKicks++;
 				playSound('kick');
 				$('#faceKicks').text(faceKicks);
+				$('.results').css('background-color', '#eecdcd');
 				$('.resultText').text('You made Chuck mad, and have unfortunately been kicked in the face. However, he is letting you try again with a new word!');
 			}
 			winner = false;

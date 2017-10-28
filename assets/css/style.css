@@ -3,6 +3,7 @@ body {
 	font-size: 16px;
 	font-family: 'Roboto', sans-serif;
 	background-color: #e1e1e1;
+	background: url(../images/green-wall-bg.jpg) no-repeat;
 }
 
 strong {
@@ -33,7 +34,7 @@ p {
 .big-text {
 	font-size: 1.75em;
 	font-weight: bold;
-	color: #f00;
+	color: #1c8124;
 }
 
 #chuckHolder {
@@ -93,6 +94,8 @@ p {
 
 .results {
 	display: none;
+	background-color: #b9ddb4;
+	border: 1px solid #000;
 }
 
 .resultText {
