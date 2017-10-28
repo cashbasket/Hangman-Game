@@ -8,7 +8,7 @@ $(document).ready(function () {
     $('body').prepend(audioElement);
 
     // define array of Chuck words
-	var words = ['walker','ranger','kickboxer','roundhouse','hitman','jumpkick','punch','hellbound','texas','braddock'];
+	var words = ['walker','ranger','kickboxer','roundhouse','hitman','jumpkick','punch','hellbound','texas','braddock','dragon','christianity','conservative','veteran'];
 
 	// initialize game object
 	var game = { 
