@@ -30,7 +30,11 @@ p {
 
 .title-well {
 	background-color: #000;
-	margin-bottom: 30px;
+	margin-bottom: 0;
+}
+
+.contents {
+	margin-top: 30px;
 }
 
 .strong {
@@ -103,8 +107,10 @@ p {
 
 .results {
 	display: none;
-	background-color: #b9ddb4;
-	border: 1px solid #000;
+}
+
+.result-well {
+	margin-bottom: 0;
 }
 
 .resultText {

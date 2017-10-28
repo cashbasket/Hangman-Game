@@ -101,16 +101,16 @@ $(document).ready(function () {
 				game.wins++;
 				playSound('applause');
 				$('#wins').text(game.wins);
-				$('.results').css('background-color','#b9ddb4');
-				$('.resultText').text('You guessed the word! Chuck is pleased, and as such will not kick you in the face. He wants to keep playing, so he picked a new word for you. Guess away!');
+				$('.result-well').css('background-color','#b9ddb4');
+				$('.resultText').css('color', '#317a27').text('You guessed the word! Chuck is pleased, and as such will not kick you in the face. He wants to keep playing, so he picked a new word for you. Guess away!');
 			}
 			// kick user in face if user lost
 			else {
 				game.faceKicks++;
 				playSound('kick');
 				$('#faceKicks').text(game.faceKicks);
-				$('.results').css('background-color', '#eecdcd');
-				$('.resultText').text('You made Chuck mad, and have unfortunately been kicked in the face. However, he is letting you try again with a new word!');
+				$('.result-well').css('background-color', '#eecdcd');
+				$('.resultText').css('color', '#f00').text('You made Chuck mad, and have unfortunately been kicked in the face. However, he is letting you try again with a new word!');
 			}
 
 			//reset object properties
