@@ -46,6 +46,7 @@ p {
 	margin: 0 auto 10px auto;
 	overflow: hidden;
 	border-radius: 5px;
+	border: 1px solid #000;
 }
 
 #chuckHolder > img {
@@ -121,4 +122,8 @@ p {
 	text-align: center;
 	border: 1px solid #666;
 	border-radius: 5px;
+}
+
+.well {
+	border-color: #000;
 }

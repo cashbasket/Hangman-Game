@@ -113,17 +113,16 @@ $(document).ready(function () {
 				$('.resultText').text('You made Chuck mad, and have unfortunately been kicked in the face. However, he is letting you try again with a new word!');
 			}
 
-			//reset variables
+			//reset object properties
 			game.winner = false;
 			game.gameOver = false;
 			game.numTries = 6;
 			game.triedLetters = [];
 			game.lettersGotten = [];
 
-			//reset curtain
+			//reset curtain & game
 			if (getPctWidthOfOverlay() != 100) {
 				$( "#overlay" ).animate({ width: "100%" }, 500, function() {
-					// when curtain is reset, re-initialize game
 					reset(game.numTries);
 					game.chosenWord = chooseWord(words);
 				});
