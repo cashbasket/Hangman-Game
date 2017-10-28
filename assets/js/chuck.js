@@ -153,7 +153,7 @@ $(document).ready(function () {
 				game.playSound('applause');
 				$('#wins').text(game.wins);
 				$('.result-well').css('background-color','#b9ddb4');
-				$('.result-text').css('color', '#317a27').text('You guessed the word! Chuck is pleased, and as such will not kick you in the face. He wants to keep playing, so he picked a new word for you. Guess away!');
+				$('.result-text').css('color', '#317a27').text('Chuck is pleased, and will therefore not kick you in the face. He wants to keep playing, though, so he picked a new word for you. Guess away!');
 			}
 			// ... kick user in face if user lost
 			else {
@@ -164,7 +164,7 @@ $(document).ready(function () {
 				$('.result-text').css('color', '#f00').text('You have been kicked in the face. However, Chuck is letting you try again with a new word! Do not disappoint him again.');
 			}
 
-			//reset curtain & game
+			// reset
 			if (getPctWidthOfOverlay() != 100) {
 				$( "#overlay" ).animate({ width: "100%" }, 500, function() {
 					game.reset();
