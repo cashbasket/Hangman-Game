@@ -1,11 +1,11 @@
 
 $(document).ready(function () {
 	// initialize sound stuff
-	var obj = document.createElement('audio');
-	obj.id = 'soundEffect';
-	obj.autoPlay = false;
-    obj.preLoad = true;
-    $('body').prepend(obj);
+	var audioElement = document.createElement('audio');
+	audioElement.id = 'soundEffect';
+	audioElement.autoPlay = false;
+    audioElement.preLoad = true;
+    $('body').prepend(audioElement);
 
     // set array of Chuck-related words
     var words = ['walker','ranger','kickboxer','roundhouse','hitman','jumpkick','punch','hellbound','texas','braddock'];
@@ -53,20 +53,17 @@ $(document).ready(function () {
 			}
 		}
 
+		// if user hasn't already guessed the current letter
 		if (!alreadyGuessed) {
-			// add letter to guessed letters array
-			triedLetters.push(userGuess);
-		}
-
-		// add user's guess to list of tried letters
-		if (!alreadyGuessed && !winner) {
-			if ($('#tries').text() != '') {
-
-				$('#tries').append(', ' + userGuess);
-			}
-			else {
-				$('#tries').append(userGuess);
-			}
+			if (!winner) {
+				if ($('#tries').text() != '') {
+					$('#tries').append(', ' + userGuess);
+				}
+				else {
+					$('#tries').append(userGuess);
+				}
+				triedLetters.push(userGuess);
+			}			
 		}
 
 		if ($('#tries').text() != '') {
@@ -121,15 +118,21 @@ $(document).ready(function () {
 			triedLetters = [];
 			lettersGotten = [];
 
+
+			console.log(getPctWidthOfOverlay());
+
 			//reset curtain
-			$( "#overlay" ).animate({ width: "100%" }, 500, function() {
-				// when curtain is reset, re-initialize game
-			    $('#word').html('');
-				$('#tries').text('');
-				$('#triesHeader').css('display', 'none');
-				$('#triesLeft').text(numTries);
+			if (getPctWidthOfOverlay() != 100) {
+				$( "#overlay" ).animate({ width: "100%" }, 500, function() {
+					// when curtain is reset, re-initialize game
+					reset(numTries);
+					chosenWord = chooseWord(words);
+				});
+			}
+			else {
+				reset(numTries);
 				chosenWord = chooseWord(words);
-			});
+			}
 		}
 	})
 })
@@ -138,8 +141,19 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function reset(tries) {
+	$('#word').html('');
+	$('#tries').text('');
+	$('#triesHeader').css('display', 'none');
+	$('#triesLeft').text(tries);
+}
+
+function getPctWidthOfOverlay() {
+	return parseFloat($('#overlay').width() / $('#chuckHolder').width()) * 100;
+}
+
 function revealChuck() {
-	var curPct = parseFloat($('#overlay').width() / $('#chuckHolder').width()) * 100;
+	var curPct = getPctWidthOfOverlay();
 	var newPct = curPct - (100/6);
 
 	$('#overlay').css('width', newPct + "%");
