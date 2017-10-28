@@ -7,27 +7,28 @@ $(document).ready(function () {
     audioElement.preLoad = true;
     $('body').prepend(audioElement);
 
-    // set array of Chuck-related words
-    var words = ['walker','ranger','kickboxer','roundhouse','hitman','jumpkick','punch','hellbound','texas','braddock'];
+    // define array of Chuck words
+	var words = ['walker','ranger','kickboxer','roundhouse','hitman','jumpkick','punch','hellbound','texas','braddock'];
 
-	// create global variables and initialize
-	var chosenWord = chooseWord(words);	
-	var triedLetters = [];
-	var lettersGotten = [];
-	var numTries = 6;
-	var winner = false;
-	var gameOver = false;
-	var wins = 0;
-	var faceKicks = 0;
+	// initialize game object
+	var game = { 
+		'chosenWord': chooseWord(words),
+		'numTries': 6,
+		'lettersGotten': [],
+		'triedLetters': [],
+		'winner': false,
+		'gameOver': false,
+		'wins': 0,
+		'faceKicks': 0
+	};
 
 	// initialize HTML elements
-	$('#triesLeft').text(numTries);
-	$('#wins').text(wins);
-	$('#faceKicks').text(faceKicks);
+	$('#triesLeft').text(game.numTries);
+	$('#wins').text(game.wins);
+	$('#faceKicks').text(game.faceKicks);
 	$('#tries').text('');
 
-
-	// this is the fun part
+	// time for action
 	$(document).keyup(function(event) {
 		var userGuess = event.key;
 		var correctGuess = false;
@@ -36,18 +37,18 @@ $(document).ready(function () {
 		
 
 		// if user guesses correctly, display letter(s)
-		for(var i=0; i <= chosenWord.length - 1; i++) {
-			if ($('#letter' + i).text() == '' && chosenWord.charAt(i) == userGuess) {
+		for(var i=0; i <= game.chosenWord.length - 1; i++) {
+			if ($('#letter' + i).text() == '' && game.chosenWord.charAt(i) == userGuess) {
 				$('#letter' + i).append(userGuess);
-				lettersGotten.push(userGuess);
+				game.lettersGotten.push(userGuess);
 				correctGuess = true;
 				$('#letter' + i).css('border-bottom', 'none');
 			}
 		}
 
 		// check to see if user already guessed the letter
-		for(var i=0; i < triedLetters.length; i++) {
-			if(triedLetters[i] == userGuess) {
+		for(var i=0; i < game.triedLetters.length; i++) {
+			if(game.triedLetters[i] == userGuess) {
 				alreadyGuessed = true;
 				break;
 			}
@@ -55,14 +56,14 @@ $(document).ready(function () {
 
 		// if user hasn't already guessed the current letter
 		if (!alreadyGuessed) {
-			if (!winner) {
+			if (!game.winner) {
 				if ($('#tries').text() != '') {
 					$('#tries').append(', ' + userGuess);
 				}
 				else {
 					$('#tries').append(userGuess);
 				}
-				triedLetters.push(userGuess);
+				game.triedLetters.push(userGuess);
 			}			
 		}
 
@@ -71,16 +72,16 @@ $(document).ready(function () {
 		}
 
 		// if the user has guessed all the letters, then s/he is a winner!
-		if(lettersGotten.length == chosenWord.length)
-			winner = true;
+		if(game.lettersGotten.length == game.chosenWord.length)
+			game.winner = true;
 
 		// if the user guesses a new letter and guesses wrong, it's Chuck time. Otherwise, play a happy sound.
-		if (!gameOver && !alreadyGuessed && !winner) {
+		if (!game.gameOver && !alreadyGuessed && !game.winner) {
 			if(!correctGuess) {
 				revealChuck();
 				playSound('kick');
-				numTries--;
-				$('#triesLeft').text(numTries);
+				game.numTries--;
+				$('#triesLeft').text(game.numTries);
 			}
 			else {
 				playSound('correct');
@@ -88,50 +89,48 @@ $(document).ready(function () {
 		}
 		
 		// if the user wins or runs out of tries, the game is over
-		if(winner || numTries == 0)
-			gameOver = true;		
+		if(game.winner || game.numTries == 0)
+			game.gameOver = true;		
 		
-		if(gameOver) {
+		// if the game is over...
+		if(game.gameOver) {
 			$('.results').css('display','block');
 
-			// do winner stuff
-			if(winner) {
-				wins++;
+			// do winner stuff if user won
+			if(game.winner) {
+				game.wins++;
 				playSound('applause');
-				$('#wins').text(wins);
+				$('#wins').text(game.wins);
 				$('.results').css('background-color','#b9ddb4');
 				$('.resultText').text('You guessed the word! Chuck is pleased, and as such will not kick you in the face. He wants to keep playing, so he picked a new word for you. Guess away!');
 			}
-			// kick user in face
+			// kick user in face if user lost
 			else {
-				faceKicks++;
+				game.faceKicks++;
 				playSound('kick');
-				$('#faceKicks').text(faceKicks);
+				$('#faceKicks').text(game.faceKicks);
 				$('.results').css('background-color', '#eecdcd');
 				$('.resultText').text('You made Chuck mad, and have unfortunately been kicked in the face. However, he is letting you try again with a new word!');
 			}
 
 			//reset variables
-			winner = false;
-			gameOver = false;
-			numTries = 6;
-			triedLetters = [];
-			lettersGotten = [];
-
-
-			console.log(getPctWidthOfOverlay());
+			game.winner = false;
+			game.gameOver = false;
+			game.numTries = 6;
+			game.triedLetters = [];
+			game.lettersGotten = [];
 
 			//reset curtain
 			if (getPctWidthOfOverlay() != 100) {
 				$( "#overlay" ).animate({ width: "100%" }, 500, function() {
 					// when curtain is reset, re-initialize game
-					reset(numTries);
-					chosenWord = chooseWord(words);
+					reset(game.numTries);
+					game.chosenWord = chooseWord(words);
 				});
 			}
 			else {
-				reset(numTries);
-				chosenWord = chooseWord(words);
+				reset(game.numTries);
+				game.chosenWord = chooseWord(words);
 			}
 		}
 	})
@@ -188,6 +187,5 @@ function chooseWord(wordArray) {
 		nextLetter.attr('id', 'letter' + (i+1));
 		nextLetter.appendTo('#word');
 	}
-
 	return selectedWord;
 }
