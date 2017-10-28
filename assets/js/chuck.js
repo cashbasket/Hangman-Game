@@ -7,7 +7,7 @@ $(document).ready(function () {
     obj.preLoad = true;
     $('body').prepend(obj);
 
-    // set array of arrays
+    // set array of Chuck-related words
     var words = [];
 	words[0] = ['w','a','l','k','e','r'];
 	words[1] = ['r','a','n','g','e','r'];
@@ -15,6 +15,10 @@ $(document).ready(function () {
 	words[3] = ['r','o','u','n','d','h','o','u','s','e'];
 	words[4] = ['h','i','t','m','a','n'];
 	words[5] = ['j','u','m','p','k','i','c','k'];
+	words[6] = ['p','u','n','c','h'];
+	words[7] = ['h','e','l','l','b','o','u','n','d'];
+	words[8] = ['t','e','x','a','s'];
+	words[9] = ['b','r','a','d','d','o','c','k'];
 
 	var chosenWord = chooseWord(words);	
 	var triedLetters = [];
