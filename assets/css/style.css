@@ -2,6 +2,11 @@ body {
 	padding-top: 50px;
 	font-size: 16px;
 	font-family: 'Roboto', sans-serif;
+	background-color: #ccc;
+}
+
+strong {
+	font-weight: bold;
 }
 
 h1 {
@@ -27,6 +32,7 @@ p {
 .big-text {
 	font-size: 1.75em;
 	font-weight: bold;
+	color: #f00;
 }
 
 #chuckHolder {
@@ -35,7 +41,7 @@ p {
 	width: 100%;
 	max-width: 500px;
 	max-height: 331px;
-	margin: 0 auto;
+	margin: 0 auto 10px auto;
 	overflow: hidden;
 }
 
@@ -92,4 +98,8 @@ p {
 	font-weight: bold;
 	font-size: 1.5em;
 	color: #f00;
+}
+
+#wins {
+	padding-right: 20px;
 }

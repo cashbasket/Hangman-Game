@@ -22,6 +22,9 @@ $(document).ready(function () {
 	var numTries = 10;
 	var winner = false;
 	var gameOver = false;
+	var wins = 0;
+	$('#triesLeft').text(numTries);
+	$('#wins').text(wins);
 	$('#tries').text('');
 
 	$(document).keyup(function(event) {
@@ -29,6 +32,7 @@ $(document).ready(function () {
 		var correctGuess = false;
 		var alreadyGuessed = false;
 		$('.results').css('display', 'none');
+		$('#triesLeft').text(numTries);
 
 		for(var i=0; i <= chosenWord.length - 1; i++) {
 			if ($('#letter' + i).text() == '' && chosenWord[i] == userGuess) {
@@ -73,8 +77,11 @@ $(document).ready(function () {
 		if(gameOver) {
 			$('.results').css('display','block');
 
-			if(winner)
+			if(winner) {
+				wins++;
+				$('#wins').text(wins);
 				$('.resultText').text('You guessed the word! Chuck is pleased, and as such will not kick you in the face. He wants to keep playing, so he picked a new word for you. Guess away!');
+			}
 			else
 				$('.resultText').text('You made Chuck mad, and have unfortunately been kicked in the face. However, he is letting you try again with a new word!');
 			winner = false;
@@ -86,6 +93,7 @@ $(document).ready(function () {
 			$('#tries').text('');
 			$('#triesHeader').css('display', 'none');
 			$('#blackness').css('width', '100%');
+			$('#triesLeft').text(numTries);
 			chosenWord = chooseWord(words);
 		}
 
