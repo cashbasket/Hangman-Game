@@ -61,6 +61,9 @@ var game = {
 			case 'applause':
 				audio.src = 'assets/mp3/applause.mp3';
 				break;
+			case 'incorrect':
+				audio.src = 'assets/mp3/swoosh.mp3';
+				break;
 			case 'kick':
 			default:
 				audio.src = 'assets/mp3/slap.mp3';
@@ -127,7 +130,7 @@ $(document).ready(function () {
 		if (!game.gameOver && !alreadyGuessed && !game.winner) {
 			if(!correctGuess) {
 				game.revealChuck();
-				game.playSound('kick');
+				game.playSound('incorrect');
 				game.triesLeft--;
 				$('#triesLeft').text(game.triesLeft);
 			}
