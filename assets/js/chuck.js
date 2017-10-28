@@ -8,23 +8,13 @@ $(document).ready(function () {
     $('body').prepend(obj);
 
     // set array of Chuck-related words
-    var words = [];
-	words[0] = ['w','a','l','k','e','r'];
-	words[1] = ['r','a','n','g','e','r'];
-	words[2] = ['k','i','c','k','b','o','x','e','r'];
-	words[3] = ['r','o','u','n','d','h','o','u','s','e'];
-	words[4] = ['h','i','t','m','a','n'];
-	words[5] = ['j','u','m','p','k','i','c','k'];
-	words[6] = ['p','u','n','c','h'];
-	words[7] = ['h','e','l','l','b','o','u','n','d'];
-	words[8] = ['t','e','x','a','s'];
-	words[9] = ['b','r','a','d','d','o','c','k'];
+    var words = ['walker','ranger','kickboxer','roundhouse','hitman','jumpkick','punch','hellbound','texas','braddock'];
 
 	// create global variables and initialize
 	var chosenWord = chooseWord(words);	
 	var triedLetters = [];
 	var lettersGotten = [];
-	var numTries = 10;
+	var numTries = 6;
 	var winner = false;
 	var gameOver = false;
 	var wins = 0;
@@ -43,11 +33,11 @@ $(document).ready(function () {
 		var correctGuess = false;
 		var alreadyGuessed = false;
 		$('.results').css('display', 'none');
-		$('#triesLeft').text(numTries);
+		
 
 		// if user guesses correctly, display letter(s)
 		for(var i=0; i <= chosenWord.length - 1; i++) {
-			if ($('#letter' + i).text() == '' && chosenWord[i] == userGuess) {
+			if ($('#letter' + i).text() == '' && chosenWord.charAt(i) == userGuess) {
 				$('#letter' + i).append(userGuess);
 				lettersGotten.push(userGuess);
 				correctGuess = true;
@@ -61,10 +51,11 @@ $(document).ready(function () {
 				alreadyGuessed = true;
 				break;
 			}
-			if (i == triedLetters.length - 1 && !alreadyGuessed) {
-				// add letter to guessed letters array
-				triedLetters.push(userGuess);
-			}
+		}
+
+		if (!alreadyGuessed) {
+			// add letter to guessed letters array
+			triedLetters.push(userGuess);
 		}
 
 		// add user's guess to list of tried letters
@@ -92,6 +83,7 @@ $(document).ready(function () {
 				revealChuck();
 				playSound('kick');
 				numTries--;
+				$('#triesLeft').text(numTries);
 			}
 			else {
 				playSound('correct');
@@ -122,18 +114,22 @@ $(document).ready(function () {
 				$('.resultText').text('You made Chuck mad, and have unfortunately been kicked in the face. However, he is letting you try again with a new word!');
 			}
 
-			//reset everything and pick a new word
+			//reset variables
 			winner = false;
 			gameOver = false;
-			numTries = 10;
+			numTries = 6;
 			triedLetters = [];
 			lettersGotten = [];
-			$('#word').html('');
-			$('#tries').text('');
-			$('#triesHeader').css('display', 'none');
-			$('#blackness').css('width', '100%');
-			$('#triesLeft').text(numTries);
-			chosenWord = chooseWord(words);
+
+			//reset curtain
+			$( "#overlay" ).animate({ width: "100%" }, 500, function() {
+				// when curtain is reset, re-initialize game
+			    $('#word').html('');
+				$('#tries').text('');
+				$('#triesHeader').css('display', 'none');
+				$('#triesLeft').text(numTries);
+				chosenWord = chooseWord(words);
+			});
 		}
 	})
 })
@@ -143,20 +139,25 @@ function getRandomInt(min, max) {
 }
 
 function revealChuck() {
-	var curPct = parseFloat($('#blackness').width() / $('#chuckHolder').width()) * 100;
-	var newPct = curPct - 10;
+	var curPct = parseFloat($('#overlay').width() / $('#chuckHolder').width()) * 100;
+	var newPct = curPct - (100/6);
 
-	$('#blackness').css('width', newPct + "%");
+	$('#overlay').css('width', newPct + "%");
 }
 
 function playSound(type) {
 	var audio = document.getElementById('soundEffect');
-	if (type == 'correct') 
-    	audio.src='assets/mp3/correct.mp3';
-    else if (type == 'kick')
-    	audio.src='assets/mp3/slap.mp3'; 
-    else if (type == 'applause')
-    	audio.src='assets/mp3/applause.mp3';
+	switch (type) {
+		case 'correct':
+			audio.src = 'assets/mp3/correct.mp3';
+			break;
+		case 'applause':
+			audio.src = 'assets/mp3/applause.mp3';
+			break;
+		case 'kick':
+		default:
+			audio.src = 'assets/mp3/slap.mp3';
+	}
     audio.play();     
 }
 

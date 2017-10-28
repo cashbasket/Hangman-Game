@@ -54,12 +54,13 @@ p {
 	background-image: url(../images/chucknorrismain.jpg);
 }
 
-#blackness { 
+#overlay{ 
 	position: absolute;
 	display: block;
 	height: 331px;
 	width: 100%;
-	background-color: #000;
+	background: #000 url(../images/curtains.jpg) no-repeat;
+	background-size: cover;
 	max-height: 331px;
 	max-width: 500px;
 	top: 0;
