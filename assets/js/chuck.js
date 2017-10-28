@@ -23,8 +23,10 @@ $(document).ready(function () {
 	var winner = false;
 	var gameOver = false;
 	var wins = 0;
+	var faceKicks = 0;
 	$('#triesLeft').text(numTries);
 	$('#wins').text(wins);
+	$('#faceKicks').text(faceKicks);
 	$('#tries').text('');
 
 	$(document).keyup(function(event) {
@@ -83,8 +85,12 @@ $(document).ready(function () {
 				$('#wins').text(wins);
 				$('.resultText').text('You guessed the word! Chuck is pleased, and as such will not kick you in the face. He wants to keep playing, so he picked a new word for you. Guess away!');
 			}
-			else
+			else {
+				faceKicks++;
+				playSound('kick');
+				$('#faceKicks').text(faceKicks);
 				$('.resultText').text('You made Chuck mad, and have unfortunately been kicked in the face. However, he is letting you try again with a new word!');
+			}
 			winner = false;
 			gameOver = false;
 			numTries = 10;

@@ -2,7 +2,7 @@ body {
 	padding-top: 50px;
 	font-size: 16px;
 	font-family: 'Roboto', sans-serif;
-	background-color: #ccc;
+	background-color: #e1e1e1;
 }
 
 strong {
@@ -101,10 +101,18 @@ p {
 	color: #f00;
 }
 
-#wins {
+#wins, #faceKicks {
 	padding-right: 20px;
 }
 
 .red {
 	color: #f00;
+}
+
+.stats {
+	margin-bottom: 15px;
+	background-color: #ccc;
+	padding: 10px 0;
+	text-align: center;
+	border: 1px solid #666;
 }
