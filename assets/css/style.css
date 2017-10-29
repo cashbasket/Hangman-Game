@@ -113,7 +113,7 @@ h3 {
 	height: 400px;
 	width: 100%;
 	background: #000 url(../images/curtains-lg.jpg) no-repeat;
-	background-size: 100% 100%;
+	background-size: cover;
 	max-height: 400px;
 	max-width: 500px;
 	top: 0;
