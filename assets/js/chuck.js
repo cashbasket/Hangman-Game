@@ -1,6 +1,6 @@
 //global variables
 var maxTries = 10;
-var words = ['walker','ranger','kickboxer','roundhouse','hitman','jumpkick','punch','hellbound','texas','braddock','dragon','christian','conservative','veteran','champion','greatest','american','carlos','oklahoma'];
+var words = ['walker','ranger','kickboxer','roundhouse','hitman','jumpkick','punch','hellbound','texas','braddock','christian','conservative','republican','veteran','patriot','greatest','american','oklahoma'];
 var winnerText = 'Chuck is pleased, and will therefore not kick you in the face. He wants to keep playing, though, so he picked a new word for you. Guess away!';
 var loserText = 'You have been kicked in the face. However, Chuck is letting you try again with a new word! Do not disappoint him.';
 
