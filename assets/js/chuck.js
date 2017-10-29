@@ -26,7 +26,7 @@ var game = {
 	wins: 0,
 	faceKicks: 0,
 	init: function() {
-		$('#triesLeft').text(maxTries);
+		$('#triesLeft').text(maxTries + ' tries remaining');
 		$('#wins').text(this.wins);
 		$('#faceKicks').text(this.faceKicks);
 		$('#maxTries').text(maxTries + ' times');
@@ -52,9 +52,9 @@ var game = {
 		this.currentWord = selectedWord;
 	},
 	updateTriesLeftDisplay: function () {
-		$('#triesLeft').text(this.triesLeft);
+		$('#triesLeft').text(this.triesLeft + ' tries remaining');;
 		if (this.triesLeft <= maxTries/2) {
-			$('#triesLeft').css('color', '#ffe000');
+			$('#triesLeft').css('color', '#be1c1c').prepend('only ');
 		}	
 	},
 	updateStats: function() {
@@ -88,7 +88,7 @@ var game = {
 		this.triedLetters = [];
 		this.lettersGotten = [];
 		$('#tries').text('');
-		$('#triesLeft').text(maxTries).css('color', '#fff');
+		$('#triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
 		$('#overlay').text(instructions);
 		this.lastWord = this.currentWord;
 		//choose new word
