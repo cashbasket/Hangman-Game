@@ -30,7 +30,8 @@ var game = {
 		$('#wins').text(this.wins);
 		$('#faceKicks').text(this.faceKicks);
 		$('#maxTries').text(maxTries + ' times');
-		$('#tries').text('');
+		$('#tries').text('').hide();
+		$('#triesHeader').hide();
 		$('.results').hide();
 		$('#overlay').text(instructions);
 	},
@@ -75,9 +76,9 @@ var game = {
 		}
 		$('.results').slideDown().delay(7000).slideUp();
 	},
-	hideTriesSection: function () {
-		$('#tries').hide();
-		$('#triesHeader').hide();
+	toggleTriesSection: function () {
+		$('#tries').toggle();
+		$('#triesHeader').toggle();
 	},
 	reset: function() {
 		//reset object properties
@@ -172,7 +173,7 @@ $(document).ready(function () {
 
 			// display the "tried letters" header after the first guess
 			if ($('#tries').text().length == 2) {
-				$('#triesHeader').show();
+				game.toggleTriesSection();
 			}
 
 			// if the user has guessed all the letters, then s/he is a winner!
@@ -212,7 +213,7 @@ $(document).ready(function () {
 					game.playSound('kick');
 				}
 				// update wins/losses and show results
-				game.hideTriesSection();
+				game.toggleTriesSection();
 				game.updateStats();
 				game.showResults();
 
