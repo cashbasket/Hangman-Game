@@ -116,7 +116,6 @@ $(document).ready(function () {
 
 		// check key code so ONLY letters are accepted
 		if((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
-			$('.results').slideUp();
 			$('#overlay').text('');
 
 			// check to see if user already guessed the letter
@@ -198,12 +197,12 @@ $(document).ready(function () {
 				// display result and reset game
 				if (getPctWidthOfOverlay() < 100) {
 					$('#overlay').animate({ width: '100%' }, 500, function() {
-						$('.results').slideDown();
+						$('.results').slideDown().delay(7000).slideUp();
 						game.reset();
 					});
 				}
 				else {
-					$('.results').slideDown();
+					$('.results').slideDown().delay(7000).slideUp();
 					game.reset();
 				}
 			}
