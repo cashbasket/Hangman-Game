@@ -223,9 +223,11 @@ footer {
 }
 
 footer a,
-footer a:hover,
 footer a:active,
 footer a:focus {
-	text-decoration: underline;
 	color: #fff;
+}
+
+footer a:hover{
+	color: #e7adad;
 }
