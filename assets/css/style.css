@@ -9,6 +9,10 @@ strong {
 	font-weight: bold;
 }
 
+em {
+	font-style: italic;
+}
+
 h1 {
 	font-size: 2.5em;
 	font-weight: bold;

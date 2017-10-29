@@ -18,7 +18,7 @@ var game = {
 		$('#triesLeft').text(maxTries);
 		$('#wins').text(this.wins);
 		$('#faceKicks').text(this.faceKicks);
-		$('#maxTries').text(maxTries);
+		$('#maxTries').text(maxTries + ' times');
 		$('#tries').text('');
 		$('.results').hide();
 		$('#overlay').text('Press any key to get started!');
