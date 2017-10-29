@@ -91,7 +91,7 @@ $(document).ready(function () {
 
 		// check to see if user already guessed the letter
 		for(var i=0; i < game.triedLetters.length; i++) {
-			if(game.triedLetters[i] == userGuess) {
+			if(game.triedLetters[i] == userGuess.toUpperCase()) {
 				alreadyGuessed = true;
 				break;
 			}
@@ -99,21 +99,21 @@ $(document).ready(function () {
 		
 		if(!alreadyGuessed) {
 			for(var i=0; i <= game.chosenWord.length - 1; i++) {
-				if ($('#letter' + i).text() == '' && game.chosenWord.charAt(i) == userGuess) {
-					$('#letter' + i).append(userGuess);
-					game.lettersGotten.push(userGuess);
+				if ($('#letter' + i).text() == '' && game.chosenWord.charAt(i) == userGuess.toLowerCase()) {
+					$('#letter' + i).append(userGuess.toLowerCase());
+					game.lettersGotten.push(userGuess.toUpperCase());
 					correctGuess = true;
 					$('#letter' + i).css('border-bottom', 'none');
 				}
 			}
 			if (!game.winner) { 
 				if ($('#tries').text() != '') {
-					$('#tries').append(', ' + userGuess);
+					$('#tries').append(', ' + userGuess.toUpperCase());
 				}
 				else {
-					$('#tries').append(userGuess);
+					$('#tries').append(userGuess.toUpperCase());
 				}
-				game.triedLetters.push(userGuess);
+				game.triedLetters.push(userGuess.toUpperCase());
 			}
 		}
 
@@ -131,7 +131,9 @@ $(document).ready(function () {
 		if (!game.gameOver && !alreadyGuessed && !game.winner) {
 			if(!correctGuess) {
 				game.revealChuck();
-				game.playSound('incorrect');
+				if(game.triesLeft > 1) {
+					game.playSound('incorrect');
+				}
 				game.triesLeft--;
 				$('#triesLeft').text(game.triesLeft);
 			}
