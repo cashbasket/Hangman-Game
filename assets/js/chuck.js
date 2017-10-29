@@ -17,7 +17,7 @@ function getPctWidthOfOverlay() {
 
 //initialize game object
 var game = { 
-	newWord: '',
+	currentWord: '',
 	lastWord: '',
 	triesLeft: maxTries,
 	lettersGotten: [],
@@ -38,6 +38,7 @@ var game = {
 	chooseWord: function(wordArray) {
 		var randomIndex = getRandomInt(0, wordArray.length - 1);
 		var selectedWord = wordArray[randomIndex];
+		$('#word').html('');
 		var letterBox = document.createElement('span');
 		letterBox.setAttribute('class', 'letterbox');
 		letterBox.id = 'letter0';
@@ -48,7 +49,7 @@ var game = {
 			nextLetter.attr('id', 'letter' + (i+1));
 			nextLetter.appendTo('#word');
 		}
-		this.newWord = selectedWord;
+		this.currentWord = selectedWord;
 	},
 	reset: function() {
 		//reset object properties
@@ -57,21 +58,20 @@ var game = {
 		this.triesLeft = maxTries;
 		this.triedLetters = [];
 		this.lettersGotten = [];
-		$('#word').html('');
 		$('#tries').text('');
-		$('#triesHeader').css('display', 'none');
+		$('#triesHeader').hide();
 		$('#triesLeft').text(maxTries);
 		$('#overlay').text(instructions);
-		this.lastWord = this.newWord;
+		this.lastWord = this.currentWord;
 		this.chooseWord(words);
-		//checks to make sure the new word isn't the same as the previous word
+		//checks to make sure the current word isn't the same as the previous word
 		for(;;) {
-			if (this.newWord == this.lastWord) {
-				$('#word').html('');
+			if (this.currentWord == this.lastWord) {
+				// pick a NEW new word
 				this.chooseWord(words);
 			}
 			// break if new chosen word is different
-			if(this.newWord != this.lastWord) {
+			else {
 				break;
 			}
 		}
@@ -108,7 +108,7 @@ $(document).ready(function () {
 
 	// choose the first word
 	game.chooseWord(words);
-	game.lastWord = game.newWord;
+	game.lastWord = game.currentWord;
 
 	// do lots of stuff when key is pressed
 	$(document).keyup(function(event) {
@@ -131,8 +131,8 @@ $(document).ready(function () {
 			
 			if(!alreadyGuessed) {
 				// display letters when guessed correctly
-				for(var i=0; i <= game.newWord.length - 1; i++) {
-					if ($('#letter' + i).text() == '' && game.newWord.charAt(i) == userGuess.toLowerCase()) {
+				for(var i=0; i <= game.currentWord.length - 1; i++) {
+					if ($('#letter' + i).text() == '' && game.currentWord.charAt(i) == userGuess.toLowerCase()) {
 						$('#letter' + i).append(userGuess.toLowerCase());
 						game.lettersGotten.push(userGuess.toUpperCase());
 						correctGuess = true;
@@ -152,7 +152,7 @@ $(document).ready(function () {
 			}
 
 			// if the user has guessed all the letters, then s/he is a winner!
-			if(game.lettersGotten.length == game.newWord.length) {
+			if(game.lettersGotten.length == game.currentWord.length) {
 				game.winner = true;
 			}
 
