@@ -21,9 +21,29 @@ h3 {
 	font-weight: bold;
 }
 
-p {
+.game-display h3 {
+	color: #fff;
+}
+
+.game-display h3:first-of-type {
+	margin: 0 0 10px 0;
+}
+
+.game-display h3:last-of-type {
+	margin: 30px 0 15px 0;
+}
+
+.main-section p {
 	margin-bottom: 1em;
 	line-height: 1.2;
+}
+
+.main-section p:last-of-type {
+	margin-bottom: 0;
+}
+
+.main-section {
+	margin-bottom: 30px;
 }
 
 .header {
@@ -82,11 +102,8 @@ p {
 	font-size: 24px;
 }
 
-#word {
-	margin: 0 auto;
-}
 .letterbox {
-	border-bottom: 2px solid #000;
+	border-bottom: 2px solid #fff;
 	width: 30px;
 	text-align: center;
 	float:left;
@@ -94,6 +111,7 @@ p {
 	padding-bottom: 5px;
 	min-height: 37px;
 	font-size: 30px;
+	color: #fff;
 }
 
 .letterbox:last-of-type {
@@ -154,6 +172,16 @@ p {
 
 .site-content {
 	flex: 1;
+}
+
+.game-display {
+	background-color: #000;
+	border: 1px solid #000;
+	color: #fff;
+}
+
+#tries {
+	color: #f00;
 }
 
 footer {

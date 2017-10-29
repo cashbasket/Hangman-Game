@@ -112,19 +112,14 @@ $(document).ready(function () {
 				}
 			}
 			if (!game.winner) { 
-				if ($('#tries').text() != '') {
-					$('#tries').append(', ' + userGuess.toUpperCase());
-				}
-				else {
-					$('#tries').append(userGuess.toUpperCase());
-				}
+				$('#tries').append(userGuess.toUpperCase() + ' ');
 				game.triedLetters.push(userGuess.toUpperCase());
 			}
 		}
 
 		// display the "tried letters" header after the first guess
-		if ($('#tries').text().length == 1) {
-			$('#triesHeader').css('display', 'block');
+		if ($('#tries').text().length == 2) {
+			$('#triesHeader').show();
 		}
 
 		// if the user has guessed all the letters, then s/he is a winner!
