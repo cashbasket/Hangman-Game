@@ -13,17 +13,20 @@
 </head>
 <body class="site">
 	<audio id="soundEffect" autoplay="false" preload="true"></audio>
-	<div class="container">
-		<div class="well title-well">
-			<h1 class="text-center"><i class="fa fa-star"></i> Don't Let Chuck Norris Kick You in the Face <i class="fa fa-star"></i></h1>
+	<header>
+		<div class="header">
+			<h1><i class="fa fa-star"></i> Don't Let Chuck Norris Kick You in the Face <i class="fa fa-star"></i></h1>
 		</div>
-		<div class="row results">
-			<div class="col-md-12">
-				<div class="well result-well">
+		<div class="results">		
+			<div class="result-well">
+				<div class="container">
 					<span class="result-text"></span>
 				</div>
 			</div>
 		</div>
+	</header>
+	<div class="container site-content">
+		
 		<div class="contents">
 			<div class="row">
 				<div class="col-md-5">
@@ -42,22 +45,21 @@
 					</div>				
 				</div>
 				<div class="col-md-7">
-					<div class="well">
+					<section class="well main-section">
 						<p><span class="strong red">Don't be fooled</span>; Chuck Norris, our country's greatest hero, is lurking around here somewhere. Just because you can't see him doesn't mean he isn't there.</p>
 						<p>It's a well known fact that Chuck likes to kick stuff, but what you might not know is that Chuck absolutely HATES it when he comes up with a random word and people can't guess all the letters in the word. It makes him mad. Real mad. So mad, in fact, that when someone guesses a wrong letter <span id="maxTries" class="strong red">6</span> times, he kicks that someone in the face. You don't want that to happen to you.</p>
-						<p>Do your best to guess the letters in Chuck's word, but beware: every time you guess incorrectly, Chuck knows about it, and once he is revealed, he WILL <span class="strong red">kick you in the face</span>. Godspeed.</p>
-
-						<p class="big-text">Press any key to get started!</p>
+						<p>Use the keyboard to guess the letters in Chuck's word, but beware: every time you guess incorrectly, Chuck knows about it, and once he is revealed, he WILL <span class="strong red">kick you in the face</span>. Godspeed.</p>
 						
 						<h3>Current word:</h3>
 						<div id="word" class="clearfix"></div>
 						<h3 id="triesHeader">Letters you've tried:</h3>
 						<div id="tries"></div>
-					</div>
+					</section>
 				</div>
 			</div>
 		</div>
 	</div>
+	<footer>A baffling site by Ryan Machan</footer>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="assets/js/chuck.js"></script>

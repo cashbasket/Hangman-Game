@@ -1,6 +1,9 @@
 //global variables
 var maxTries = 6;
 var words = ['walker','ranger','kickboxer','roundhouse','hitman','jumpkick','punch','hellbound','texas','braddock','dragon','christian','conservative','veteran','champion','greatest'];
+var winnerText = 'Chuck is pleased, and will therefore not kick you in the face. He wants to keep playing, though, so he picked a new word for you. Guess away!';
+var loserText = 'You have been kicked in the face. However, Chuck is letting you try again with a new word! Do not disappoint him.';
+
 
 //initialize game object
 var game = { 
@@ -19,6 +22,7 @@ var game = {
 		$('#maxTries').text(maxTries);
 		$('#tries').text('');
 		$('.results').hide();
+		$('#overlay').text('Press any key to get started!');
 	},
 	chooseWord: function(wordArray) {
 		var randomIndex = getRandomInt(0, wordArray.length - 1);
@@ -88,6 +92,7 @@ $(document).ready(function () {
 		var correctGuess = false;
 		var alreadyGuessed = false;
 		$('.results').hide();
+		$('#overlay').text('');
 
 		// check to see if user already guessed the letter
 		for(var i=0; i < game.triedLetters.length; i++) {
@@ -154,7 +159,7 @@ $(document).ready(function () {
 				game.playSound('applause');
 				$('#wins').text(game.wins);
 				$('.result-well').css('background-color','#b9ddb4');
-				$('.result-text').css('color', '#317a27').text('Chuck is pleased, and will therefore not kick you in the face. He wants to keep playing, though, so he picked a new word for you. Guess away!');
+				$('.result-text').css('color', '#317a27').text(winnerText);
 			}
 			// ... kick user in face if user lost
 			else {
@@ -162,7 +167,7 @@ $(document).ready(function () {
 				game.playSound('kick');
 				$('#faceKicks').text(game.faceKicks);
 				$('.result-well').css('background-color', '#eecdcd');
-				$('.result-text').css('color', '#f00').text('You have been kicked in the face. However, Chuck is letting you try again with a new word! Do not disappoint him again.');
+				$('.result-text').css('color', '#f00').text(loserText);
 			}
 
 			// reset
@@ -170,11 +175,13 @@ $(document).ready(function () {
 				$( "#overlay" ).animate({ width: "100%" }, 500, function() {
 					$('.results').slideDown();
 					game.reset();
+					$('#overlay').text('Press any key to get started!');
 				});
 			}
 			else {
 				$('.results').slideDown();
 				game.reset();
+				$('#overlay').text('Press any key to get started!');
 			}
 		}
 	})
