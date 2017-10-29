@@ -76,8 +76,6 @@ var game = {
 	}
 };
 
-
-
 // once the DOM is all loaded, do stuff
 $(document).ready(function () {
 	// initialize HTML elements
@@ -181,7 +179,7 @@ $(document).ready(function () {
 	})
 })
 
-//math functions
+//global math functions
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
