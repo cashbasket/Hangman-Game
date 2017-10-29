@@ -50,6 +50,35 @@ var game = {
 		}
 		this.currentWord = selectedWord;
 	},
+	updateTriesLeftDisplay: function () {
+		if (this.triesLeft <= maxTries/2) {
+			$('#triesLeft').css('color', '#f00');
+		}
+		$('#triesLeft').text(this.triesLeft);
+	},
+	updateStats: function(status) {
+		switch (status) {
+			case 'win':
+				$('#wins').text(this.wins);
+				break;
+			case 'lose':
+				$('#faceKicks').text(this.faceKicks);
+				break;
+		}
+	},
+	showResults: function(status) {	
+		switch (status) {
+			case 'win':
+				$('.results-panel').css('background-color','#b9ddb4');
+				$('.result-text').css('color', '#317a27').text(winnerText);
+				break;
+			case 'lose':
+				$('.results-panel').css('background-color', '#eecdcd');
+				$('.result-text').css('color', '#be1c1c').text(loserText);
+				break;
+		}
+		$('.results').slideDown().delay(7000).slideUp();
+	},
 	reset: function() {
 		//reset object properties
 		this.winner = false;
@@ -161,10 +190,7 @@ $(document).ready(function () {
 						game.playSound('incorrect');
 					}
 					game.triesLeft--;
-					$('#triesLeft').text(game.triesLeft);
-					if (game.triesLeft <= maxTries/2) {
-						$('#triesLeft').css('color', '#f00');
-					}
+					game.updateTriesLeftDisplay();
 				}
 				else {
 					game.playSound('correct');
@@ -181,28 +207,24 @@ $(document).ready(function () {
 				if(game.winner) {
 					game.wins++;
 					game.playSound('applause');
-					$('#wins').text(game.wins);
-					$('.results-panel').css('background-color','#b9ddb4');
-					$('.result-text').css('color', '#317a27').text(winnerText);
+					game.updateStats('win');
+					game.showResults('win');
 				}
 				// ... kick user in face if user lost
 				else {
 					game.faceKicks++;
 					game.playSound('kick');
-					$('#faceKicks').text(game.faceKicks);
-					$('.results-panel').css('background-color', '#eecdcd');
-					$('.result-text').css('color', '#be1c1c').text(loserText);
+					game.updateStats('lose');
+					game.showResults('lose');
 				}
 
 				// display result and reset game
 				if (getPctWidthOfOverlay() < 100) {
 					$('#overlay').animate({ width: '100%' }, 500, function() {
-						$('.results').slideDown().delay(7000).slideUp();
 						game.reset();
 					});
 				}
 				else {
-					$('.results').slideDown().delay(7000).slideUp();
 					game.reset();
 				}
 			}
