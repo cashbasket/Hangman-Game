@@ -56,28 +56,28 @@ var game = {
 		}
 		$('#triesLeft').text(this.triesLeft);
 	},
-	updateStats: function(status) {
-		switch (status) {
-			case 'win':
-				$('#wins').text(this.wins);
-				break;
-			case 'lose':
-				$('#faceKicks').text(this.faceKicks);
-				break;
+	updateStats: function() {
+		if (this.winner) {
+			$('#wins').text(this.wins);
+		}
+		else {
+			$('#faceKicks').text(this.faceKicks);
 		}
 	},
 	showResults: function(status) {	
-		switch (status) {
-			case 'win':
-				$('.results-panel').css('background-color','#b9ddb4');
-				$('.result-text').css('color', '#317a27').text(winnerText);
-				break;
-			case 'lose':
-				$('.results-panel').css('background-color', '#eecdcd');
-				$('.result-text').css('color', '#be1c1c').text(loserText);
-				break;
+		if (this.winner) {
+			$('.results-panel').css('background-color','#b9ddb4');
+			$('.result-text').css('color', '#317a27').text(winnerText);
+		}
+		else {
+			$('.results-panel').css('background-color', '#eecdcd');
+			$('.result-text').css('color', '#be1c1c').text(loserText);
 		}
 		$('.results').slideDown().delay(7000).slideUp();
+	},
+	hideTriesSection: function () {
+		$('#tries').hide();
+		$('#triesHeader').hide();
 	},
 	reset: function() {
 		//reset object properties
@@ -87,7 +87,6 @@ var game = {
 		this.triedLetters = [];
 		this.lettersGotten = [];
 		$('#tries').text('');
-		$('#triesHeader').hide();
 		$('#triesLeft').text(maxTries).css('color', '#fff');
 		$('#overlay').text(instructions);
 		this.lastWord = this.currentWord;
@@ -146,7 +145,6 @@ $(document).ready(function () {
 		// check key code so ONLY letters are accepted
 		if((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
 			$('#overlay').text('');
-
 			// check to see if user already guessed the letter
 			for(var i=0; i < game.triedLetters.length; i++) {
 				if(game.triedLetters[i] == userGuess.toUpperCase()) {
@@ -207,18 +205,18 @@ $(document).ready(function () {
 				if(game.winner) {
 					game.wins++;
 					game.playSound('applause');
-					game.updateStats('win');
-					game.showResults('win');
 				}
 				// ... kick user in face if user lost
 				else {
 					game.faceKicks++;
 					game.playSound('kick');
-					game.updateStats('lose');
-					game.showResults('lose');
 				}
+				// update wins/losses and show results
+				game.hideTriesSection();
+				game.updateStats();
+				game.showResults();
 
-				// display result and reset game
+				// reset game
 				if (getPctWidthOfOverlay() < 100) {
 					$('#overlay').animate({ width: '100%' }, 500, function() {
 						game.reset();
