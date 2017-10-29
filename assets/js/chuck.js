@@ -1,8 +1,8 @@
 //global variables
 var maxTries = 10;
 var words = ['walker','ranger','kickboxer','roundhouse','hitman','jumpkick','punch','hellbound','texas','braddock','christian','conservative','republican','veteran','patriot','greatest','american','oklahoma'];
-var winnerText = 'Chuck is pleased, and will therefore not kick you in the face. He wants to keep playing, though, so he picked a new word for you. Guess away!';
-var loserText = 'You have been kicked in the face. However, Chuck is letting you try again with a new word! Do not disappoint him.';
+var winnerText = 'You guessed all the letters! Chuck is pleased. He wants to keep playing, though, so he picked a new word for you. Guess away!';
+var loserText = 'You ran out of tries, and have therefore been kicked in the face. However, Chuck just thought up a new word! Do not disappoint him again.';
 var instructions = 'Press any letter key to get started!';
 
 //global math functions
@@ -189,7 +189,7 @@ $(document).ready(function () {
 					game.playSound('kick');
 					$('#faceKicks').text(game.faceKicks);
 					$('.results-panel').css('background-color', '#eecdcd');
-					$('.result-text').css('color', '#f00').text(loserText);
+					$('.result-text').css('color', '#be1c1c').text(loserText);
 				}
 
 				// display result and reset game
