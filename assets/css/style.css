@@ -44,6 +44,7 @@ h3 {
 
 .main-section {
 	margin-bottom: 30px;
+	border: 1px solid #fff;
 }
 
 .header {
@@ -151,7 +152,7 @@ h3 {
 }
 
 .stats {
-	margin: 0 auto 15px auto;
+	margin: 0 auto 30px auto;
 	background-color: #000;
 	padding: 10px 0;
 	text-align: center;
@@ -162,10 +163,6 @@ h3 {
 	border-bottom: 1px solid #fff;
 	border-left: 1px solid #fff;
 	border-right: 1px solid #fff;
-}
-
-.well {
-	border-color: #000;
 }
 
 .site {
