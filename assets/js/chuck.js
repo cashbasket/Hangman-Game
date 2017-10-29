@@ -49,6 +49,7 @@ var game = {
 		$('#tries').text('');
 		$('#triesHeader').css('display', 'none');
 		$('#triesLeft').text(maxTries);
+		$('#overlay').text('Press any key to get started!')
 		this.chooseWord(words);
 	},
 	revealChuck: function() {
@@ -163,17 +164,15 @@ $(document).ready(function () {
 			}
 
 			// reset
-			if (getPctWidthOfOverlay() != 100) {
-				$( "#overlay" ).animate({ width: "100%" }, 500, function() {
+			if (getPctWidthOfOverlay() < 100) {
+				$('#overlay').animate({ width: '100%' }, 500, function() {
 					$('.results').slideDown();
 					game.reset();
-					$('#overlay').text('Press any key to get started!');
 				});
 			}
 			else {
 				$('.results').slideDown();
 				game.reset();
-				$('#overlay').text('Press any key to get started!');
 			}
 		}
 	})
