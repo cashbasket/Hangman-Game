@@ -59,7 +59,7 @@ var game = {
 		this.lettersGotten = [];
 		$('#tries').text('');
 		$('#triesHeader').hide();
-		$('#triesLeft').text(maxTries);
+		$('#triesLeft').text(maxTries).css('color', '#fff');
 		$('#overlay').text(instructions);
 		this.lastWord = this.currentWord;
 		//choose new word
@@ -163,6 +163,9 @@ $(document).ready(function () {
 					}
 					game.triesLeft--;
 					$('#triesLeft').text(game.triesLeft);
+					if (game.triesLeft <= maxTries/2) {
+						$('#triesLeft').css('color', '#f00');
+					}
 				}
 				else {
 					game.playSound('correct');
