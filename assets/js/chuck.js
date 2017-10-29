@@ -1,6 +1,6 @@
 //global variables
 var maxTries = 10;
-var words = ['walker','ranger','kickboxer','roundhouse','hitman','jumpkick','punch','hellbound','texas','braddock','christian','conservative','republican','veteran','patriot','greatest','american','oklahoma'];
+var words = ['walker','ranger','kickboxer','fighter','roundhouse','hitman','jumpkick','punch','hellbound','texas','braddock','christian','conservative','republican','veteran','patriot','greatest','american','oklahoma','awesome'];
 var winnerText = 'You guessed all the letters! Chuck is pleased. He wants to keep playing, though, so he picked a new word for you. Guess away!';
 var loserText = 'You ran out of tries, and have therefore been kicked in the face. However, Chuck just thought up a new word! Do not disappoint him again.';
 var instructions = 'Press any letter key to get started!';
@@ -116,7 +116,7 @@ $(document).ready(function () {
 
 		// check key code so ONLY letters are accepted
 		if((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
-			$('.results').hide();
+			$('.results').slideUp();
 			$('#overlay').text('');
 
 			// check to see if user already guessed the letter
