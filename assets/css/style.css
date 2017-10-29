@@ -94,7 +94,7 @@ h3 {
 	border-radius: 5px 5px 0 0;
 	border: 1px solid #666;
 	background: #fff url(../images/explosion.jpg);
-	background-size: cover;
+	background-size: 100% 100%;
 }
 
 #chuckHolder > img {
