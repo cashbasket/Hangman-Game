@@ -1,7 +1,6 @@
 //global variables
 var maxTries = 10;
 var words = ['walker','ranger','kickboxer','roundhouse','hitman','jumpkick','punch','hellbound','texas','braddock','christian','conservative','republican','veteran','patriot','greatest','american','oklahoma'];
-var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 var winnerText = 'Chuck is pleased, and will therefore not kick you in the face. He wants to keep playing, though, so he picked a new word for you. Guess away!';
 var loserText = 'You have been kicked in the face. However, Chuck is letting you try again with a new word! Do not disappoint him.';
 var instructions = 'Press any letter key to get started!';
@@ -116,8 +115,8 @@ $(document).ready(function () {
 		var correctGuess = false;
 		var alreadyGuessed = false;
 
-		// ONLY do stuff if user presses a letter key
-		if(alphabet.includes(userGuess)) {
+		// check key code so ONLY letters are accepted
+		if((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
 			$('.results').hide();
 			$('#overlay').text('');
 
