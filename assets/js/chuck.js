@@ -4,6 +4,14 @@ var words = ['walker','ranger','kickboxer','roundhouse','hitman','jumpkick','pun
 var winnerText = 'Chuck is pleased, and will therefore not kick you in the face. He wants to keep playing, though, so he picked a new word for you. Guess away!';
 var loserText = 'You have been kicked in the face. However, Chuck is letting you try again with a new word! Do not disappoint him.';
 
+//global math functions
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function getPctWidthOfOverlay() {
+	return parseFloat($('#overlay').width() / $('#chuckHolder').width()) * 100;
+}
+
 //initialize game object
 var game = { 
 	chosenWord: '',
@@ -177,12 +185,3 @@ $(document).ready(function () {
 		}
 	})
 })
-
-//global math functions
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function getPctWidthOfOverlay() {
-	return parseFloat($('#overlay').width() / $('#chuckHolder').width()) * 100;
-}
