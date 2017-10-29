@@ -15,6 +15,7 @@ function getPctWidthOfOverlay() {
 //initialize game object
 var game = { 
 	chosenWord: '',
+	lastWord: '',
 	triesLeft: maxTries,
 	lettersGotten: [],
 	triedLetters: [],
@@ -57,8 +58,15 @@ var game = {
 		$('#tries').text('');
 		$('#triesHeader').css('display', 'none');
 		$('#triesLeft').text(maxTries);
-		$('#overlay').text('Press any key to get started!')
-		this.chooseWord(words);
+		$('#overlay').text('Press any key to get started!');
+		this.lastWord = this.chosenWord;
+		//checks to make sure the new word isn't the same as the previous word
+		for(;;) {
+			this.chooseWord(words);
+			if (this.chosenWord != this.lastWord) {
+				break;
+			}
+		}
 	},
 	revealChuck: function() {
 		var curPct = getPctWidthOfOverlay();
@@ -92,6 +100,7 @@ $(document).ready(function () {
 
 	// choose the first word
 	game.chooseWord(words);
+	game.lastWord = game.chosenWord;
 
 	$(document).keyup(function(event) {
 		var userGuess = event.key;
