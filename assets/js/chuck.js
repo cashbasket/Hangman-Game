@@ -62,14 +62,13 @@ var game = {
 		$('#triesLeft').text(maxTries);
 		$('#overlay').text(instructions);
 		this.lastWord = this.currentWord;
+		//choose new word
 		this.chooseWord(words);
-		//checks to make sure the current word isn't the same as the previous word
+		//checks to make sure the new word isn't the same as the previous word
 		for(;;) {
 			if (this.currentWord == this.lastWord) {
-				// pick a NEW new word
 				this.chooseWord(words);
 			}
-			// break if new chosen word is different
 			else {
 				break;
 			}
