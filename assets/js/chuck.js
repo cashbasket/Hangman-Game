@@ -18,6 +18,7 @@ var game = {
 		$('#faceKicks').text(this.faceKicks);
 		$('#maxTries').text(maxTries);
 		$('#tries').text('');
+		$('.results').hide();
 	},
 	chooseWord: function(wordArray) {
 		var randomIndex = getRandomInt(0, wordArray.length - 1);
@@ -86,7 +87,7 @@ $(document).ready(function () {
 		var userGuess = event.key;
 		var correctGuess = false;
 		var alreadyGuessed = false;
-		$('.results').css('display', 'none');
+		$('.results').hide();
 
 		// check to see if user already guessed the letter
 		for(var i=0; i < game.triedLetters.length; i++) {
@@ -145,8 +146,6 @@ $(document).ready(function () {
 		
 		// if the game is over...
 		if(game.gameOver) {
-			$('.results').css('display','block');
-
 			// ... do winner stuff if user won
 			if(game.winner) {
 				game.wins++;
@@ -167,10 +166,12 @@ $(document).ready(function () {
 			// reset
 			if (getPctWidthOfOverlay() != 100) {
 				$( "#overlay" ).animate({ width: "100%" }, 500, function() {
+					$('.results').slideDown();
 					game.reset();
 				});
 			}
 			else {
+				$('.results').slideDown();
 				game.reset();
 			}
 		}
