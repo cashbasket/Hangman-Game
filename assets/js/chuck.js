@@ -182,7 +182,7 @@ $(document).ready(function () {
 					game.wins++;
 					game.playSound('applause');
 					$('#wins').text(game.wins);
-					$('.result-well').css('background-color','#b9ddb4');
+					$('.results-panel').css('background-color','#b9ddb4');
 					$('.result-text').css('color', '#317a27').text(winnerText);
 				}
 				// ... kick user in face if user lost
@@ -190,7 +190,7 @@ $(document).ready(function () {
 					game.faceKicks++;
 					game.playSound('kick');
 					$('#faceKicks').text(game.faceKicks);
-					$('.result-well').css('background-color', '#eecdcd');
+					$('.results-panel').css('background-color', '#eecdcd');
 					$('.result-text').css('color', '#f00').text(loserText);
 				}
 
