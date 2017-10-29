@@ -17,7 +17,7 @@ function getPctWidthOfOverlay() {
 
 //initialize game object
 var game = { 
-	chosenWord: '',
+	newWord: '',
 	lastWord: '',
 	triesLeft: maxTries,
 	lettersGotten: [],
@@ -48,7 +48,7 @@ var game = {
 			nextLetter.attr('id', 'letter' + (i+1));
 			nextLetter.appendTo('#word');
 		}
-		this.chosenWord = selectedWord;
+		this.newWord = selectedWord;
 	},
 	reset: function() {
 		//reset object properties
@@ -62,15 +62,16 @@ var game = {
 		$('#triesHeader').css('display', 'none');
 		$('#triesLeft').text(maxTries);
 		$('#overlay').text(instructions);
-		this.lastWord = this.chosenWord;
+		this.lastWord = this.newWord;
 		this.chooseWord(words);
 		//checks to make sure the new word isn't the same as the previous word
 		for(;;) {
-			if (this.chosenWord == this.lastWord) {
+			if (this.newWord == this.lastWord) {
+				$('#word').html('');
 				this.chooseWord(words);
 			}
-			if(this.chosenWord != this.lastWord)
-			{
+			// break if new chosen word is different
+			if(this.newWord != this.lastWord) {
 				break;
 			}
 		}
@@ -107,7 +108,7 @@ $(document).ready(function () {
 
 	// choose the first word
 	game.chooseWord(words);
-	game.lastWord = game.chosenWord;
+	game.lastWord = game.newWord;
 
 	// do lots of stuff when key is pressed
 	$(document).keyup(function(event) {
@@ -130,8 +131,8 @@ $(document).ready(function () {
 			
 			if(!alreadyGuessed) {
 				// display letters when guessed correctly
-				for(var i=0; i <= game.chosenWord.length - 1; i++) {
-					if ($('#letter' + i).text() == '' && game.chosenWord.charAt(i) == userGuess.toLowerCase()) {
+				for(var i=0; i <= game.newWord.length - 1; i++) {
+					if ($('#letter' + i).text() == '' && game.newWord.charAt(i) == userGuess.toLowerCase()) {
 						$('#letter' + i).append(userGuess.toLowerCase());
 						game.lettersGotten.push(userGuess.toUpperCase());
 						correctGuess = true;
@@ -151,7 +152,7 @@ $(document).ready(function () {
 			}
 
 			// if the user has guessed all the letters, then s/he is a winner!
-			if(game.lettersGotten.length == game.chosenWord.length) {
+			if(game.lettersGotten.length == game.newWord.length) {
 				game.winner = true;
 			}
 
