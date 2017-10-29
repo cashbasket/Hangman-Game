@@ -1,3 +1,9 @@
+@keyframes pulsate {
+    0% {color: #fff;}
+    50% {color: #999;}
+    100% {color: #fff;}
+}
+
 body {
 	font-size: 16px;
 	font-family: 'Roboto', sans-serif;
@@ -92,7 +98,7 @@ h3 {
 	background-image: url(../images/chucknorrismain.jpg);
 }
 
-#overlay{ 
+#overlay { 
 	position: absolute;
 	display: block;
 	height: 331px;
@@ -106,6 +112,11 @@ h3 {
 	text-align: center;
 	padding: 33% 0 33% 0;
 	font-size: 24px;
+	-webkit-animation: pulsate 2s infinite;
+    -moz-animation: pulsate 2s infinite;
+    -ms-animation: pulsate 2s infinite;
+    -o-animation: pulsate 2s infinite;
+    animation: pulsate 2s infinite;
 }
 
 .letterbox {
