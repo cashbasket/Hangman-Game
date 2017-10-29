@@ -52,10 +52,10 @@ var game = {
 		this.currentWord = selectedWord;
 	},
 	updateTriesLeftDisplay: function () {
-		if (this.triesLeft <= maxTries/2) {
-			$('#triesLeft').css('color', '#f00');
-		}
 		$('#triesLeft').text(this.triesLeft);
+		if (this.triesLeft <= maxTries/2) {
+			$('#triesLeft').css('color', '#ffe000');
+		}	
 	},
 	updateStats: function() {
 		if (this.winner) {
@@ -169,11 +169,10 @@ $(document).ready(function () {
 					$('#tries').append(userGuess.toUpperCase() + ' ');
 					game.triedLetters.push(userGuess.toUpperCase());
 				}
-			}
-
-			// display the "tried letters" header after the first guess
-			if ($('#tries').text().length == 2) {
-				game.toggleTriesSection();
+				// display the "tried letters" header after the first guess
+				if ($('#tries').text().length == 2) {
+					game.toggleTriesSection();
+				}
 			}
 
 			// if the user has guessed all the letters, then s/he is a winner!
