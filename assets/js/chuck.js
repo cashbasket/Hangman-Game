@@ -80,11 +80,13 @@ var game = {
 		if(this.lettersGotten.length == this.currentAnswer.length) {
 			this.winner = true;
 		}
+		return this.winner;
 	},
 	checkForGameOver: function() {
 		if(this.winner || this.triesLeft == 0) {
-			this.gameOver = true;
+			this.gameOver = true;	
 		}
+		return this.gameOver;
 	},
 	updateStats: function() {
 		if (this.winner) {
@@ -223,11 +225,11 @@ $(document).ready(function () {
 					}
 				}
 
-				// if the user has guessed all the letters, then s/he is a winner!
-				game.checkForWinner();
-
+				// check for win status
+				var isWinner = game.checkForWinner();
+				
 				// if the user guesses a new letter and guesses wrong, reveal more Chuck. Otherwise, play a happy sound.
-				if (!game.gameOver && !alreadyGuessed && !game.winner) {
+				if (!game.gameOver && !alreadyGuessed && !isWinner) {
 					if(!correctGuess) {
 						game.revealChuck();
 						if(game.triesLeft > 1) {
@@ -241,10 +243,7 @@ $(document).ready(function () {
 					}
 				}
 				//check to see if game is over
-				game.checkForGameOver();
-
-				//if game is over, wrap things up
-				if(game.gameOver) {		
+				if(game.checkForGameOver()) {
 					game.postGame();
 					if (getPctWidthOfOverlay() < 100) {
 						$('#overlay').animate({ width: '100%' }, 500, function() {
