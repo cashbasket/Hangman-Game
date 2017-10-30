@@ -237,6 +237,7 @@ $(document).ready(function () {
 	// do stuff when key is pressed
 	$(document).keyup(function(event) {
 		var userGuess = event.key;
+		//initialize guess every time key is pressed
 		game.correctGuess = false;
 		game.alreadyGuessed = false;
 		game.wasLetterGuessed = false;
@@ -247,8 +248,9 @@ $(document).ready(function () {
 		else {
 			game.isReset = false;
 			// check key code so ONLY letters are accepted
-			var letterCheck = game.checkForLetter(event.keyCode);
-			if(letterCheck) {
+			game.wasLetterGuessed = game.checkForLetter(event.keyCode);
+			if(game.wasLetterGuessed) {
+				//check to see if user guessed a new letter
 				var isNewGuess = game.checkForNewGuess(userGuess.toUpperCase());
 				if(!isNewGuess) {
 					game.hideErrors();
