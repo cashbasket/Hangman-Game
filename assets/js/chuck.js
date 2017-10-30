@@ -3,8 +3,8 @@ var maxTries = 10;
 var answers = ['walker texas ranger','fighter','roundhouse kick','the hitman','the delta force','flying kick','uppercut','hellbound','missing in action','christian','conservative','republican','military man','patriot','greatest person ever','american hero','oklahoma','awesome','firewalker','karate master','code of silence'];
 var winnerText = 'You guessed all the letters! Chuck is pleased. He wants to keep playing, though, so he picked a new word/phrase for you. Guess away!';
 var loserText = 'You ran out of tries, and have therefore been kicked in the face. However, Chuck just thought up a new word (or phrase)! Do not disappoint him again.';
-var chuckQuoteIntro = 'Relevant Chuck Quote:';
-var chuckQuote = '"Violence is my last option."';
+var chuckFactIntro = '<span class="fact-header">Random Chuck Fact:</span>';
+var chuckFacts = ['Chuck Norris was bitten by a cobra and after five days of excruciating pain... the cobra died.','Chuck Norris once kicked a horse in the chin. Its descendants today are known as giraffes.','Chuck Norris doesn\'t breathe air. He holds air hostage.','When Chuck Norris turned 18, his parents moved out.','Chuck Norris doesn\'t dial the wrong number. You answered the wrong phone.','If Chuck Norris was a Spartan in the movie 300, the movie would be called 1.','Chuck Norris is currently suing NBC, claiming Law and Order are trademarked names for his left and right legs.','Chuck Norris will never have a heart attack. His heart isn\'t nearly foolish enough to attack him.','Chuck Norris can kill two stones with one bird.','Chuck Norris does not sleep; he waits.','The easiest way to determine Chuck Norris\' age is to cut him in half and count the rings.','There is no chin underneath Chuck Norris\' beard; there is only another fist.'];
 var errors = ['Only letter keys are allowed.','You\'ve already tried that letter.'];
 
 //global math functions
@@ -38,13 +38,17 @@ var game = {
 		$('#maxTries').text(maxTries + ' times');
 		$('#tries').text('None').css('color','#ffcc00');
 		$('.results').hide();
-		$('#overlay').html(chuckQuoteIntro + '<br>' + chuckQuote);
+		$('.overlay-text').html(chuckFactIntro + '<br>' + this.getRandomChuckFact()).fadeIn(200);
 		$('.errors').hide();
 	},
-	chooseAnswer: function(answerArray) {
+	getRandomChuckFact: function() {
+		var selectedFact = chuckFacts[getRandomInt(0, chuckFacts.length - 1)];
+		return selectedFact;
+	},
+	chooseAnswer: function() {
 		this.lettersGotten = [];
 		//select random answer from answers array
-		var selectedAnswer = answerArray[getRandomInt(0, answerArray.length - 1)];
+		var selectedAnswer = answers[getRandomInt(0, answers.length - 1)];
 		//clear out word div
 		$('#word').html('');
 		//create new span for letter
@@ -185,14 +189,14 @@ var game = {
 		this.triedLetters = [];
 		$('#tries').text('None').css('color','#ffcc00');
 		$('#triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
-		$('#overlay').html(chuckQuoteIntro + '<br>' + chuckQuote);
+		$('.overlay-text').html(chuckFactIntro + '<br>' + this.getRandomChuckFact()).fadeIn(200);
 		this.lastAnswer = this.currentAnswer;
 		//choose new word
-		this.chooseAnswer(answers);
+		this.chooseAnswer();
 		//checks to make sure the new word isn't the same as the previous word
 		for(;;) {
 			if (this.currentAnswer == this.lastAnswer) {
-				this.chooseAnswer(answers);
+				this.chooseAnswer();
 			}
 			else {
 				break;
@@ -231,7 +235,7 @@ $(document).ready(function () {
 	game.init();
 
 	// choose the first word
-	game.chooseAnswer(answers);
+	game.chooseAnswer();
 	game.lastAnswer = game.currentAnswer;
 
 	// do stuff when key is pressed
@@ -274,7 +278,7 @@ $(document).ready(function () {
 						game.triesLeft--;
 						game.updateTriesLeftDisplay();
 						if(game.triesLeft < maxTries) {
-							$('#overlay').text('');
+							$('.overlay-text').fadeOut(200);
 						}
 					}
 					else {
