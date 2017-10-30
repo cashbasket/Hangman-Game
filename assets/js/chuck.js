@@ -41,9 +41,10 @@ var game = {
 		$('#overlay').html(chuckQuoteIntro + '<br>' + chuckQuote);
 		$('.letters-only').hide();
 	},
-	chooseWord: function(wordArray) {
+	chooseAnswer: function(answerArray) {
 		this.lettersGotten = [];
-		var selectedWord = wordArray[getRandomInt(0, wordArray.length - 1)];
+		//select random answer from answers array
+		var selectedAnswer = answerArray[getRandomInt(0, answerArray.length - 1)];
 		//clear out word div
 		$('#word').html('');
 		//create new span for letter
@@ -51,16 +52,17 @@ var game = {
 		letterBox.setAttribute('class', 'letterbox');
 		letterBox.id = 'letter0';
 		$('#word').append(letterBox);
-		//add new letter span for each letter in new word
-		for(var i=0; i < selectedWord.length - 1; i++) {
+		//add new letter span for each character in new word
+		for(var i=0; i < selectedAnswer.length - 1; i++) {
 			var nextLetter = $('#letter' + i).clone();
 			nextLetter.attr('id', 'letter' + (i+1));
 			nextLetter.appendTo('#word');
-			if(selectedWord.charAt(i) == ' ') {
+			if(selectedAnswer.charAt(i) == ' ') {
 				$('#letter' + i).css('border-bottom', 'none');
 			}
 		}
-		this.currentAnswer = selectedWord;
+		this.currentAnswer = selectedAnswer;
+		//whenever there's a space in an answer, append them to required spans and add to lettersGotten array
 		for(var i=0; i <= this.currentAnswer.length - 1; i++) {
 			if(this.currentAnswer.charAt(i) == ' ') {
 				$('#letter' + i).append(' ');
@@ -180,11 +182,11 @@ var game = {
 		$('#overlay').html(chuckQuoteIntro + '<br>' + chuckQuote);
 		this.lastAnswer = this.currentAnswer;
 		//choose new word
-		this.chooseWord(answers);
+		this.chooseAnswer(answers);
 		//checks to make sure the new word isn't the same as the previous word
 		for(;;) {
 			if (this.currentAnswer == this.lastAnswer) {
-				this.chooseWord(answers);
+				this.chooseAnswer(answers);
 			}
 			else {
 				break;
@@ -223,7 +225,7 @@ $(document).ready(function () {
 	game.init();
 
 	// choose the first word
-	game.chooseWord(answers);
+	game.chooseAnswer(answers);
 	game.lastAnswer = game.currentAnswer;
 
 	// do stuff when key is pressed
