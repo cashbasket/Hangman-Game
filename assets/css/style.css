@@ -220,7 +220,7 @@ h3 {
 
 footer {
 	background-color: #000;
-	color: #ccc;
+	color: #fff;
 	font-size: 14px;
 	text-align: center;
 	width: 100%;
@@ -233,7 +233,7 @@ footer {
 }
 
 .social a {
-	color: #ccc;
+	color: #fff;
 	margin-right: 5px;
 }
 
