@@ -153,7 +153,7 @@ var game = {
 	revealChuck: function() {
 		var curPct = getPctWidthOfOverlay();
 		var newPct = curPct - (100/maxTries);
-		$('#overlay').css('width', newPct + "%");
+		$('#overlay').animate({ maxWidth: newPct + "%"},200);
 	},
 	playSound: function(type) {
 		var audio = document.getElementById('soundEffect');
@@ -246,7 +246,7 @@ $(document).ready(function () {
 				if(game.checkForGameOver()) {
 					game.postGame();
 					if (getPctWidthOfOverlay() < 100) {
-						$('#overlay').animate({ width: '100%' }, 500, function() {
+						$('#overlay').animate({ maxWidth: '100%' }, 500, function() {
 							game.reset();
 						});
 					}
