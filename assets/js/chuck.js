@@ -208,7 +208,22 @@ var game = {
 				break;
 			}
 		}
+		if(this.currentAnswer.indexOf(' ') > 0) {
+			$('#answerType').text('phrase');
+		}
+		else {
+			$('#answerType').text('word');
+		}
 		this.isReset = true;
+		this.determineType(this.currentAnswer);
+	},
+	determineType: function(answer) {
+		if(answer.indexOf(' ') > 0) {
+			$('#answerType').text('phrase');
+		}
+		else {
+			$('#answerType').text('word');
+		}
 	},
 	revealChuck: function() {
 		var curPct = getPctWidthOfOverlay();
@@ -243,6 +258,7 @@ $(document).ready(function () {
 	// choose the first word
 	game.chooseAnswer();
 	game.lastAnswer = game.currentAnswer;
+	game.determineType(game.currentAnswer);
 
 	// do stuff when key is pressed
 	$(document).keyup(function(event) {
