@@ -1,11 +1,11 @@
 //global variables / text I want to be able to find and edit easily
 var maxTries = 10;
-var answers = ['walker texas ranger','fighter','roundhouse kick','the hitman','the delta force','flying kick','uppercut','hellbound','missing in action','christian','conservative','republican','military man','patriot','greatest person ever','american hero','oklahoma','the most awesome','firewalker','karate master','code of silence','the expendables 2','the colombian connection','sidekicks','the octagon','eye for an eye','forced vengeance','silent rage'];
-var winnerText = 'You got it! Chuck is pleased. He wants to keep playing, though, so he picked a new word/phrase for you. Guess away!';
+var answers = ['walker texas ranger','fighter','roundhouse kick','the hitman','the delta force','flying kick','uppercut','hellbound','missing in action','christian','conservative','republican','military man','patriot','greatest person ever','american hero','oklahoma','the most awesome human','firewalker','karate master','code of silence','the expendables 2','the colombian connection','sidekicks','the octagon','eye for an eye','forced vengeance','silent rage'];
+var winnerText = 'You got it! Chuck is pleased. He wants to keep playing, though, so he picked a new word/phrase for you.';
 var loserText = 'You ran out of tries, and have therefore been kicked in the face. However, Chuck just thought up a new word (or phrase)! Do not disappoint him again.';
 var chuckFactIntro = '<span class="fact-header">Fact:</span>';
 var chuckFacts = ['Chuck Norris was bitten by a cobra, and after five days of excruciating pain, the cobra died.','Chuck Norris once kicked a horse in the chin. Its descendants today are known as giraffes.','Chuck Norris doesn\'t breathe air; he holds air hostage.','When Chuck Norris turned 18, his parents moved out.','Chuck Norris doesn\'t dial the wrong number; you answered the wrong phone.','If Chuck Norris were a Spartan in the movie "300," the movie would be called "1."','Chuck Norris is currently suing NBC, claiming "Law" and "Order" are trademarked names for his left and right legs.','Chuck Norris will never have a heart attack; his heart isn\'t nearly foolish enough to attack him.','Chuck Norris can kill two stones with one bird.','Chuck Norris does not sleep; he waits.','The easiest way to determine Chuck Norris\' age is to cut him in half and count the rings.','There is no chin underneath Chuck Norris\' beard; there is only another fist.'];
-var errors = ['Only letter and number keys are allowed.','You\'ve already tried that one!'];
+var errors = ['Only letter and number keys are allowed.','You already tried that one!'];
 
 //global math functions
 function getRandomInt(min, max) {
@@ -34,11 +34,11 @@ var game = {
 	init: function() {
 		//set audio volume
 		var audio = document.getElementById('soundEffect');
-		audio.volume = 0.2;
+		audio.volume = 0.8;
 		$('#triesLeft').text(maxTries + ' tries remaining');
 		$('.wins').text(this.wins);
 		$('.face-kicks').text(this.faceKicks);
-		$('#maxTries').text(maxTries + ' times');
+		$('#maxTriesText').text(maxTries + ' times');
 		$('#tries').text('None').css('color','#ffcc00');
 		$('.results').hide();
 		$('.overlay-text').html(chuckFactIntro + '<br>' + this.getRandomChuckFact()).fadeIn(200);
@@ -89,7 +89,10 @@ var game = {
 			if($('#tries').text() == 'None') {
 				$('#tries').text('').css('color','#fff');
 			} 
-			$('#tries').append(guess.toUpperCase() + ' ');
+			if(this.triedLetters.length >= 1) {
+				$('#tries').append(', ');
+			}
+			$('#tries').append(guess.toUpperCase());
 			this.triedLetters.push(guess.toUpperCase());
 		}
 	},

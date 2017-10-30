@@ -27,7 +27,13 @@ h1 {
 
 h3 {
 	font-size: 1.25em;
-	margin: 20px 0 10px 0;
+	font-weight: bold;
+	margin-bottom:10px;
+}
+
+.tries-div {
+	font-size: 1.25em;
+	margin: 30px 0 10px 0;
 	font-weight: bold;
 }
 
@@ -35,16 +41,13 @@ header, footer {
 	z-index: 999;
 }
 
-.game-display h3 {
+.game-display h3,
+.tries-div {
 	color: #fff;
 }
 
-.game-display h3:first-of-type {
-	margin: 0 0 10px 0;
-}
-
-.game-display h3:last-of-type {
-	margin: 30px 0 15px 0;
+#tries {
+	margin-left: 5px;
 }
 
 .site-content {
