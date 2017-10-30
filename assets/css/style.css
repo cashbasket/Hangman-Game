@@ -165,16 +165,15 @@ h3 {
 	clear: both;
 }
 
-.results-panel {
-	margin-bottom: 0;
+.results {
+	margin: 0 auto 30px auto;
 	border-radius: 0 0 5px 5px;
-	padding: 10px 0;
-	border-bottom: 1px solid #000;
+	padding: 20px;
 }
 
 .result-text {
 	font-weight: bold;
-	font-size: 1.5em;
+	font-size: 20px;
 	line-height: 1.5;
 }
 
@@ -192,7 +191,6 @@ h3 {
 }
 
 .stats {
-	margin: 0 auto 30px auto;
 	background-color: #000;
 	padding: 10px 0;
 	text-align: center;

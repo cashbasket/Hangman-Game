@@ -151,12 +151,16 @@ var game = {
 	},
 	showResults: function(status) {	
 		if (this.winner) {
-			$('.results-panel').css('background-color','#b9ddb4');
-			$('.result-text').css('color', '#317a27').text(winnerText);
+			$('.results').css('background-color','#b9ddb4')
+						 .css('border-color','#317a27');
+			$('.result-text').css('color', '#317a27')
+							 .text(winnerText);
 		}
 		else {
-			$('.results-panel').css('background-color', '#eecdcd');
-			$('.result-text').css('color', '#be1c1c').text(loserText);
+			$('.results').css('background-color', '#eecdcd')
+						 .css('border-color','#be1c1c');
+			$('.result-text').css('color', '#be1c1c')
+							 .text(loserText);
 		}
 		$('.results').slideDown().delay(7000).slideUp();
 	},
