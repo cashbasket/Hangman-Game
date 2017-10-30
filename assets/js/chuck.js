@@ -21,8 +21,8 @@ var game = {
 	currentAnswer: '',
 	lastAnswer: '',
 	correctGuess: false,
+	wasLetterGuessed: false,
 	alreadyGuessed: false,
-	isLetter: false,
 	triesLeft: maxTries,
 	lettersGotten: [],
 	triedLetters: [],
@@ -39,7 +39,7 @@ var game = {
 		$('#tries').text('None').css('color','#ffcc00');
 		$('.results').hide();
 		$('#overlay').html(chuckQuoteIntro + '<br>' + chuckQuote);
-		$('.letters-only').hide();
+		$('.errors').hide();
 	},
 	chooseAnswer: function(answerArray) {
 		this.lettersGotten = [];
@@ -87,16 +87,16 @@ var game = {
 		}
 	},
 	showErrors: function() {
-		if(game.isLetter) {
-			$('.letters-only > span').text(errors[1]);
+		if(this.wasLetterGuessed) {
+			$('.errors > span').text(errors[1]);
 		}
 		else {
-			$('.letters-only > span').text(errors[0]);
+			$('.errors > span').text(errors[0]);
 		}
-		$('.letters-only').slideDown(200);
+		$('.errors').slideDown(200);
 	},
 	hideErrors: function() {
-		$('.letters-only').slideUp(200);
+		$('.errors').slideUp(200);
 	},
 	checkForNewGuess: function(guess) {
 		// check to see if user already guessed the letter
@@ -107,6 +107,12 @@ var game = {
 			}
 		}
 		return this.alreadyGuessed;
+	},
+	checkForLetter: function(guessCode) {
+		if((guessCode >= 65 && guessCode <= 90) || (guessCode >= 97 && guessCode <= 122)) {
+			this.wasLetterGuessed = true;
+		}
+		return this.wasLetterGuessed;
 	},
 	checkForWinner: function() {
 		if(this.lettersGotten.length == this.currentAnswer.length) {
@@ -172,7 +178,7 @@ var game = {
 		//reset object properties
 		this.correctGuess = false;
 		this.alreadyGuessed = false;
-		this.isLetter = false;
+		this.wasLetterGuessed = false;
 		this.winner = false;
 		this.gameOver = false;
 		this.triesLeft = maxTries;
@@ -233,7 +239,7 @@ $(document).ready(function () {
 		var userGuess = event.key;
 		game.correctGuess = false;
 		game.alreadyGuessed = false;
-		game.isLetter = false;
+		game.wasLetterGuessed = false;
 
 		if(game.gameOver && !game.isReset) {
 			// don't do nothin' until game resets
@@ -241,8 +247,8 @@ $(document).ready(function () {
 		else {
 			game.isReset = false;
 			// check key code so ONLY letters are accepted
-			if((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
-				game.isLetter = true;
+			var letterCheck = game.checkForLetter(event.keyCode);
+			if(letterCheck) {
 				var isNewGuess = game.checkForNewGuess(userGuess.toUpperCase());
 				if(!isNewGuess) {
 					game.hideErrors();
@@ -254,7 +260,6 @@ $(document).ready(function () {
 				else {
 					game.showErrors();
 				}
-
 				// check for win status
 				var isWinner = game.checkForWinner();
 				// if the user guesses a new letter and guesses wrong, reveal more Chuck. Otherwise, play a happy sound.
@@ -274,9 +279,9 @@ $(document).ready(function () {
 						game.playSound('correct');
 					}
 				}
-
 				//check to see if game is over
 				if(game.checkForGameOver()) {
+					//if game is over, wrap things up & reset
 					game.postGame();
 					if (getPctWidthOfOverlay() < 100) {
 						$('#overlay').animate({ maxWidth: '100%' }, 500, function() {
