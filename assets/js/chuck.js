@@ -1,10 +1,11 @@
 //global variables
 var maxTries = 10;
-var answers = ['walker texas ranger','fighter','roundhouse kick','the hitman','the delta force','flying kick','punch','hellbound','missing in action','christian','conservative','republican','veteran','patriot','greatest person ever','american','oklahoma','awesome','firewalker','karate master','code of silence'];
+var answers = ['walker texas ranger','fighter','roundhouse kick','the hitman','the delta force','flying kick','punch','hellbound','missing in action','christian','conservative','republican','veteran','patriot','greatest person ever','american hero','oklahoma','awesome','firewalker','karate master','code of silence'];
 var winnerText = 'You guessed all the letters! Chuck is pleased. He wants to keep playing, though, so he picked a new word/phrase for you. Guess away!';
 var loserText = 'You ran out of tries, and have therefore been kicked in the face. However, Chuck just thought up a new word (or phrase)! Do not disappoint him again.';
 var chuckQuoteIntro = 'Relevant Chuck Quote:';
 var chuckQuote = '"Violence is my last option."';
+var errors = ['Only letter keys are allowed.','You\'ve already tried that letter.'];
 
 //global math functions
 function getRandomInt(min, max) {
@@ -19,6 +20,9 @@ function getPctWidthOfOverlay() {
 var game = { 
 	currentAnswer: '',
 	lastAnswer: '',
+	correctGuess: false,
+	alreadyGuessed: false,
+	isLetter: false,
 	triesLeft: maxTries,
 	lettersGotten: [],
 	triedLetters: [],
@@ -77,6 +81,28 @@ var game = {
 			this.triedLetters.push(guess.toUpperCase());
 		}
 	},
+	showErrors: function() {
+		if(game.isLetter) {
+			$('.letters-only > span').text(errors[1]);
+		}
+		else {
+			$('.letters-only > span').text(errors[0]);
+		}
+		$('.letters-only').slideDown(200);
+	},
+	hideErrors: function() {
+		$('.letters-only').slideUp(200);
+	},
+	checkForNewGuess: function(guess) {
+		// check to see if user already guessed the letter
+		for(var i=0; i < game.triedLetters.length; i++) {
+			if(game.triedLetters[i] == guess.toUpperCase()) {
+				this.alreadyGuessed = true;
+				break;
+			}
+		}
+		return this.alreadyGuessed;
+	},
 	checkForWinner: function() {
 		if(this.lettersGotten.length == this.currentAnswer.length) {
 			this.winner = true;
@@ -88,6 +114,16 @@ var game = {
 			this.gameOver = true;	
 		}
 		return this.gameOver;
+	},
+	displayLetters: function(guess) {
+		for(var i=0; i <= this.currentAnswer.length - 1; i++) {
+			if ($('#letter' + i).text() == '' && this.currentAnswer.charAt(i) == guess.toLowerCase()) {
+				$('#letter' + i).append(guess.toLowerCase());
+				this.lettersGotten.push(guess.toUpperCase());
+				this.correctGuess = true;
+				$('#letter' + i).css('border-bottom', 'none');
+			}
+		}
 	},
 	updateStats: function() {
 		if (this.winner) {
@@ -130,6 +166,9 @@ var game = {
 	},
 	reset: function() {
 		//reset object properties
+		this.correctGuess = false;
+		this.alreadyGuessed = false;
+		this.isLetter = false;
 		this.winner = false;
 		this.gameOver = false;
 		this.triesLeft = maxTries;
@@ -188,8 +227,9 @@ $(document).ready(function () {
 	// do stuff when key is pressed
 	$(document).keyup(function(event) {
 		var userGuess = event.key;
-		var correctGuess = false;
-		var alreadyGuessed = false;
+		game.correctGuess = false;
+		game.alreadyGuessed = false;
+		game.isLetter = false;
 
 		if(game.gameOver && !game.isReset) {
 			// don't do nothin' until game resets
@@ -198,43 +238,28 @@ $(document).ready(function () {
 			game.isReset = false;
 			// check key code so ONLY letters are accepted
 			if((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
-				// check to see if user already guessed the letter
-				for(var i=0; i < game.triedLetters.length; i++) {
-					if(game.triedLetters[i] == userGuess.toUpperCase()) {
-						alreadyGuessed = true;
-						break;
-					}
-				}
-				
-				if(!alreadyGuessed) {
-					$('.letters-only').slideUp(250);
+				game.isLetter = true;
+				var isNewGuess = game.checkForNewGuess(userGuess.toUpperCase());
+				if(!isNewGuess) {
+					game.hideErrors();
 					// display letters when guessed correctly
-					for(var i=0; i <= game.currentAnswer.length - 1; i++) {
-						if ($('#letter' + i).text() == '' && game.currentAnswer.charAt(i) == userGuess.toLowerCase()) {
-							$('#letter' + i).append(userGuess.toLowerCase());
-							game.lettersGotten.push(userGuess.toUpperCase());
-							correctGuess = true;
-							$('#letter' + i).css('border-bottom', 'none');
-						}
-					}
+					game.displayLetters(userGuess.toUpperCase());
 					// update list/array of tried letters
-					game.updateTriedLetters(userGuess);
+					game.updateTriedLetters(userGuess.toUpperCase());
 					// display the "tried letters" header after the first guess
 					if ($('#tries').text().length == 2) {
 						game.toggleTriesSection();
 					}
 				}
 				else {
-					$('.letters-only > span').text('You\'ve already tried that letter.');
-					$('.letters-only').slideDown(250);
+					game.showErrors();
 				}
 
 				// check for win status
 				var isWinner = game.checkForWinner();
-
 				// if the user guesses a new letter and guesses wrong, reveal more Chuck. Otherwise, play a happy sound.
-				if (!game.gameOver && !alreadyGuessed && !isWinner) {
-					if(!correctGuess) {
+				if (!game.gameOver && !isNewGuess && !isWinner) {
+					if(!game.correctGuess) {
 						game.revealChuck();
 						if(game.triesLeft > 1) {
 							game.playSound('incorrect');
@@ -250,7 +275,6 @@ $(document).ready(function () {
 					}
 				}
 
-
 				//check to see if game is over
 				if(game.checkForGameOver()) {
 					game.postGame();
@@ -265,8 +289,7 @@ $(document).ready(function () {
 				}
 			}
 			else {
-				$('.letters-only > span').text('Only letter keys are allowed.');
-				$('.letters-only').slideDown(250);
+				game.showErrors();
 			}
 		}
 	})
