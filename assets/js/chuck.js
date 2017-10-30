@@ -36,8 +36,7 @@ var game = {
 		$('.wins').text(this.wins);
 		$('.face-kicks').text(this.faceKicks);
 		$('#maxTries').text(maxTries + ' times');
-		$('#tries').text('').hide();
-		$('#triesHeader').hide();
+		$('#tries').text('None').css('color','#ffcc00');
 		$('.results').hide();
 		$('#overlay').html(chuckQuoteIntro + '<br>' + chuckQuote);
 		$('.letters-only').hide();
@@ -76,7 +75,10 @@ var game = {
 		}	
 	},
 	updateTriedLetters: function(guess) {
-		if (!this.winner) { 
+		if (!this.winner) {
+			if(('#tries').text() == 'None') {
+				('#tries').text('');
+			} 
 			$('#tries').append(guess.toUpperCase() + ' ');
 			this.triedLetters.push(guess.toUpperCase());
 		}
@@ -145,7 +147,6 @@ var game = {
 			this.playSound('kick');
 		}
 		// update wins/losses and show results
-		this.toggleTriesSection();
 		this.updateStats();
 		this.showResults();			
 	},
@@ -164,10 +165,6 @@ var game = {
 		}
 		$('.results').slideDown().delay(7000).slideUp();
 	},
-	toggleTriesSection: function () {
-		$('#tries').toggle();
-		$('#triesHeader').toggle();
-	},
 	reset: function() {
 		//reset object properties
 		this.correctGuess = false;
@@ -177,7 +174,7 @@ var game = {
 		this.gameOver = false;
 		this.triesLeft = maxTries;
 		this.triedLetters = [];
-		$('#tries').text('');
+		$('#tries').text('None').css('color','#ffcc00');
 		$('#triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
 		$('#overlay').html(chuckQuoteIntro + '<br>' + chuckQuote);
 		this.lastAnswer = this.currentAnswer;
@@ -250,10 +247,6 @@ $(document).ready(function () {
 					game.displayLetters(userGuess.toUpperCase());
 					// update list/array of tried letters
 					game.updateTriedLetters(userGuess.toUpperCase());
-					// display the "tried letters" header after the first guess
-					if ($('#tries').text().length == 2) {
-						game.toggleTriesSection();
-					}
 				}
 				else {
 					game.showErrors();
