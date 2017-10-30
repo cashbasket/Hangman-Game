@@ -198,7 +198,6 @@ $(document).ready(function () {
 			game.isReset = false;
 			// check key code so ONLY letters are accepted
 			if((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
-				$('.letters-only').slideUp(250);
 				// check to see if user already guessed the letter
 				for(var i=0; i < game.triedLetters.length; i++) {
 					if(game.triedLetters[i] == userGuess.toUpperCase()) {
@@ -208,6 +207,7 @@ $(document).ready(function () {
 				}
 				
 				if(!alreadyGuessed) {
+					$('.letters-only').slideUp(250);
 					// display letters when guessed correctly
 					for(var i=0; i <= game.currentAnswer.length - 1; i++) {
 						if ($('#letter' + i).text() == '' && game.currentAnswer.charAt(i) == userGuess.toLowerCase()) {
@@ -223,6 +223,10 @@ $(document).ready(function () {
 					if ($('#tries').text().length == 2) {
 						game.toggleTriesSection();
 					}
+				}
+				else {
+					$('.letters-only > span').text('You\'ve already tried that letter.');
+					$('.letters-only').slideDown(250);
 				}
 
 				// check for win status
@@ -261,6 +265,7 @@ $(document).ready(function () {
 				}
 			}
 			else {
+				$('.letters-only > span').text('Only letter keys are allowed.');
 				$('.letters-only').slideDown(250);
 			}
 		}
