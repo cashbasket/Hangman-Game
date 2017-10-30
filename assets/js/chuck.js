@@ -3,7 +3,8 @@ var maxTries = 10;
 var answers = ['walker texas ranger','fighter','roundhouse kick','the hitman','the delta force','flying kick','punch','hellbound','missing in action','christian','conservative','republican','veteran','patriot','greatest person ever','american','oklahoma','awesome','firewalker','karate master','code of silence'];
 var winnerText = 'You guessed all the letters! Chuck is pleased. He wants to keep playing, though, so he picked a new word/phrase for you. Guess away!';
 var loserText = 'You ran out of tries, and have therefore been kicked in the face. However, Chuck just thought up a new word (or phrase)! Do not disappoint him again.';
-var instructions = 'Press any letter key to get started!';
+var chuckQuoteIntro = 'Relevant Chuck Quote:';
+var chuckQuote = '"Violence is my last option."';
 
 //global math functions
 function getRandomInt(min, max) {
@@ -34,7 +35,7 @@ var game = {
 		$('#tries').text('').hide();
 		$('#triesHeader').hide();
 		$('.results').hide();
-		$('#overlay').text(instructions);
+		$('#overlay').html(chuckQuoteIntro + '<br>' + chuckQuote);
 		$('.letters-only').hide();
 	},
 	chooseWord: function(wordArray) {
@@ -135,7 +136,7 @@ var game = {
 		this.triedLetters = [];
 		$('#tries').text('');
 		$('#triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
-		$('#overlay').text(instructions);
+		$('#overlay').html(chuckQuoteIntro + '<br>' + chuckQuote);
 		this.lastAnswer = this.currentAnswer;
 		//choose new word
 		this.chooseWord(answers);
@@ -198,7 +199,6 @@ $(document).ready(function () {
 			// check key code so ONLY letters are accepted
 			if((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
 				$('.letters-only').fadeOut(250);
-				$('#overlay').text('');
 				// check to see if user already guessed the letter
 				for(var i=0; i < game.triedLetters.length; i++) {
 					if(game.triedLetters[i] == userGuess.toUpperCase()) {
@@ -237,11 +237,16 @@ $(document).ready(function () {
 						}
 						game.triesLeft--;
 						game.updateTriesLeftDisplay();
+						if(game.triesLeft < maxTries) {
+							$('#overlay').text('');
+						}
 					}
 					else {
 						game.playSound('correct');
 					}
 				}
+
+
 				//check to see if game is over
 				if(game.checkForGameOver()) {
 					game.postGame();
