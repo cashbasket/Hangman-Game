@@ -155,7 +155,6 @@ $(document).ready(function () {
 		var userGuess = event.key;
 		var correctGuess = false;
 		var alreadyGuessed = false;
-		console.log(userGuess);
 
 		if(game.gameOver && !game.isReset) {
 			// don't do nothin'
@@ -195,7 +194,6 @@ $(document).ready(function () {
 					}
 				}
 
-				console.log(game.lettersGotten.length + ' out of ' + game.currentAnswer.length);
 				// if the user has guessed all the letters, then s/he is a winner!
 				if(game.lettersGotten.length == game.currentAnswer.length) {
 					game.winner = true;
