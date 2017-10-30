@@ -43,14 +43,15 @@ var game = {
 	},
 	chooseWord: function(wordArray) {
 		this.lettersGotten = [];
-		var randomIndex = getRandomInt(0, wordArray.length - 1);
-		var selectedWord = wordArray[randomIndex];
+		var selectedWord = wordArray[getRandomInt(0, wordArray.length - 1)];
+		//clear out word div
 		$('#word').html('');
+		//create new span for letter
 		var letterBox = document.createElement('span');
 		letterBox.setAttribute('class', 'letterbox');
 		letterBox.id = 'letter0';
 		$('#word').append(letterBox);
-
+		//add new letter span for each letter in new word
 		for(var i=0; i < selectedWord.length - 1; i++) {
 			var nextLetter = $('#letter' + i).clone();
 			nextLetter.attr('id', 'letter' + (i+1));
