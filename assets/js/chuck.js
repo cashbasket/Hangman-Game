@@ -95,22 +95,20 @@ var game = {
 		}
 	},
 	postGame: function() {
-		if(this.gameOver) {
-			// ... congratulate user if user won
-			if(this.winner) {
-				this.wins++;
-				this.playSound('applause');
-			}
-			// ... kick user in face if user lost
-			else {
-				this.faceKicks++;
-				this.playSound('kick');
-			}
-			// update wins/losses and show results
-			this.toggleTriesSection();
-			this.updateStats();
-			this.showResults();			
+		// congratulate user if user won
+		if(this.winner) {
+			this.wins++;
+			this.playSound('applause');
 		}
+		// kick user in face if user lost
+		else {
+			this.faceKicks++;
+			this.playSound('kick');
+		}
+		// update wins/losses and show results
+		this.toggleTriesSection();
+		this.updateStats();
+		this.showResults();			
 	},
 	showResults: function(status) {	
 		if (this.winner) {
@@ -242,11 +240,12 @@ $(document).ready(function () {
 						game.playSound('correct');
 					}
 				}
-				game.checkForGameOver();		
-				game.postGame();
-				
-				// reset game
-				if(game.gameOver) {
+				//check to see if game is over
+				game.checkForGameOver();
+
+				//if game is over, wrap things up
+				if(game.gameOver) {		
+					game.postGame();
 					if (getPctWidthOfOverlay() < 100) {
 						$('#overlay').animate({ width: '100%' }, 500, function() {
 							game.reset();
