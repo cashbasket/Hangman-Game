@@ -1,6 +1,6 @@
 //global variables
 var maxTries = 10;
-var words = ['walker','ranger','kickboxer','fighter','roundhouse','hitman','jumpkick','punch','hellbound','texas','braddock','christian','conservative','republican','veteran','patriot','greatest','american','oklahoma','awesome'];
+var words = ['walker texas ranger','fighter','roundhouse','the hitman','the delta force','jumpkick','punch','hellbound','missing in action','christian','conservative','republican','veteran','patriot','greatest person ever','american','oklahoma','awesome','firewalker','karate master','code of silence'];
 var winnerText = 'You guessed all the letters! Chuck is pleased. He wants to keep playing, though, so he picked a new word for you. Guess away!';
 var loserText = 'You ran out of tries, and have therefore been kicked in the face. However, Chuck just thought up a new word! Do not disappoint him again.';
 var instructions = 'Press any letter key to get started!';
@@ -25,6 +25,7 @@ var game = {
 	gameOver: false,
 	wins: 0,
 	faceKicks: 0,
+	isReset: false,
 	init: function() {
 		$('#triesLeft').text(maxTries + ' tries remaining');
 		$('#wins').text(this.wins);
@@ -34,8 +35,10 @@ var game = {
 		$('#triesHeader').hide();
 		$('.results').hide();
 		$('#overlay').text(instructions);
+		$('.letters-only').hide();
 	},
 	chooseWord: function(wordArray) {
+		this.lettersGotten = [];
 		var randomIndex = getRandomInt(0, wordArray.length - 1);
 		var selectedWord = wordArray[randomIndex];
 		$('#word').html('');
@@ -48,11 +51,21 @@ var game = {
 			var nextLetter = $('#letter' + i).clone();
 			nextLetter.attr('id', 'letter' + (i+1));
 			nextLetter.appendTo('#word');
+			if(selectedWord.charAt(i) == ' ') {
+				$('#letter' + i).css('border-bottom', 'none');
+			}
 		}
 		this.currentWord = selectedWord;
+		for(var i=0; i <= this.currentWord.length - 1; i++) {
+			if(this.currentWord.charAt(i) == ' ') {
+				$('#letter' + i).append(' ');
+				this.lettersGotten.push(' ');
+			}
+		}
 	},
 	updateTriesLeftDisplay: function () {
-		$('#triesLeft').text(this.triesLeft + ' tries remaining');;
+		var triesSuffix = this.triesLeft > 1 ? ' tries remaining' : ' try remaining';
+		$('#triesLeft').text(this.triesLeft + triesSuffix);
 		if (this.triesLeft <= maxTries/2) {
 			$('#triesLeft').css('color', '#be1c1c').prepend('only ');
 		}	
@@ -86,7 +99,6 @@ var game = {
 		this.gameOver = false;
 		this.triesLeft = maxTries;
 		this.triedLetters = [];
-		this.lettersGotten = [];
 		$('#tries').text('');
 		$('#triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
 		$('#overlay').text(instructions);
@@ -102,6 +114,7 @@ var game = {
 				break;
 			}
 		}
+		this.isReset = true;
 	},
 	revealChuck: function() {
 		var curPct = getPctWidthOfOverlay();
@@ -142,90 +155,104 @@ $(document).ready(function () {
 		var userGuess = event.key;
 		var correctGuess = false;
 		var alreadyGuessed = false;
+		console.log(userGuess);
 
-		// check key code so ONLY letters are accepted
-		if((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
-			$('#overlay').text('');
-			// check to see if user already guessed the letter
-			for(var i=0; i < game.triedLetters.length; i++) {
-				if(game.triedLetters[i] == userGuess.toUpperCase()) {
-					alreadyGuessed = true;
-					break;
-				}
-			}
-			
-			if(!alreadyGuessed) {
-				// display letters when guessed correctly
-				for(var i=0; i <= game.currentWord.length - 1; i++) {
-					if ($('#letter' + i).text() == '' && game.currentWord.charAt(i) == userGuess.toLowerCase()) {
-						$('#letter' + i).append(userGuess.toLowerCase());
-						game.lettersGotten.push(userGuess.toUpperCase());
-						correctGuess = true;
-						$('#letter' + i).css('border-bottom', 'none');
+		if(game.gameOver && !game.isReset) {
+			// don't do nothin'
+		}
+		else {
+			game.isReset = false;
+			// check key code so ONLY letters are accepted
+			if((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
+				$('.letters-only').fadeOut(250);
+				$('#overlay').text('');
+				// check to see if user already guessed the letter
+				for(var i=0; i < game.triedLetters.length; i++) {
+					if(game.triedLetters[i] == userGuess.toUpperCase()) {
+						alreadyGuessed = true;
+						break;
 					}
 				}
-				// update list/array of tried letters
-				if (!game.winner) { 
-					$('#tries').append(userGuess.toUpperCase() + ' ');
-					game.triedLetters.push(userGuess.toUpperCase());
+				
+				if(!alreadyGuessed) {
+					// display letters when guessed correctly
+					for(var i=0; i <= game.currentWord.length - 1; i++) {
+						if ($('#letter' + i).text() == '' && game.currentWord.charAt(i) == userGuess.toLowerCase()) {
+							$('#letter' + i).append(userGuess.toLowerCase());
+							game.lettersGotten.push(userGuess.toUpperCase());
+							correctGuess = true;
+							$('#letter' + i).css('border-bottom', 'none');
+						}
+					}
+					// update list/array of tried letters
+					if (!game.winner) { 
+						$('#tries').append(userGuess.toUpperCase() + ' ');
+						game.triedLetters.push(userGuess.toUpperCase());
+					}
+					// display the "tried letters" header after the first guess
+					if ($('#tries').text().length == 2) {
+						game.toggleTriesSection();
+					}
 				}
-				// display the "tried letters" header after the first guess
-				if ($('#tries').text().length == 2) {
+
+				console.log(game.lettersGotten.length + ' out of ' + game.currentWord.length);
+				// if the user has guessed all the letters, then s/he is a winner!
+				if(game.lettersGotten.length == game.currentWord.length) {
+					game.winner = true;
+				}
+
+				// if the user guesses a new letter and guesses wrong, reveal more Chuck. Otherwise, play a happy sound.
+				if (!game.gameOver && !alreadyGuessed && !game.winner) {
+					if(!correctGuess) {
+						game.revealChuck();
+						if(game.triesLeft > 1) {
+							game.playSound('incorrect');
+						}
+						game.triesLeft--;
+						game.updateTriesLeftDisplay();
+					}
+					else {
+						game.playSound('correct');
+					}
+				}
+				
+				// if the user wins or runs out of tries, the game is over
+				if(game.winner || game.triesLeft == 0)
+					game.gameOver = true;		
+				
+				// if the game is over...
+				if(game.gameOver) {
+					// ... congratulate user if user won
+					if(game.winner) {
+						game.wins++;
+						game.playSound('applause');
+					}
+					// ... kick user in face if user lost
+					else {
+						game.faceKicks++;
+						game.playSound('kick');
+					}
+					// update wins/losses and show results
 					game.toggleTriesSection();
-				}
-			}
+					game.updateStats();
+					game.showResults();
 
-			// if the user has guessed all the letters, then s/he is a winner!
-			if(game.lettersGotten.length == game.currentWord.length) {
-				game.winner = true;
-			}
-
-			// if the user guesses a new letter and guesses wrong, reveal more Chuck. Otherwise, play a happy sound.
-			if (!game.gameOver && !alreadyGuessed && !game.winner) {
-				if(!correctGuess) {
-					game.revealChuck();
-					if(game.triesLeft > 1) {
-						game.playSound('incorrect');
+					// reset game
+					if (getPctWidthOfOverlay() < 100) {
+						$('#overlay').animate({ width: '100%' }, 500, function() {
+							game.reset();
+						});
 					}
-					game.triesLeft--;
-					game.updateTriesLeftDisplay();
-				}
-				else {
-					game.playSound('correct');
+					else {
+						game.reset();
+					}
 				}
 			}
-			
-			// if the user wins or runs out of tries, the game is over
-			if(game.winner || game.triesLeft == 0)
-				game.gameOver = true;		
-			
-			// if the game is over...
-			if(game.gameOver) {
-				// ... congratulate user if user won
-				if(game.winner) {
-					game.wins++;
-					game.playSound('applause');
-				}
-				// ... kick user in face if user lost
-				else {
-					game.faceKicks++;
-					game.playSound('kick');
-				}
-				// update wins/losses and show results
-				game.toggleTriesSection();
-				game.updateStats();
-				game.showResults();
-
-				// reset game
-				if (getPctWidthOfOverlay() < 100) {
-					$('#overlay').animate({ width: '100%' }, 500, function() {
-						game.reset();
-					});
-				}
-				else {
-					game.reset();
-				}
+			else {
+				$('.letters-only').show();
 			}
 		}
+
+		
 	})
 })
