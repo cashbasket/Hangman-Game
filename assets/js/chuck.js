@@ -76,12 +76,40 @@ var game = {
 			this.triedLetters.push(guess.toUpperCase());
 		}
 	},
+	checkForWinner: function() {
+		if(this.lettersGotten.length == this.currentAnswer.length) {
+			this.winner = true;
+		}
+	},
+	checkForGameOver: function() {
+		if(this.winner || this.triesLeft == 0) {
+			this.gameOver = true;
+		}
+	},
 	updateStats: function() {
 		if (this.winner) {
 			$('#wins').text(this.wins);
 		}
 		else {
 			$('#faceKicks').text(this.faceKicks);
+		}
+	},
+	postGame: function() {
+		if(this.gameOver) {
+			// ... congratulate user if user won
+			if(this.winner) {
+				this.wins++;
+				this.playSound('applause');
+			}
+			// ... kick user in face if user lost
+			else {
+				this.faceKicks++;
+				this.playSound('kick');
+			}
+			// update wins/losses and show results
+			this.toggleTriesSection();
+			this.updateStats();
+			this.showResults();			
 		}
 	},
 	showResults: function(status) {	
@@ -191,7 +219,6 @@ $(document).ready(function () {
 					}
 					// update list/array of tried letters
 					game.updateTriedLetters(userGuess);
-
 					// display the "tried letters" header after the first guess
 					if ($('#tries').text().length == 2) {
 						game.toggleTriesSection();
@@ -199,9 +226,7 @@ $(document).ready(function () {
 				}
 
 				// if the user has guessed all the letters, then s/he is a winner!
-				if(game.lettersGotten.length == game.currentAnswer.length) {
-					game.winner = true;
-				}
+				game.checkForWinner();
 
 				// if the user guesses a new letter and guesses wrong, reveal more Chuck. Otherwise, play a happy sound.
 				if (!game.gameOver && !alreadyGuessed && !game.winner) {
@@ -217,29 +242,11 @@ $(document).ready(function () {
 						game.playSound('correct');
 					}
 				}
+				game.checkForGameOver();		
+				game.postGame();
 				
-				// if the user wins or runs out of tries, the game is over
-				if(game.winner || game.triesLeft == 0)
-					game.gameOver = true;		
-				
-				// if the game is over...
+				// reset game
 				if(game.gameOver) {
-					// ... congratulate user if user won
-					if(game.winner) {
-						game.wins++;
-						game.playSound('applause');
-					}
-					// ... kick user in face if user lost
-					else {
-						game.faceKicks++;
-						game.playSound('kick');
-					}
-					// update wins/losses and show results
-					game.toggleTriesSection();
-					game.updateStats();
-					game.showResults();
-
-					// reset game
 					if (getPctWidthOfOverlay() < 100) {
 						$('#overlay').animate({ width: '100%' }, 500, function() {
 							game.reset();
