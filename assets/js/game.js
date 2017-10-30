@@ -35,6 +35,7 @@ var game = {
 		//set audio volume
 		var audio = document.getElementById('soundEffect');
 		audio.volume = 0.8;
+		audio.preload = true;
 		$('#triesLeft').text(maxTries + ' tries remaining');
 		$('.wins').text(this.wins);
 		$('.face-kicks').text(this.faceKicks);
