@@ -76,8 +76,8 @@ var game = {
 	},
 	updateTriedLetters: function(guess) {
 		if (!this.winner) {
-			if(('#tries').text() == 'None') {
-				('#tries').text('');
+			if($('#tries').text() == 'None') {
+				$('#tries').text('');
 			} 
 			$('#tries').append(guess.toUpperCase() + ' ');
 			this.triedLetters.push(guess.toUpperCase());
