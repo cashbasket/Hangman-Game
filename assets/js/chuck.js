@@ -32,6 +32,9 @@ var game = {
 	faceKicks: 0,
 	isReset: false,
 	init: function() {
+		//set audio volume
+		var audio = document.getElementById('soundEffect');
+		audio.volume = 0.2;
 		$('#triesLeft').text(maxTries + ' tries remaining');
 		$('.wins').text(this.wins);
 		$('.face-kicks').text(this.faceKicks);
