@@ -155,7 +155,7 @@ var game = {
 		// congratulate user if user won
 		if(this.winner) {
 			this.wins++;
-			this.playSound('applause');
+			this.playSound('absolutely-right');
 		}
 		// kick user in face if user lost
 		else {
@@ -218,8 +218,8 @@ var game = {
 			case 'correct':
 				audio.src = 'assets/mp3/correct.mp3';
 				break;
-			case 'applause':
-				audio.src = 'assets/mp3/applause.mp3';
+			case 'absolutely-right':
+				audio.src = 'assets/mp3/absolutely-right.mp3';
 				break;
 			case 'incorrect':
 				audio.src = 'assets/mp3/swoosh.mp3';
