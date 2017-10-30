@@ -53,10 +53,12 @@ h3 {
 }
 
 .main-section {
-	margin-bottom: 30px;
+	margin-bottom: 0;
 	background-color: #fff;
-	border: 1px solid #666;
-	border-radius: 5px;
+	border-top: 1px solid #666;
+	border-left: 1px solid #666;
+	border-right: 1px solid #666;
+	border-radius: 5px 5px 0 0;
 	padding: 20px;
 	opacity: 0.9;
 }
@@ -220,10 +222,11 @@ h3 {
 }
 
 .game-display {
-	background: #666;
+	background: #be1c1c;
 	border: 1px solid #666;
 	color: #ccc;
 	opacity: 0.9;
+	border-radius: 0 0 5px 5px;
 }
 
 #tries {
@@ -267,10 +270,9 @@ footer a:hover{
 .letters-only {
 	background-color: #eecdcd;
 	color: #be1c1c;
-	border: 1px solid #be1c1c;
 	font-size: 18px;
 	text-align: center;
-	border-radius: 5px;
+	border-radius: 0;
 	padding: 10px;
 	margin: 0;
 }

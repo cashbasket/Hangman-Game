@@ -198,7 +198,7 @@ $(document).ready(function () {
 			game.isReset = false;
 			// check key code so ONLY letters are accepted
 			if((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
-				$('.letters-only').fadeOut(250);
+				$('.letters-only').slideUp(250);
 				// check to see if user already guessed the letter
 				for(var i=0; i < game.triedLetters.length; i++) {
 					if(game.triedLetters[i] == userGuess.toUpperCase()) {
@@ -261,7 +261,7 @@ $(document).ready(function () {
 				}
 			}
 			else {
-				$('.letters-only').show();
+				$('.letters-only').slideDown(250);
 			}
 		}
 	})
