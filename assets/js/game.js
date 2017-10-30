@@ -140,7 +140,7 @@ var game = {
 	displayLetters: function(guess) {
 		for(var i=0; i <= this.currentAnswer.length - 1; i++) {
 			if ($('#letter' + i).text() == '' && this.currentAnswer.charAt(i) == guess.toLowerCase()) {
-				$('#letter' + i).append(guess.toLowerCase());
+				$('#letter' + i).append(guess.toUpperCase());
 				this.lettersGotten.push(guess.toUpperCase());
 				this.correctGuess = true;
 				$('#letter' + i).css('border-bottom', 'none');
