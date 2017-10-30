@@ -1,6 +1,6 @@
 //global variables
 var maxTries = 10;
-var answers = ['walker texas ranger','fighter','roundhouse','the hitman','the delta force','jumpkick','punch','hellbound','missing in action','christian','conservative','republican','veteran','patriot','greatest person ever','american','oklahoma','awesome','firewalker','karate master','code of silence'];
+var answers = ['walker texas ranger','fighter','roundhouse kick','the hitman','the delta force','flying kick','punch','hellbound','missing in action','christian','conservative','republican','veteran','patriot','greatest person ever','american','oklahoma','awesome','firewalker','karate master','code of silence'];
 var winnerText = 'You guessed all the letters! Chuck is pleased. He wants to keep playing, though, so he picked a new word/phrase for you. Guess away!';
 var loserText = 'You ran out of tries, and have therefore been kicked in the face. However, Chuck just thought up a new word (or phrase)! Do not disappoint him again.';
 var instructions = 'Press any letter key to get started!';
@@ -150,14 +150,14 @@ $(document).ready(function () {
 	game.chooseWord(answers);
 	game.lastAnswer = game.currentAnswer;
 
-	// do lots of stuff when key is pressed
+	// do stuff when key is pressed
 	$(document).keyup(function(event) {
 		var userGuess = event.key;
 		var correctGuess = false;
 		var alreadyGuessed = false;
 
 		if(game.gameOver && !game.isReset) {
-			// don't do nothin'
+			// don't do nothin' until game resets
 		}
 		else {
 			game.isReset = false;
@@ -250,7 +250,5 @@ $(document).ready(function () {
 				$('.letters-only').show();
 			}
 		}
-
-		
 	})
 })
