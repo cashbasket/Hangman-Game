@@ -1,6 +1,6 @@
-//global variables
+//global variables / text I want to be able to find and edit easily
 var maxTries = 10;
-var answers = ['walker texas ranger','fighter','roundhouse kick','the hitman','the delta force','flying kick','punch','hellbound','missing in action','christian','conservative','republican','veteran','patriot','greatest person ever','american hero','oklahoma','awesome','firewalker','karate master','code of silence'];
+var answers = ['walker texas ranger','fighter','roundhouse kick','the hitman','the delta force','flying kick','uppercut','hellbound','missing in action','christian','conservative','republican','military man','patriot','greatest person ever','american hero','oklahoma','awesome','firewalker','karate master','code of silence'];
 var winnerText = 'You guessed all the letters! Chuck is pleased. He wants to keep playing, though, so he picked a new word/phrase for you. Guess away!';
 var loserText = 'You ran out of tries, and have therefore been kicked in the face. However, Chuck just thought up a new word (or phrase)! Do not disappoint him again.';
 var chuckQuoteIntro = 'Relevant Chuck Quote:';
