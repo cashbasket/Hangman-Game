@@ -98,7 +98,9 @@ h3 {
 	margin: 0 auto;
 	overflow: hidden;
 	border-radius: 5px 5px 0 0;
-	border: 1px solid #666;
+	border-top: 1px solid #666;
+	border-left: 1px solid #666;
+	border-right: 1px solid #666;
 	background: #fff url(../images/explosion.jpg);
 	background-size: 100% 100%;
 }
@@ -138,7 +140,7 @@ h3 {
 	padding-bottom: 5px;
 	min-height: 25px;
 	font-size: 20px;
-	color: #ffe000;
+	color: #fff;
 }
 
 .letterbox:last-of-type {
@@ -168,12 +170,12 @@ h3 {
 	line-height: 1.5;
 }
 
-#wins, #faceKicks {
-	padding-right: 20px;
+.red-highlight {
+	font-family: 'Roboto Slab', serif;
+	color: #be1c1c;
 }
 
 .red {
-	font-family: 'Roboto Slab', serif;
 	color: #be1c1c;
 }
 
@@ -183,10 +185,9 @@ h3 {
 
 .stats {
 	margin: 0 auto 30px auto;
-	background-color: #999;
+	background-color: #000;
 	padding: 10px 0;
 	text-align: center;
-	border: 1px solid #000;
 	border-radius: 0 0 5px 5px;
 	color: #fff;
 	max-width: 500px;
@@ -194,6 +195,12 @@ h3 {
 	border-left: 1px solid #666;
 	border-right: 1px solid #666;
 	opacity: 0.9;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.wins {
+	padding:0 20px 0 3px;
 }
 
 .site {
@@ -207,7 +214,7 @@ h3 {
 }
 
 .game-display {
-	background: #999;
+	background: #666;
 	border: 1px solid #666;
 	color: #ccc;
 	opacity: 0.9;

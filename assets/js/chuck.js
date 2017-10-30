@@ -28,8 +28,8 @@ var game = {
 	isReset: false,
 	init: function() {
 		$('#triesLeft').text(maxTries + ' tries remaining');
-		$('#wins').text(this.wins);
-		$('#faceKicks').text(this.faceKicks);
+		$('.wins').text(this.wins);
+		$('.face-kicks').text(this.faceKicks);
 		$('#maxTries').text(maxTries + ' times');
 		$('#tries').text('').hide();
 		$('#triesHeader').hide();
@@ -67,7 +67,7 @@ var game = {
 		var triesSuffix = this.triesLeft > 1 ? ' tries remaining' : ' try remaining';
 		$('#triesLeft').text(this.triesLeft + triesSuffix);
 		if (this.triesLeft <= maxTries/2) {
-			$('#triesLeft').css('color', '#be1c1c').prepend('only ');
+			$('#triesLeft').css('color', '#ffcc00');
 		}	
 	},
 	updateTriedLetters: function(guess) {
@@ -90,10 +90,10 @@ var game = {
 	},
 	updateStats: function() {
 		if (this.winner) {
-			$('#wins').text(this.wins);
+			$('.wins').text(this.wins);
 		}
 		else {
-			$('#faceKicks').text(this.faceKicks);
+			$('.face-kicks').text(this.faceKicks);
 		}
 	},
 	postGame: function() {
@@ -227,7 +227,7 @@ $(document).ready(function () {
 
 				// check for win status
 				var isWinner = game.checkForWinner();
-				
+
 				// if the user guesses a new letter and guesses wrong, reveal more Chuck. Otherwise, play a happy sound.
 				if (!game.gameOver && !alreadyGuessed && !isWinner) {
 					if(!correctGuess) {
