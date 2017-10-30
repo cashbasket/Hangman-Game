@@ -58,6 +58,7 @@ h3 {
 	border: 1px solid #666;
 	border-radius: 5px;
 	padding: 20px;
+	opacity: 0.9;
 }
 
 .img-main {
@@ -192,6 +193,7 @@ h3 {
 	border-bottom: 1px solid #666;
 	border-left: 1px solid #666;
 	border-right: 1px solid #666;
+	opacity: 0.9;
 }
 
 .site {
@@ -208,6 +210,7 @@ h3 {
 	background: #999;
 	border: 1px solid #666;
 	color: #ccc;
+	opacity: 0.9;
 }
 
 #tries {

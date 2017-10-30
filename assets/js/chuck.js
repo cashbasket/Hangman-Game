@@ -70,6 +70,12 @@ var game = {
 			$('#triesLeft').css('color', '#be1c1c').prepend('only ');
 		}	
 	},
+	updateTriedLetters: function(guess) {
+		if (!this.winner) { 
+			$('#tries').append(guess.toUpperCase() + ' ');
+			this.triedLetters.push(guess.toUpperCase());
+		}
+	},
 	updateStats: function() {
 		if (this.winner) {
 			$('#wins').text(this.wins);
@@ -184,10 +190,8 @@ $(document).ready(function () {
 						}
 					}
 					// update list/array of tried letters
-					if (!game.winner) { 
-						$('#tries').append(userGuess.toUpperCase() + ' ');
-						game.triedLetters.push(userGuess.toUpperCase());
-					}
+					game.updateTriedLetters(userGuess);
+
 					// display the "tried letters" header after the first guess
 					if ($('#tries').text().length == 2) {
 						game.toggleTriesSection();
