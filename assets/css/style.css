@@ -281,11 +281,11 @@ footer a:hover{
 	border-left: 1px solid #666;
 	border-right: 1px solid #666;
 	width: 100%;
-	max-width: 500px;
 }
 
 @media screen and (max-width: 1010px) {
 	.main-section,
+	.errors,
 	.game-display,
 	.results {
 		max-width: 500px;
