@@ -1,7 +1,7 @@
 @keyframes pulsate {
-    0% {opacity: 0.5;}
+    0% {opacity: 0.6;}
     50% {opacity: 1;}
-    100% {opacity: 0.5;}
+    100% {opacity: 0.6;}
 }
 
 body {
@@ -50,11 +50,11 @@ h3 {
 
 .pulsate {
 	color: #f00;
-	-webkit-animation: pulsate 2s infinite;
-    -moz-animation: pulsate 2s infinite;
-    -ms-animation: pulsate 2s infinite;
-    -o-animation: pulsate 2s infinite;
-    animation: pulsate 2s infinite;
+	-webkit-animation: pulsate 5s infinite;
+    -moz-animation: pulsate 5s infinite;
+    -ms-animation: pulsate 5s infinite;
+    -o-animation: pulsate 5s infinite;
+    animation: pulsate 5s infinite;
 }
 
 .tries-div {
@@ -173,6 +173,7 @@ h3 {
     color: #000;
     font-family: 'Roboto Slab', serif;
     line-height: 1.5;
+    font-weight: bold;
 }
 
 .word {
