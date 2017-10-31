@@ -93,7 +93,7 @@ h3 {
 	line-height: 1.5;
 }
 
-.main-section p:last-of-type {
+.inst-row p {
 	margin-bottom: 0;
 }
 
@@ -127,17 +127,12 @@ h3 {
 	opacity: 0.9;
 }
 
-.img-main {
-	float: right;
-	padding: 0 0 15px 15px;
-}
-
 .strong {
 	font-weight: bold;
 }
 
 .big-text {
-	font-size: 1.5em;
+	font-size: 1.8em;
 }
 
 #chuckHolder {
@@ -189,9 +184,9 @@ h3 {
 
 .get-started {
     color: #000;
-    font-family: 'Roboto Slab', serif;
     line-height: 1.5;
     font-weight: bold;
+    margin-top: 15px;
 }
 
 .word {
@@ -321,7 +316,9 @@ footer a:hover{
 	body {
 		font-size: 14px;
 	}
-	.get-started,
+	.get-started {
+		font-size: 24px;
+	}
 	#tries {
 		font-size: 16px;
 	}
@@ -339,6 +336,10 @@ footer a:hover{
 	}
 	.instructions {
 		display: block;
+	}
+	.get-started {
+		margin-top: 0;
+		font-size: 20px;
 	}
 }
 
