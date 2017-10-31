@@ -25,7 +25,7 @@ var game = {
 	currentAnswer: '',
 	lastAnswer: '',
 	correctGuess: false,
-	wasLetterGuessed: false,
+	isValidKeyPress: false,
 	alreadyGuessed: false,
 	triesLeft: maxTries,
 	lettersGotten: 0,
@@ -109,7 +109,7 @@ var game = {
 		}
 	},
 	showErrors: function() {
-		if(this.wasLetterGuessed) {
+		if(this.isValidKeyPress) {
 			$('.errors > span').text(errors[1]);
 		}
 		else {
@@ -130,11 +130,11 @@ var game = {
 		}
 		return this.alreadyGuessed;
 	},
-	checkForLetter: function(guessCode) {
+	checkKeyPressed: function(guessCode) {
 		if((event.keyCode >= 48 && event.keyCode <= 57) || (guessCode >= 65 && guessCode <= 90) || (guessCode >= 97 && guessCode <= 122)) {
-			this.wasLetterGuessed = true;
+			this.isValidKeyPress = true;
 		}
-		return this.wasLetterGuessed;
+		return this.isValidKeyPress;
 	},
 	checkForWinner: function() {
 		if(this.lettersGotten == this.currentAnswer.length) {
@@ -189,7 +189,7 @@ var game = {
 	reset: function() {
 		this.correctGuess = false;
 		this.alreadyGuessed = false;
-		this.wasLetterGuessed = false;
+		this.isValidKeyPress = false;
 		this.winner = false;
 		this.gameOver = false;
 		this.triesLeft = maxTries;
@@ -260,13 +260,13 @@ $(document).ready(function () {
 		//initialize guess every time key is pressed
 		game.correctGuess = false;
 		game.alreadyGuessed = false;
-		game.wasLetterGuessed = false;
+		game.isValidKeyPress = false;
 		//don't do anything until game resets
 		if(!(game.gameOver && !game.isReset)) {
 			game.isReset = false;
 			// check key code so ONLY letters are accepted
-			game.wasLetterGuessed = game.checkForLetter(event.keyCode);
-			if(game.wasLetterGuessed) {
+			game.isValidKeyPress = game.checkKeyPressed(event.keyCode);
+			if(game.isValidKeyPress) {
 				//check to see if user guessed a new letter
 				var isNewGuess = game.checkForNewGuess(userGuess.toUpperCase());
 				if(!isNewGuess) {
