@@ -66,14 +66,12 @@ var game = {
 			var nextLetter = $('#letter' + i).clone();
 			nextLetter.attr('id', 'letter' + (i+1));
 			nextLetter.appendTo('#word');
-			if(specialCharacters.includes(selectedAnswer.charAt(i))) {
-				$('#letter' + i).css('border-bottom', 'none');
-			}
 		}
 		this.currentAnswer = selectedAnswer;
 		//whenever there's a space or special character an answer, append them to required spans and add to lettersGotten array
-		for(var i=0; i <= this.currentAnswer.length - 1; i++) {
+		for(var i=0; i < this.currentAnswer.length; i++) {
 			if(specialCharacters.includes(this.currentAnswer.charAt(i))) {
+				$('#letter' + i).css('border-bottom', 'none');
 				$('#letter' + i).append(this.currentAnswer.charAt(i));
 				this.lettersGotten.push(this.currentAnswer.charAt(i));
 			}
