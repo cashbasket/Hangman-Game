@@ -20,7 +20,7 @@ String.prototype.replaceAt = function(index, replacement) {
     return this.substr(0, index) + replacement + this.substr(index + replacement.length);
 }
 
-//initialize game object
+//define game object
 var game = { 
 	currentAnswer: '',
 	lastAnswer: '',
@@ -187,7 +187,6 @@ var game = {
 		$('.results').slideDown().delay(7000).slideUp();
 	},
 	reset: function() {
-		//reset object properties
 		this.correctGuess = false;
 		this.alreadyGuessed = false;
 		this.wasLetterGuessed = false;
@@ -224,7 +223,7 @@ var game = {
 	revealChuck: function() {
 		var curPct = getPctWidthOfOverlay();
 		var newPct = curPct - (100/maxTries);
-		$('#overlay').animate({ maxWidth: newPct + "%"},200);
+		$('#overlay').animate({ maxWidth: newPct + "%"},100);
 	},
 	playSound: function(type) {
 		var audio = document.getElementById('soundEffect');
@@ -248,9 +247,8 @@ var game = {
 
 // once the DOM is all loaded, we're good to go
 $(document).ready(function () {
-	// initialize HTML elements
+	// initialize game
 	game.init();
-
 	// choose the first word
 	game.chooseAnswer();
 	game.lastAnswer = game.currentAnswer;
@@ -263,11 +261,8 @@ $(document).ready(function () {
 		game.correctGuess = false;
 		game.alreadyGuessed = false;
 		game.wasLetterGuessed = false;
-
-		if(game.gameOver && !game.isReset) {
-			// don't do nothin' until game resets
-		}
-		else {
+		//don't do anything until game resets
+		if(!(game.gameOver && !game.isReset)) {
 			game.isReset = false;
 			// check key code so ONLY letters are accepted
 			game.wasLetterGuessed = game.checkForLetter(event.keyCode);
