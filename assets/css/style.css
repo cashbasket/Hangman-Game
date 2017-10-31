@@ -100,7 +100,6 @@ h3 {
 .game-container {
 	border: 1px solid #666;
 	max-width: 500px;
-	margin: 0 auto;
 	border-radius: 5px;
 	padding: 0;
 	box-sizing: border-box;
@@ -331,6 +330,9 @@ footer a:hover{
 @media screen and (max-width: 991px) {
 	.main-section{
 		display: none;
+	}
+	.game-container {
+		margin: 0 auto;
 	}
 	.word {
 		font-size: 20px;
