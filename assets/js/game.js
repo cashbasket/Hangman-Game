@@ -30,8 +30,8 @@ var game = {
 	triesLeft: maxTries,
 	lettersGotten: 0,
 	triedLetters: [],
-	winner: false,
-	gameOver: false,
+	isWinner: false,
+	isGameOver: false,
 	wins: 0,
 	faceKicks: 0,
 	isReset: false,
@@ -89,7 +89,7 @@ var game = {
 		}
 		$('.word').text(displayed);
 		// update tried letters
-		if (!this.winner) {
+		if (!this.isWinner) {
 			if($('#tries').text() == 'None') {
 				$('#tries').text('').css('color','#fff');
 			} 
@@ -137,18 +137,18 @@ var game = {
 	},
 	checkForWinner: function() {
 		if(this.lettersGotten == this.currentAnswer.length) {
-			this.winner = true;
+			this.isWinner = true;
 		}
-		return this.winner;
+		return this.isWinner;
 	},
 	checkForGameOver: function() {
-		if(this.winner || this.triesLeft == 0) {
-			this.gameOver = true;	
+		if(this.isWinner || this.triesLeft == 0) {
+			this.isGameOver = true;	
 		}
-		return this.gameOver;
+		return this.isGameOver;
 	},
 	updateStats: function() {
-		if (this.winner) {
+		if (this.isWinner) {
 			$('.wins').text(this.wins);
 		}
 		else {
@@ -157,7 +157,7 @@ var game = {
 	},
 	postGame: function() {
 		// congratulate user if user won
-		if(this.winner) {
+		if(this.isWinner) {
 			this.wins++;
 			this.playSound('absolutely-right');
 		}
@@ -171,7 +171,7 @@ var game = {
 		this.showResults();			
 	},
 	showResults: function() {	
-		if (this.winner) {
+		if (this.isWinner) {
 			$('.results').css('background-color','#b9ddb4');
 			$('.result-text').css('color', '#317a27')
 							 .text(winnerText);
@@ -187,8 +187,8 @@ var game = {
 		this.correctGuess = false;
 		this.alreadyGuessed = false;
 		this.isValidKeyPress = false;
-		this.winner = false;
-		this.gameOver = false;
+		this.isWinner = false;
+		this.isGameOver = false;
 		this.triesLeft = maxTries;
 		this.triedLetters = [];
 		$('#tries').text('None').css('color','#ffcc00');
@@ -259,7 +259,7 @@ $(document).ready(function () {
 		game.alreadyGuessed = false;
 		game.isValidKeyPress = false;
 		//don't do anything until game resets
-		if(!(game.gameOver && !game.isReset)) {
+		if(!(game.isGameOver && !game.isReset)) {
 			game.isReset = false;
 			// check key code so ONLY letters are accepted
 			game.isValidKeyPress = game.checkKeyPressed(event.keyCode);
@@ -275,9 +275,9 @@ $(document).ready(function () {
 					game.showErrors();
 				}
 				// check for win status
-				var isWinner = game.checkForWinner();
+				var justWon = game.checkForWinner();
 				// if the user guesses a new letter and guesses wrong, reveal more Chuck. Otherwise, play a happy sound.
-				if (!game.gameOver && !isNewGuess && !isWinner) {
+				if (!game.isGameOver && !isNewGuess && !justWon) {
 					if(!game.correctGuess) {
 						game.revealChuck();
 						if(game.triesLeft > 1) {
