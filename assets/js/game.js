@@ -1,6 +1,7 @@
 //global variables / text I want to be able to find and edit easily
 var maxTries = 10;
-var answers = ['walker texas ranger','martial artist','roundhouse kick','the hitman','the delta force','flying kick','uppercut','hellbound','missing in action','christian','conservative','republican','military man','patriot','greatest person ever','american hero','oklahoma rules','the most awesome human','firewalker','karate master','code of silence','the expendables 2','the colombian connection','sidekicks','the octagon','eye for an eye','forced vengeance','silent rage'];
+var answers = ['walker, texas ranger','martial artist','roundhouse kick','the hitman','the delta force','flying kick','uppercut','hellbound','missing in action','christian','conservative','republican','military man','patriot','greatest person ever','american hero','oklahoma rules','the most awesome human','firewalker','karate master','code of silence','the expendables 2','the colombian connection','sidekicks','the octagon','eye for an eye','forced vengeance','silent rage'];
+var specialCharacters = [' ',',','.',':'];
 var winnerText = 'You got it! Chuck is pleased. He wants to keep playing, though, so he picked a new word/phrase for you.';
 var loserText = 'You ran out of tries, and have therefore been kicked in the face. However, Chuck just thought up a new word (or phrase)! Do not disappoint him again.';
 var chuckFactIntro = '<span class="fact-header">Fact:</span>';
@@ -65,16 +66,16 @@ var game = {
 			var nextLetter = $('#letter' + i).clone();
 			nextLetter.attr('id', 'letter' + (i+1));
 			nextLetter.appendTo('#word');
-			if(selectedAnswer.charAt(i) == ' ') {
+			if(specialCharacters.includes(selectedAnswer.charAt(i))) {
 				$('#letter' + i).css('border-bottom', 'none');
 			}
 		}
 		this.currentAnswer = selectedAnswer;
-		//whenever there's a space in an answer, append them to required spans and add to lettersGotten array
+		//whenever there's a space or special character an answer, append them to required spans and add to lettersGotten array
 		for(var i=0; i <= this.currentAnswer.length - 1; i++) {
-			if(this.currentAnswer.charAt(i) == ' ') {
-				$('#letter' + i).append(' ');
-				this.lettersGotten.push(' ');
+			if(specialCharacters.includes(this.currentAnswer.charAt(i))) {
+				$('#letter' + i).append(this.currentAnswer.charAt(i));
+				this.lettersGotten.push(this.currentAnswer.charAt(i));
 			}
 		}
 	},
@@ -208,12 +209,6 @@ var game = {
 			else {
 				break;
 			}
-		}
-		if(this.currentAnswer.indexOf(' ') > 0) {
-			$('#answerType').text('phrase');
-		}
-		else {
-			$('#answerType').text('word');
 		}
 		this.isReset = true;
 		this.determineType(this.currentAnswer);
