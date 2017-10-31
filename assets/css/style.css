@@ -94,6 +94,16 @@ h3 {
 	opacity: 0.9;
 }
 
+.instructions {
+	margin: 0;
+	background-color: #fff;
+	border-left: 1px solid #666;
+	border-right: 1px solid #666;
+	padding: 0 30px 30px 30px;
+	opacity: 0.9;
+	width: 100%;
+}
+
 .img-main {
 	float: right;
 	padding: 0 0 15px 15px;
@@ -165,6 +175,7 @@ h3 {
     animation: pulsate 2s infinite;
     color: #000;
     font-family: 'Roboto Slab', serif;
+    line-height: 1.5;
 }
 
 .letterbox {
@@ -302,21 +313,47 @@ footer a:hover{
 	width: 100%;
 }
 
-@media screen and (max-width: 1010px) {
-	.main-section,
+@media screen and (max-width: 991px) {
+	.main-section {
+		display: none;
+	}
+	
+	.instructions {
+		padding: 10px 20px;
+	}
+
+	.instructions,
 	.errors,
 	.game-display,
 	.results {
 		max-width: 500px;
 	}
+	.letterbox {
+		border-bottom: 2px solid #fff;
+		width: 10px;
+		text-align: center;
+		float:left;
+		margin-right: 5px;
+		padding-bottom: 5px;
+		min-height: 16px;
+		font-size: 16px;
+		color: #fff;
+	}
+	#tries {
+		font-size: 16px;
+	}
 }
 
 @media screen and (max-width: 480px) {
+	h1 {
+		font-size: 24px;
+	}
 	.img-main {
 		float: none;
 		margin: 0 auto;
 	}
-	.overlay-text{
+	.overlay-text,
+	.get-started {
 		font-size: 16px;
 	}
 }
