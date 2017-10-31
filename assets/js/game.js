@@ -12,9 +12,12 @@ var errors = ['Only letter and number keys are allowed.','You already tried that
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
 function getPctWidthOfOverlay() {
 	return parseFloat($('#overlay').width() / $('#chuckHolder').width()) * 100;
+}
+//global string functions
+String.prototype.replaceAt = function(index, replacement) {
+    return this.substr(0, index) + replacement + this.substr(index + replacement.length);
 }
 
 //initialize game object
@@ -25,7 +28,7 @@ var game = {
 	wasLetterGuessed: false,
 	alreadyGuessed: false,
 	triesLeft: maxTries,
-	lettersGotten: [],
+	lettersGotten: 0,
 	triedLetters: [],
 	winner: false,
 	gameOver: false,
@@ -51,32 +54,40 @@ var game = {
 		return selectedFact;
 	},
 	chooseAnswer: function() {
-		this.lettersGotten = [];
+		this.lettersGotten = 0;
 		//select random answer from answers array
 		var selectedAnswer = answers[getRandomInt(0, answers.length - 1)];
-		//clear out word div
-		$('#word').html('');
-		//create new span for letter
-		var letterBox = document.createElement('span');
-		letterBox.setAttribute('class', 'letterbox');
-		letterBox.id = 'letter0';
-		$('#word').append(letterBox);
+		var displayed = selectedAnswer;
+		//clear out word span
+		$('.word').text('');
+
 		//add new letter span for each character in new word
-		for(var i=0; i < selectedAnswer.length - 1; i++) {
-			var nextLetter = $('#letter' + i).clone();
-			nextLetter.attr('id', 'letter' + (i+1));
-			nextLetter.appendTo('#word');
+		for(var i=0; i < selectedAnswer.length; i++) {
+			displayed = displayed.replaceAt(i, '_');
 		}
-		//whenever there's a space or special character an answer, append them to required spans and add to lettersGotten array
+		
+		//whenever there's a space or special character an answer, display them and add 1 to lettersGotten
 		for(var i=0; i < selectedAnswer.length; i++) {
 			if(specialCharacters.includes(selectedAnswer.charAt(i))) {
-				$('#letter' + i).css('border-bottom', 'none');
-				$('#letter' + i).append(selectedAnswer.charAt(i));
-				this.lettersGotten.push(selectedAnswer.charAt(i));
+				displayed = displayed.replaceAt(i, selectedAnswer.charAt(i))
+				this.lettersGotten++;
+				console.log(displayed);
 			}
 		}
 		//set currentAnswer property
 		this.currentAnswer = selectedAnswer;
+		$('.word').append(displayed);
+	},
+	displayLetters: function(guess) {
+		var displayed = $('.word').text();
+		for(var i=0; i < this.currentAnswer.length; i++) {
+			if (this.currentAnswer.charAt(i) == guess.toLowerCase()) {
+				displayed = displayed.replaceAt(i, guess.toUpperCase());
+				this.lettersGotten++;
+				this.correctGuess = true;
+			}
+		}
+		$('.word').text(displayed);
 	},
 	updateTriesLeftDisplay: function () {
 		var triesSuffix = this.triesLeft > 1 ? ' tries remaining' : ' try remaining';
@@ -126,7 +137,7 @@ var game = {
 		return this.wasLetterGuessed;
 	},
 	checkForWinner: function() {
-		if(this.lettersGotten.length == this.currentAnswer.length) {
+		if(this.lettersGotten == this.currentAnswer.length) {
 			this.winner = true;
 		}
 		return this.winner;
@@ -136,16 +147,6 @@ var game = {
 			this.gameOver = true;	
 		}
 		return this.gameOver;
-	},
-	displayLetters: function(guess) {
-		for(var i=0; i <= this.currentAnswer.length - 1; i++) {
-			if ($('#letter' + i).text() == '' && this.currentAnswer.charAt(i) == guess.toLowerCase()) {
-				$('#letter' + i).append(guess.toUpperCase());
-				this.lettersGotten.push(guess.toUpperCase());
-				this.correctGuess = true;
-				$('#letter' + i).css('border-bottom', 'none');
-			}
-		}
 	},
 	updateStats: function() {
 		if (this.winner) {
