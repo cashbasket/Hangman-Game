@@ -172,14 +172,12 @@ var game = {
 	},
 	showResults: function() {	
 		if (this.winner) {
-			$('.results').css('background-color','#b9ddb4')
-						 .css('border-color','#317a27');
+			$('.results').css('background-color','#b9ddb4');
 			$('.result-text').css('color', '#317a27')
 							 .text(winnerText);
 		}
 		else {
-			$('.results').css('background-color', '#eecdcd')
-						 .css('border-color','#be1c1c');
+			$('.results').css('background-color', '#eecdcd');
 			$('.result-text').css('color', '#be1c1c')
 							 .text(loserText);
 		}
