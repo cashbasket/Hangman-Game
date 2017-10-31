@@ -304,6 +304,17 @@ footer a:hover{
 	width: 100%;
 }
 
+/* Media queries */
+
+@media screen and (max-width: 1200px) {
+	body {
+		font-size: 14px;
+	}
+	.get-started,
+	#tries {
+		font-size: 16px;
+	}
+}
 @media screen and (max-width: 991px) {
 	.intro-text{
 		display: none;
@@ -316,10 +327,6 @@ footer a:hover{
 	}
 	.word {
 		font-size: 20px;
-	}
-	#tries,
-	.get-started {
-		font-size: 16px;
 	}
 }
 
