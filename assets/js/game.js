@@ -67,15 +67,16 @@ var game = {
 			nextLetter.attr('id', 'letter' + (i+1));
 			nextLetter.appendTo('#word');
 		}
-		this.currentAnswer = selectedAnswer;
 		//whenever there's a space or special character an answer, append them to required spans and add to lettersGotten array
-		for(var i=0; i < this.currentAnswer.length; i++) {
-			if(specialCharacters.includes(this.currentAnswer.charAt(i))) {
+		for(var i=0; i < selectedAnswer.length; i++) {
+			if(specialCharacters.includes(selectedAnswer.charAt(i))) {
 				$('#letter' + i).css('border-bottom', 'none');
-				$('#letter' + i).append(this.currentAnswer.charAt(i));
-				this.lettersGotten.push(this.currentAnswer.charAt(i));
+				$('#letter' + i).append(selectedAnswer.charAt(i));
+				this.lettersGotten.push(selectedAnswer.charAt(i));
 			}
 		}
+		//set currentAnswer property
+		this.currentAnswer = selectedAnswer;
 	},
 	updateTriesLeftDisplay: function () {
 		var triesSuffix = this.triesLeft > 1 ? ' tries remaining' : ' try remaining';
