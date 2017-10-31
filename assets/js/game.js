@@ -36,7 +36,6 @@ var game = {
 	faceKicks: 0,
 	isReset: false,
 	init: function() {
-		//set audio volume
 		var audio = document.getElementById('soundEffect');
 		audio.volume = 0.8;
 		audio.preload = true;
@@ -54,6 +53,7 @@ var game = {
 		return selectedFact;
 	},
 	chooseAnswer: function() {
+		//reset lettersGotten every time!
 		this.lettersGotten = 0;
 		//select random answer from answers array
 		var selectedAnswer = answers[getRandomInt(0, answers.length - 1)];
@@ -65,7 +65,6 @@ var game = {
 		for(var i=0; i < selectedAnswer.length; i++) {
 			displayed = displayed.replaceAt(i, '_');
 		}
-		
 		//whenever there's a space or special character an answer, display them and add 1 to lettersGotten
 		for(var i=0; i < selectedAnswer.length; i++) {
 			if(specialCharacters.includes(selectedAnswer.charAt(i))) {
@@ -74,12 +73,13 @@ var game = {
 				console.log(displayed);
 			}
 		}
-		//set currentAnswer property
+		//set currentAnswer property and display unsolved word/phrase
 		this.currentAnswer = selectedAnswer;
-		$('.word').append(displayed);
+		$('.word').text(displayed);
 	},
-	displayLetters: function(guess) {
+	processGuess: function(guess) {
 		var displayed = $('.word').text();
+		// update word/phase with guess if correct
 		for(var i=0; i < this.currentAnswer.length; i++) {
 			if (this.currentAnswer.charAt(i) == guess.toLowerCase()) {
 				displayed = displayed.replaceAt(i, guess.toUpperCase());
@@ -88,15 +88,7 @@ var game = {
 			}
 		}
 		$('.word').text(displayed);
-	},
-	updateTriesLeftDisplay: function () {
-		var triesSuffix = this.triesLeft > 1 ? ' tries remaining' : ' try remaining';
-		$('#triesLeft').text(this.triesLeft + triesSuffix);
-		if (this.triesLeft <= maxTries/2) {
-			$('#triesLeft').css('color', '#ffcc00');
-		}	
-	},
-	updateTriedLetters: function(guess) {
+		// update tried letters
 		if (!this.winner) {
 			if($('#tries').text() == 'None') {
 				$('#tries').text('').css('color','#fff');
@@ -107,6 +99,13 @@ var game = {
 			$('#tries').append(guess.toUpperCase());
 			this.triedLetters.push(guess.toUpperCase());
 		}
+	},
+	updateTriesLeftDisplay: function () {
+		var triesSuffix = this.triesLeft > 1 ? ' tries remaining' : ' try remaining';
+		$('#triesLeft').text(this.triesLeft + triesSuffix);
+		if (this.triesLeft <= maxTries/2) {
+			$('#triesLeft').css('color', '#ffcc00');
+		}	
 	},
 	showErrors: function() {
 		if(this.isValidKeyPress) {
@@ -171,7 +170,7 @@ var game = {
 		this.updateStats();
 		this.showResults();			
 	},
-	showResults: function(status) {	
+	showResults: function() {	
 		if (this.winner) {
 			$('.results').css('background-color','#b9ddb4')
 						 .css('border-color','#317a27');
@@ -271,10 +270,8 @@ $(document).ready(function () {
 				var isNewGuess = game.checkForNewGuess(userGuess.toUpperCase());
 				if(!isNewGuess) {
 					game.hideErrors();
-					// display letters when guessed correctly
-					game.displayLetters(userGuess.toUpperCase());
-					// update list/array of tried letters
-					game.updateTriedLetters(userGuess.toUpperCase());
+					// process guess and update game display if needed
+					game.processGuess(userGuess.toUpperCase());
 				}
 				else {
 					game.showErrors();
