@@ -126,8 +126,8 @@ var game = {
 			$('#triesLeft').css('color', '#ffcc00');
 		}	
 	},
-	showErrors: function(userGuessCode) {
-		if(this.checkKeyPressed(userGuessCode)) {
+	showErrors: function(keyCode) {
+		if(this.checkKeyPressed(keyCode)) {
 			$('.errors > span').text(alreadyGuessedError);
 		}
 		else {
@@ -224,22 +224,23 @@ var game = {
 		this.prepareGameDisplay(this.currentAnswer);
 		this.isReset = true;
 	},
-	onKeyPress: function (userGuess, userGuessCode) {
+	onKeyPress: function (keyCode) {
+		var key = String.fromCharCode(keyCode);
 		var isCorrectGuess, alreadyGuessed;
 
 		//don't do anything until game resets
 		if(!(this.checkForGameOver() && !this.isReset)) {
 			this.isReset = false;
 			// check key code so ONLY letters are accepted
-			if(this.checkKeyPressed(userGuessCode)) {
+			if(this.checkKeyPressed(keyCode)) {
 				//check to see if user guessed a new letter
-				alreadyGuessed = this.checkForNewGuess(userGuess.toUpperCase());
+				alreadyGuessed = this.checkForNewGuess(key.toUpperCase());
 				if(!alreadyGuessed) {
 					this.hideErrors();
-					isCorrectGuess = this.processGuess(userGuess.toUpperCase());
+					isCorrectGuess = this.processGuess(key.toUpperCase());
 				}
 				else {
-					this.showErrors(userGuessCode);
+					this.showErrors(keyCode);
 				}
 				// if the user guesses a new letter and guesses wrong, open curtain slightly and play lame sound. Otherwise, play a happy sound.
 				if (!this.checkForGameOver() && !alreadyGuessed && !this.checkForWinner()) {
@@ -282,7 +283,7 @@ var game = {
 				}
 			}
 			else {
-				this.showErrors(userGuessCode);
+				this.showErrors(keyCode);
 			}
 		}
 	}
@@ -295,7 +296,7 @@ $(document).ready(function () {
 	// do stuff when key is pressed
 	$(document).keyup(function(event) {
 		//after key is pressed, check to see if the guess results in game over
-		var over = game.onKeyPress(event.key, event.keyCode);
+		var over = game.onKeyPress(event.keyCode);
 		//if game is over, reset game
 		if (over) {
 			// if the curtain isn't closed, close it and THEN reset the game
