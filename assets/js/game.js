@@ -8,6 +8,7 @@ var factHeader = '<span class="fact-header">Fact:</span>';
 var facts = ['Chuck Norris was bitten by a cobra, and after five days of excruciating pain, the cobra died.','Chuck Norris once kicked a horse in the chin. Its descendants today are known as giraffes.','Chuck Norris doesn\'t breathe air; he holds air hostage.','When Chuck Norris turned 18, his parents moved out.','Chuck Norris doesn\'t dial the wrong number; you answered the wrong phone.','If Chuck Norris were a Spartan in the movie "300," the movie would be called "1."','Chuck Norris is currently suing NBC, claiming "Law" and "Order" are trademarked names for his left and right legs.','Chuck Norris will never have a heart attack; his heart isn\'t nearly foolish enough to attack him.','Chuck Norris can kill two stones with one bird.','Chuck Norris does not sleep; he waits.','The easiest way to determine Chuck Norris\' age is to cut him in half and count the rings.','There is no chin underneath Chuck Norris\' beard; there is only another fist.'];
 var alreadyGuessedError = 'You already tried that one!';
 var invalidGuessError = 'Only letter and number keys are allowed.';
+var instructionText = 'Press a letter or number key to get started!';
 
 //global math functions
 function getRandomInt(min, max) {
@@ -48,6 +49,7 @@ var game = {
 		$('.results').hide();
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
 		$('.errors').hide();
+		$('.get-started').text(instructionText);
 	},
 	getRandomFact: function() {
 		var selectedFact = facts[getRandomInt(0, facts.length - 1)];
