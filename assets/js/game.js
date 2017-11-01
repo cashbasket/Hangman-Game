@@ -25,17 +25,12 @@ String.prototype.replaceAt = function(index, replacement) {
 //define game object
 var game = { 
 	currentAnswer: '',
-	correctGuess: false,
-	isValidKeyPress: false,
-	alreadyGuessed: false,
 	triesLeft: maxTries,
 	lettersGotten: 0,
 	triedLetters: [],
 	answersLeft: answers,
-	isWinner: false,
-	isGameOver: false,
 	wins: 0,
-	faceKicks: 0,
+	losses: 0,
 	isReset: false,
 	init: function() {
 		var audio = document.getElementById('soundEffect');
@@ -43,13 +38,16 @@ var game = {
 		audio.preload = true;
 		$('#triesLeft').text(maxTries + ' tries remaining');
 		$('.wins').text(this.wins);
-		$('.face-kicks').text(this.faceKicks);
+		$('.face-kicks').text(this.losses);
 		$('#maxTriesText').text(maxTries + ' times');
 		$('#tries').text('None').css('color','#ffcc00');
 		$('.results').hide();
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
 		$('.errors').hide();
 		$('.get-started').text(instructionText);
+
+		this.currentAnswer = this.chooseAnswer();
+		this.prepareGameDisplay(this.currentAnswer);
 	},
 	getRandomFact: function() {
 		var selectedFact = facts[getRandomInt(0, facts.length - 1)];
@@ -90,18 +88,19 @@ var game = {
 	},
 	processGuess: function(guess) {
 		var displayed = $('.word').text();
+		var correctGuess = false;
 		// update word/phase with guess if correct
 		for(var i=0; i < this.currentAnswer.length; i++) {
 			if (this.currentAnswer.charAt(i) == guess.toLowerCase()) {
 				displayed = displayed.replaceAt(i, guess.toUpperCase());
 				this.lettersGotten++;
-				this.correctGuess = true;
+				correctGuess = true;
 			}
 		}
 		$('.word').text(displayed);
 
 		// update tried letters
-		if (!this.isWinner) {
+		if (!this.checkForWinner()) {
 			if($('#tries').text() == 'None') {
 				$('#tries').text('').css('color','#fff');
 			} 
@@ -112,6 +111,13 @@ var game = {
 			this.triedLetters.push(guess.toUpperCase());
 		}
 		$('#gameDisplay').removeClass('pulsate');
+
+		if(correctGuess) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	},
 	updateTriesLeftDisplay: function () {
 		var triesSuffix = this.triesLeft > 1 ? ' tries remaining' : ' try remaining';
@@ -120,8 +126,8 @@ var game = {
 			$('#triesLeft').css('color', '#ffcc00');
 		}	
 	},
-	showErrors: function() {
-		if(this.isValidKeyPress) {
+	showErrors: function(userGuessCode) {
+		if(this.checkKeyPressed(userGuessCode)) {
 			$('.errors > span').text(alreadyGuessedError);
 		}
 		else {
@@ -143,9 +149,9 @@ var game = {
 	},
 	checkKeyPressed: function(guessCode) {
 		if((event.keyCode >= 48 && event.keyCode <= 57) || (guessCode >= 65 && guessCode <= 90) || (guessCode >= 97 && guessCode <= 122)) {
-			this.isValidKeyPress = true;
+			return true;
 		}
-		return this.isValidKeyPress;
+		return false;
 	},
 	checkForWinner: function() {
 		if(this.lettersGotten == this.currentAnswer.length) {
@@ -154,21 +160,21 @@ var game = {
 		return false;
 	},
 	checkForGameOver: function() {
-		if(this.isWinner || this.triesLeft == 0) {
-			this.isGameOver = true;	
+		if(this.checkForWinner() || this.triesLeft == 0) {
+			return true;
 		}
-		return this.isGameOver;
+		return false;
 	},
 	updateStats: function() {
-		if (this.isWinner) {
+		if (this.checkForWinner()) {
 			$('.wins').text(this.wins);
 		}
 		else {
-			$('.face-kicks').text(this.faceKicks);
+			$('.face-kicks').text(this.losses);
 		}
 	},
 	showResults: function() {	
-		if (this.isWinner) {
+		if (this.checkForWinner()) {
 			$('.results').css('background-color','#b9ddb4');
 			$('.result-text').css('color', '#317a27').text(winnerText);
 		}
@@ -178,7 +184,7 @@ var game = {
 		}
 		$('.results').slideDown().delay(7000).slideUp();
 	},
-	animateOverlay: function() {
+	openCurtain: function() {
 		var curPct = getPctWidthOfOverlay();
 		var newPct = curPct - (100/maxTries);
 		$('#overlay').animate({ maxWidth: newPct + "%"},100);
@@ -202,8 +208,6 @@ var game = {
 	    audio.play();     
 	},
 	reset: function() {
-		this.isWinner = false;
-		this.isGameOver = false;
 		this.triesLeft = maxTries;
 		this.triedLetters = [];
 		$('.word').text('');
@@ -219,87 +223,89 @@ var game = {
 		this.currentAnswer = this.chooseAnswer();
 		this.prepareGameDisplay(this.currentAnswer);
 		this.isReset = true;
+	},
+	onKeyPress: function (userGuess, userGuessCode) {
+		var isCorrectGuess, alreadyGuessed;
+
+		//don't do anything until game resets
+		if(!(this.checkForGameOver() && !this.isReset)) {
+			this.isReset = false;
+			// check key code so ONLY letters are accepted
+			if(this.checkKeyPressed(userGuessCode)) {
+				//check to see if user guessed a new letter
+				alreadyGuessed = this.checkForNewGuess(userGuess.toUpperCase());
+				if(!alreadyGuessed) {
+					this.hideErrors();
+					isCorrectGuess = this.processGuess(userGuess.toUpperCase());
+				}
+				else {
+					this.showErrors(userGuessCode);
+				}
+				// if the user guesses a new letter and guesses wrong, open curtain slightly and play lame sound. Otherwise, play a happy sound.
+				if (!this.checkForGameOver() && !alreadyGuessed && !this.checkForWinner()) {
+					if(!isCorrectGuess) {
+						this.openCurtain();
+						if(this.triesLeft > 1) {
+							this.playSound('incorrect');
+						}
+						this.triesLeft--;
+						this.updateTriesLeftDisplay();
+						if(this.triesLeft < maxTries) {
+							$('.overlay-text').fadeOut(200);
+						}
+					}
+					else {
+						this.playSound('correct');
+					}
+				}
+				//check to see if game is over
+				if(this.checkForGameOver()) {
+					// congratulate user if user won
+					if(this.checkForWinner()) {
+						this.wins++;
+						this.playSound('absolutely-right');
+					}
+					// kick user in face if user lost
+					else {
+						this.losses++;
+						this.playSound('kick');
+					}
+
+					// update wins/losses and show results
+					this.updateStats();
+					this.showResults();	
+					
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			else {
+				this.showErrors(userGuessCode);
+			}
+		}
 	}
 };
 
 // once the DOM is all loaded, we're good to go
 $(document).ready(function () {
-	// initialize game
+	// initialize game for first time
 	game.init();
-	// choose the first word
-	game.currentAnswer = game.chooseAnswer();
-	game.prepareGameDisplay(game.currentAnswer);
-
 	// do stuff when key is pressed
 	$(document).keyup(function(event) {
-		var userGuess = event.key;
-		var userGuessCode = event.keyCode;
-		//initialize guess every time key is pressed
-		game.correctGuess = false;
-		game.alreadyGuessed = false;
-		game.isValidKeyPress = false;
-		//don't do anything until game resets
-		if(!(game.isGameOver && !game.isReset)) {
-			game.isReset = false;
-			// check key code so ONLY letters are accepted
-			game.isValidKeyPress = game.checkKeyPressed(userGuessCode);
-			if(game.isValidKeyPress) {
-				//check to see if user guessed a new letter
-				game.alreadyGuessed = game.checkForNewGuess(userGuess.toUpperCase());
-				if(!game.alreadyGuessed) {
-					game.hideErrors();
-					// process guess and update game display if needed
-					game.processGuess(userGuess.toUpperCase());
-				}
-				else {
-					game.showErrors();
-				}
-				// check for win status
-				game.isWinner = game.checkForWinner();
-				// if the user guesses a new letter and guesses wrong, open curtain slightly and play lame sound. Otherwise, play a happy sound.
-				if (!game.isGameOver && !game.alreadyGuessed && !game.isWinner) {
-					if(!game.correctGuess) {
-						game.animateOverlay();
-						if(game.triesLeft > 1) {
-							game.playSound('incorrect');
-						}
-						game.triesLeft--;
-						game.updateTriesLeftDisplay();
-						if(game.triesLeft < maxTries) {
-							$('.overlay-text').fadeOut(200);
-						}
-					}
-					else {
-						game.playSound('correct');
-					}
-				}
-				//check to see if game is over
-				if(game.checkForGameOver()) {
-					// congratulate user if user won
-					if(game.isWinner) {
-						game.wins++;
-						game.playSound('absolutely-right');
-					}
-					// kick user in face if user lost
-					else {
-						game.faceKicks++;
-						game.playSound('kick');
-					}
-					// update wins/losses and show results
-					game.updateStats();
-					game.showResults();	
-					if (getPctWidthOfOverlay() < 100) {
-						$('#overlay').animate({ maxWidth: '100%' }, 500, function() {
-							game.reset();
-						});
-					}
-					else {
-						game.reset();
-					}
-				}
-			}
+		//after key is pressed, check to see if the guess results in game over
+		var over = game.onKeyPress(event.key, event.keyCode);
+		//if game is over, reset game
+		if (over) {
+			// if the curtain isn't closed, close it and THEN reset the game
+			if(getPctWidthOfOverlay() < 100)
+				$('#overlay').animate({ maxWidth: '100%' }, 500, function() {
+					game.reset();
+				});
+			// otherwise, just reset the game
 			else {
-				game.showErrors();
+				game.reset();
 			}
 		}
 	})
