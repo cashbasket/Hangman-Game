@@ -29,6 +29,7 @@ var game = {
 	triesLeft: maxTries,
 	lettersGotten: 0,
 	triedLetters: [],
+	usedAnswers: [],
 	isWinner: false,
 	isGameOver: false,
 	wins: 0,
@@ -56,12 +57,19 @@ var game = {
 		this.lettersGotten = 0;
 		//select random answer from answers array
 		var selectedAnswer = answers[getRandomInt(0, answers.length - 1)];
-		this.currentAnswer = selectedAnswer;
-		return this.currentAnswer;
+		while(true) {
+			if(this.usedAnswers.includes(selectedAnswer)) {
+				selectedAnswer = answers[getRandomInt(0, answers.length - 1)];
+			}
+			else {
+				break;
+			}
+		}
+		this.usedAnswers.push(selectedAnswer);
+		return selectedAnswer;
 	},
 	prepareGameDisplay: function(answer) {
 		var displayed = answer;
-		$('.word').text('');
 		//add new letter span for each character in new word
 		for(var i=0; i < answer.length; i++) {
 			displayed = displayed.replaceAt(i, '_');
@@ -73,9 +81,14 @@ var game = {
 				this.lettersGotten++;
 			}
 		}
-		//set currentAnswer property and display unsolved word/phrase
-		this.currentAnswer = answer;
 		$('.word').text(displayed);
+
+		if(answer.indexOf(' ') > 0) {
+			$('#answerType').text('phrase');
+		}
+		else {
+			$('#answerType').text('word');
+		}
 	},
 	processGuess: function(guess) {
 		var displayed = $('.word').text();
@@ -176,14 +189,17 @@ var game = {
 		this.isGameOver = false;
 		this.triesLeft = maxTries;
 		this.triedLetters = [];
+		$('.word').text('');
 		$('#tries').text('None').css('color','#ffcc00');
 		$('#triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
 		$('.overlay-text').html(chuckFactIntro + '<br>' + this.getRandomChuckFact()).fadeIn(200);
 		//choose new word
-		this.chooseAnswer();
-		this.isReset = true;
+		if(this.usedAnswers.length == answers.length) {
+			this.usedAnswers = [];
+		}
+		this.currentAnswer = this.chooseAnswer();
 		this.prepareGameDisplay(this.currentAnswer);
-		this.determineType(this.currentAnswer);
+		this.isReset = true;
 	},
 	determineType: function(answer) {
 		if(answer.indexOf(' ') > 0) {
@@ -223,9 +239,8 @@ $(document).ready(function () {
 	// initialize game
 	game.init();
 	// choose the first word
-	var answer = game.chooseAnswer();
-	game.prepareGameDisplay(answer);
-	game.determineType(game.currentAnswer);
+	game.currentAnswer = game.chooseAnswer();
+	game.prepareGameDisplay(game.currentAnswer);
 
 	// do stuff when key is pressed
 	$(document).keyup(function(event) {
