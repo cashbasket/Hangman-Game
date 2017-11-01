@@ -270,15 +270,20 @@ footer {
 }
 
 .social {
+	list-style: none;
 	float: right;
 }
 
-.social a {
-	color: #fff;
-	margin-right: 5px;
+.social li {
+	float: left;
+	margin-right: 10px;
 }
 
-.social a:last-of-type {
+.social li a {
+	color: #fff;
+}
+
+.social li:last-of-type {
 	margin-right: 0;
 }
 
@@ -314,6 +319,9 @@ footer a:hover{
 }
 
 @media screen and (max-width: 991px) {
+	.contents-inner {
+		max-width: 500px;
+	}
 	.main-section{
 		display: none;
 	}
@@ -333,15 +341,22 @@ footer a:hover{
 		margin-top: 0;
 		font-size: 20px;
 	}
-	.contents-inner {
-		max-width: 500px;
-	}
-	.social {
-		float: none;
-	}
 	footer {
 		text-align: center;
 		line-height: 1.5;
+	}
+	.social {
+		list-style: none; 
+		position: relative; 
+		float: left; 
+		display: block; 
+		left: 50%;
+	}
+	.social li { 
+		position: relative; 
+		float: left; 
+		display: block; 
+		right: 50%; 
 	}
 }
 
