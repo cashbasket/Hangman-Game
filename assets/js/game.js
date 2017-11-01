@@ -23,7 +23,6 @@ String.prototype.replaceAt = function(index, replacement) {
 //define game object
 var game = { 
 	currentAnswer: '',
-	lastAnswer: '',
 	correctGuess: false,
 	isValidKeyPress: false,
 	alreadyGuessed: false,
@@ -57,24 +56,24 @@ var game = {
 		this.lettersGotten = 0;
 		//select random answer from answers array
 		var selectedAnswer = answers[getRandomInt(0, answers.length - 1)];
-		var displayed = selectedAnswer;
-		//clear out word span
+		return selectedAnswer;
+	},
+	prepareGameDisplay: function(answer) {
+		var displayed = answer;
 		$('.word').text('');
-
 		//add new letter span for each character in new word
-		for(var i=0; i < selectedAnswer.length; i++) {
+		for(var i=0; i < answer.length; i++) {
 			displayed = displayed.replaceAt(i, '_');
 		}
 		//whenever there's a space or special character an answer, display them and add 1 to lettersGotten
-		for(var i=0; i < selectedAnswer.length; i++) {
-			if(specialCharacters.includes(selectedAnswer.charAt(i))) {
-				displayed = displayed.replaceAt(i, selectedAnswer.charAt(i))
+		for(var i=0; i < answer.length; i++) {
+			if(specialCharacters.includes(answer.charAt(i))) {
+				displayed = displayed.replaceAt(i, answer.charAt(i))
 				this.lettersGotten++;
-				console.log(displayed);
 			}
 		}
 		//set currentAnswer property and display unsolved word/phrase
-		this.currentAnswer = selectedAnswer;
+		this.currentAnswer = answer;
 		$('.word').text(displayed);
 	},
 	processGuess: function(guess) {
@@ -179,19 +178,10 @@ var game = {
 		$('#tries').text('None').css('color','#ffcc00');
 		$('#triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
 		$('.overlay-text').html(chuckFactIntro + '<br>' + this.getRandomChuckFact()).fadeIn(200);
-		this.lastAnswer = this.currentAnswer;
 		//choose new word
 		this.chooseAnswer();
-		//checks to make sure the new word isn't the same as the previous word
-		for(;;) {
-			if (this.currentAnswer == this.lastAnswer) {
-				this.chooseAnswer();
-			}
-			else {
-				break;
-			}
-		}
 		this.isReset = true;
+		this.prepareGameDisplay(this.currentAnswer);
 		this.determineType(this.currentAnswer);
 	},
 	determineType: function(answer) {
@@ -232,8 +222,8 @@ $(document).ready(function () {
 	// initialize game
 	game.init();
 	// choose the first word
-	game.chooseAnswer();
-	game.lastAnswer = game.currentAnswer;
+	var answer = game.chooseAnswer();
+	game.prepareGameDisplay(answer);
 	game.determineType(game.currentAnswer);
 
 	// do stuff when key is pressed
