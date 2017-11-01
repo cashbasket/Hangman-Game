@@ -57,6 +57,7 @@ var game = {
 		this.lettersGotten = 0;
 		//select random answer from answers array
 		var selectedAnswer = answers[getRandomInt(0, answers.length - 1)];
+		//ensures no answer is repeated until all answers are used once
 		while(true) {
 			if(this.usedAnswers.includes(selectedAnswer)) {
 				selectedAnswer = answers[getRandomInt(0, answers.length - 1)];
@@ -193,21 +194,14 @@ var game = {
 		$('#tries').text('None').css('color','#ffcc00');
 		$('#triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
 		$('.overlay-text').html(chuckFactIntro + '<br>' + this.getRandomChuckFact()).fadeIn(200);
-		//choose new word
+		//if all answers have been used, empty array
 		if(this.usedAnswers.length == answers.length) {
 			this.usedAnswers = [];
 		}
+		//choose new word
 		this.currentAnswer = this.chooseAnswer();
 		this.prepareGameDisplay(this.currentAnswer);
 		this.isReset = true;
-	},
-	determineType: function(answer) {
-		if(answer.indexOf(' ') > 0) {
-			$('#answerType').text('phrase');
-		}
-		else {
-			$('#answerType').text('word');
-		}
 	},
 	revealChuck: function() {
 		var curPct = getPctWidthOfOverlay();
