@@ -155,7 +155,7 @@ var game = {
 			$('.face-kicks').text(this.faceKicks);
 		}
 	},
-	postGame: function() {
+	processResult: function() {
 		// congratulate user if user won
 		if(this.isWinner) {
 			this.wins++;
@@ -297,7 +297,7 @@ $(document).ready(function () {
 				//check to see if game is over
 				if(game.checkForGameOver()) {
 					//if game is over, wrap things up & reset
-					game.postGame();
+					game.processResult();
 					if (getPctWidthOfOverlay() < 100) {
 						$('#overlay').animate({ maxWidth: '100%' }, 500, function() {
 							game.reset();
