@@ -56,7 +56,8 @@ var game = {
 		this.lettersGotten = 0;
 		//select random answer from answers array
 		var selectedAnswer = answers[getRandomInt(0, answers.length - 1)];
-		return selectedAnswer;
+		this.currentAnswer = selectedAnswer;
+		return this.currentAnswer;
 	},
 	prepareGameDisplay: function(answer) {
 		var displayed = answer;
