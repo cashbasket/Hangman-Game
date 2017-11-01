@@ -1,7 +1,7 @@
 @keyframes pulsate {
-    0% {opacity: 0.6;}
-    50% {opacity: 1;}
-    100% {opacity: 0.6;}
+    0% {opacity: 1;}
+    50% {opacity: 0.7;}
+    100% {opacity: 1;}
 }
 
 body {
@@ -99,6 +99,7 @@ h3 {
 	border-left: 1px solid #000;
 	padding: 0;
 	box-sizing: border-box;
+	background-color: #000;
 }
 
 .site-content {

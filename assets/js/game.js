@@ -94,6 +94,7 @@ var game = {
 				displayed = displayed.replaceAt(i, guess.toUpperCase());
 				this.lettersGotten++;
 				this.correctGuess = true;
+				$('#gameDisplay').removeClass('pulsate');
 			}
 		}
 		$('.word').text(displayed);
@@ -204,6 +205,7 @@ var game = {
 		this.triesLeft = maxTries;
 		this.triedLetters = [];
 		$('.word').text('');
+		$('#gameDisplay').addClass('pulsate');
 		$('#tries').text('None').css('color','#ffcc00');
 		$('#triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
