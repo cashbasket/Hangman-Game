@@ -30,6 +30,7 @@ h1 {
 	font-size: 2.5em;
 	font-weight: bold;
 	color: #fff;
+	padding-top: 2%;
 }
 
 h2 {
@@ -264,14 +265,19 @@ h3 {
 footer {
 	background-color: #000;
 	color: #fff;
-	font-size: 14px;
+	font-size: 12px;
 	width: 100%;
 	padding: 10px 20px;
+}
+
+.footer-text{
+	margin-top: 4px;
 }
 
 .social {
 	list-style: none;
 	float: right;
+	font-size: 16px;
 }
 
 .social li {
@@ -319,6 +325,9 @@ footer a:hover{
 }
 
 @media screen and (max-width: 991px) {
+	.kick-icon {
+		display: none;
+	}
 	.contents-inner {
 		max-width: 500px;
 	}
@@ -362,7 +371,7 @@ footer a:hover{
 
 @media screen and (max-width: 480px) {
 	h1 {
-		font-size: 24px;
+		font-size: 20px;
 		line-height: 1.5;
 	}
 	.instructions p {
