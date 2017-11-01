@@ -94,7 +94,6 @@ var game = {
 				displayed = displayed.replaceAt(i, guess.toUpperCase());
 				this.lettersGotten++;
 				this.correctGuess = true;
-				$('#gameDisplay').removeClass('pulsate');
 			}
 		}
 		$('.word').text(displayed);
@@ -110,6 +109,7 @@ var game = {
 			$('#tries').append(guess.toUpperCase());
 			this.triedLetters.push(guess.toUpperCase());
 		}
+		$('#gameDisplay').removeClass('pulsate');
 	},
 	updateTriesLeftDisplay: function () {
 		var triesSuffix = this.triesLeft > 1 ? ' tries remaining' : ' try remaining';
