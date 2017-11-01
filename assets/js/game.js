@@ -155,21 +155,6 @@ var game = {
 			$('.face-kicks').text(this.faceKicks);
 		}
 	},
-	processResult: function() {
-		// congratulate user if user won
-		if(this.isWinner) {
-			this.wins++;
-			this.playSound('absolutely-right');
-		}
-		// kick user in face if user lost
-		else {
-			this.faceKicks++;
-			this.playSound('kick');
-		}
-		// update wins/losses and show results
-		this.updateStats();
-		this.showResults();			
-	},
 	showResults: function() {	
 		if (this.isWinner) {
 			$('.results').css('background-color','#b9ddb4');
@@ -296,8 +281,19 @@ $(document).ready(function () {
 				}
 				//check to see if game is over
 				if(game.checkForGameOver()) {
-					//if game is over, wrap things up & reset
-					game.processResult();
+					// congratulate user if user won
+					if(game.isWinner) {
+						game.wins++;
+						game.playSound('absolutely-right');
+					}
+					// kick user in face if user lost
+					else {
+						game.faceKicks++;
+						game.playSound('kick');
+					}
+					// update wins/losses and show results
+					game.updateStats();
+					game.showResults();	
 					if (getPctWidthOfOverlay() < 100) {
 						$('#overlay').animate({ maxWidth: '100%' }, 500, function() {
 							game.reset();
