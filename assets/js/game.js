@@ -4,8 +4,8 @@ var answers = ['walker, texas ranger','martial artist','roundhouse kick','the hi
 var specialCharacters = [' ',',','.',':','\'','-'];
 var winnerText = 'You got it! Chuck is pleased. He wants to keep playing, though, so he picked a new word/phrase for you.';
 var loserText = 'You ran out of tries, and have therefore been kicked in the face. However, Chuck just thought up a new word (or phrase)! Do not disappoint him again.';
-var chuckFactIntro = '<span class="fact-header">Fact:</span>';
-var chuckFacts = ['Chuck Norris was bitten by a cobra, and after five days of excruciating pain, the cobra died.','Chuck Norris once kicked a horse in the chin. Its descendants today are known as giraffes.','Chuck Norris doesn\'t breathe air; he holds air hostage.','When Chuck Norris turned 18, his parents moved out.','Chuck Norris doesn\'t dial the wrong number; you answered the wrong phone.','If Chuck Norris were a Spartan in the movie "300," the movie would be called "1."','Chuck Norris is currently suing NBC, claiming "Law" and "Order" are trademarked names for his left and right legs.','Chuck Norris will never have a heart attack; his heart isn\'t nearly foolish enough to attack him.','Chuck Norris can kill two stones with one bird.','Chuck Norris does not sleep; he waits.','The easiest way to determine Chuck Norris\' age is to cut him in half and count the rings.','There is no chin underneath Chuck Norris\' beard; there is only another fist.'];
+var factHeader = '<span class="fact-header">Fact:</span>';
+var facts = ['Chuck Norris was bitten by a cobra, and after five days of excruciating pain, the cobra died.','Chuck Norris once kicked a horse in the chin. Its descendants today are known as giraffes.','Chuck Norris doesn\'t breathe air; he holds air hostage.','When Chuck Norris turned 18, his parents moved out.','Chuck Norris doesn\'t dial the wrong number; you answered the wrong phone.','If Chuck Norris were a Spartan in the movie "300," the movie would be called "1."','Chuck Norris is currently suing NBC, claiming "Law" and "Order" are trademarked names for his left and right legs.','Chuck Norris will never have a heart attack; his heart isn\'t nearly foolish enough to attack him.','Chuck Norris can kill two stones with one bird.','Chuck Norris does not sleep; he waits.','The easiest way to determine Chuck Norris\' age is to cut him in half and count the rings.','There is no chin underneath Chuck Norris\' beard; there is only another fist.'];
 var errors = ['Only letter and number keys are allowed.','You already tried that one!'];
 
 //global math functions
@@ -20,6 +20,7 @@ String.prototype.replaceAt = function(index, replacement) {
     return this.substr(0, index) + replacement + this.substr(index + replacement.length);
 }
 
+
 //define game object
 var game = { 
 	currentAnswer: '',
@@ -29,7 +30,7 @@ var game = {
 	triesLeft: maxTries,
 	lettersGotten: 0,
 	triedLetters: [],
-	usedAnswers: [],
+	answersLeft: answers,
 	isWinner: false,
 	isGameOver: false,
 	wins: 0,
@@ -45,28 +46,21 @@ var game = {
 		$('#maxTriesText').text(maxTries + ' times');
 		$('#tries').text('None').css('color','#ffcc00');
 		$('.results').hide();
-		$('.overlay-text').html(chuckFactIntro + '<br>' + this.getRandomChuckFact()).fadeIn(200);
+		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
 		$('.errors').hide();
 	},
-	getRandomChuckFact: function() {
-		var selectedFact = chuckFacts[getRandomInt(0, chuckFacts.length - 1)];
+	getRandomFact: function() {
+		var selectedFact = facts[getRandomInt(0, facts.length - 1)];
 		return selectedFact;
 	},
 	chooseAnswer: function() {
 		//reset lettersGotten every time!
 		this.lettersGotten = 0;
-		//select random answer from answers array
-		var selectedAnswer = answers[getRandomInt(0, answers.length - 1)];
-		//ensures no answer is repeated until all answers are used once
-		while(true) {
-			if(this.usedAnswers.includes(selectedAnswer)) {
-				selectedAnswer = answers[getRandomInt(0, answers.length - 1)];
-			}
-			else {
-				break;
-			}
-		}
-		this.usedAnswers.push(selectedAnswer);
+		//select random answer from answersLeft array
+		var selectedAnswer = this.answersLeft[getRandomInt(0, this.answersLeft.length - 1)];
+		//remove selected answer from answersLeft array
+		this.answersLeft.splice(this.answersLeft.indexOf(selectedAnswer), 1);
+
 		return selectedAnswer;
 	},
 	prepareGameDisplay: function(answer) {
@@ -84,6 +78,7 @@ var game = {
 		}
 		$('.word').text(displayed);
 
+		//display either "current word" or "current phrase" depending on how many words are in the answer
 		if(answer.indexOf(' ') > 0) {
 			$('#answerType').text('phrase');
 		}
@@ -102,6 +97,7 @@ var game = {
 			}
 		}
 		$('.word').text(displayed);
+
 		// update tried letters
 		if (!this.isWinner) {
 			if($('#tries').text() == 'None') {
@@ -172,38 +168,15 @@ var game = {
 	showResults: function() {	
 		if (this.isWinner) {
 			$('.results').css('background-color','#b9ddb4');
-			$('.result-text').css('color', '#317a27')
-							 .text(winnerText);
+			$('.result-text').css('color', '#317a27').text(winnerText);
 		}
 		else {
 			$('.results').css('background-color', '#eecdcd');
-			$('.result-text').css('color', '#be1c1c')
-							 .text(loserText);
+			$('.result-text').css('color', '#be1c1c').text(loserText);
 		}
 		$('.results').slideDown().delay(7000).slideUp();
 	},
-	reset: function() {
-		this.correctGuess = false;
-		this.alreadyGuessed = false;
-		this.isValidKeyPress = false;
-		this.isWinner = false;
-		this.isGameOver = false;
-		this.triesLeft = maxTries;
-		this.triedLetters = [];
-		$('.word').text('');
-		$('#tries').text('None').css('color','#ffcc00');
-		$('#triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
-		$('.overlay-text').html(chuckFactIntro + '<br>' + this.getRandomChuckFact()).fadeIn(200);
-		//if all answers have been used, empty array
-		if(this.usedAnswers.length == answers.length) {
-			this.usedAnswers = [];
-		}
-		//choose new word
-		this.currentAnswer = this.chooseAnswer();
-		this.prepareGameDisplay(this.currentAnswer);
-		this.isReset = true;
-	},
-	revealChuck: function() {
+	animateOverlay: function() {
 		var curPct = getPctWidthOfOverlay();
 		var newPct = curPct - (100/maxTries);
 		$('#overlay').animate({ maxWidth: newPct + "%"},100);
@@ -225,6 +198,24 @@ var game = {
 				audio.src = 'assets/mp3/slap.mp3';
 		}
 	    audio.play();     
+	},
+	reset: function() {
+		this.isWinner = false;
+		this.isGameOver = false;
+		this.triesLeft = maxTries;
+		this.triedLetters = [];
+		$('.word').text('');
+		$('#tries').text('None').css('color','#ffcc00');
+		$('#triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
+		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
+		//if all answers have been used, repopulate array
+		if(this.answersLeft.length == 0) {
+			this.answersLeft = answers;
+		}
+		//choose new word
+		this.currentAnswer = this.chooseAnswer();
+		this.prepareGameDisplay(this.currentAnswer);
+		this.isReset = true;
 	}
 };
 
@@ -265,7 +256,7 @@ $(document).ready(function () {
 				// if the user guesses a new letter and guesses wrong, reveal more Chuck. Otherwise, play a happy sound.
 				if (!game.isGameOver && !isNewGuess && !justWon) {
 					if(!game.correctGuess) {
-						game.revealChuck();
+						game.animateOverlay();
 						if(game.triesLeft > 1) {
 							game.playSound('incorrect');
 						}
