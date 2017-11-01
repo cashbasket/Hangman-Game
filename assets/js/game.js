@@ -6,7 +6,8 @@ var winnerText = 'You got it! Chuck is pleased. He wants to keep playing, though
 var loserText = 'You ran out of tries, and have therefore been kicked in the face. However, Chuck just thought up a new word (or phrase)! Do not disappoint him again.';
 var factHeader = '<span class="fact-header">Fact:</span>';
 var facts = ['Chuck Norris was bitten by a cobra, and after five days of excruciating pain, the cobra died.','Chuck Norris once kicked a horse in the chin. Its descendants today are known as giraffes.','Chuck Norris doesn\'t breathe air; he holds air hostage.','When Chuck Norris turned 18, his parents moved out.','Chuck Norris doesn\'t dial the wrong number; you answered the wrong phone.','If Chuck Norris were a Spartan in the movie "300," the movie would be called "1."','Chuck Norris is currently suing NBC, claiming "Law" and "Order" are trademarked names for his left and right legs.','Chuck Norris will never have a heart attack; his heart isn\'t nearly foolish enough to attack him.','Chuck Norris can kill two stones with one bird.','Chuck Norris does not sleep; he waits.','The easiest way to determine Chuck Norris\' age is to cut him in half and count the rings.','There is no chin underneath Chuck Norris\' beard; there is only another fist.'];
-var errors = ['Only letter and number keys are allowed.','You already tried that one!'];
+var alreadyGuessedError = 'You already tried that one!';
+var invalidGuessError = 'Only letter and number keys are allowed.';
 
 //global math functions
 function getRandomInt(min, max) {
@@ -19,7 +20,6 @@ function getPctWidthOfOverlay() {
 String.prototype.replaceAt = function(index, replacement) {
     return this.substr(0, index) + replacement + this.substr(index + replacement.length);
 }
-
 
 //define game object
 var game = { 
@@ -113,16 +113,16 @@ var game = {
 	updateTriesLeftDisplay: function () {
 		var triesSuffix = this.triesLeft > 1 ? ' tries remaining' : ' try remaining';
 		$('#triesLeft').text(this.triesLeft + triesSuffix);
-		if (this.triesLeft <= maxTries/2) {
+		if (this.triesLeft <= parseFloat(maxTries/2)) {
 			$('#triesLeft').css('color', '#ffcc00');
 		}	
 	},
 	showErrors: function() {
 		if(this.isValidKeyPress) {
-			$('.errors > span').text(errors[1]);
+			$('.errors > span').text(alreadyGuessedError);
 		}
 		else {
-			$('.errors > span').text(errors[0]);
+			$('.errors > span').text(invalidGuessError);
 		}
 		$('.errors').slideDown(200);
 	},
@@ -133,11 +133,10 @@ var game = {
 		// check to see if user already guessed the letter
 		for(var i=0; i < game.triedLetters.length; i++) {
 			if(game.triedLetters[i] == guess.toUpperCase()) {
-				this.alreadyGuessed = true;
-				break;
+				return true;
 			}
 		}
-		return this.alreadyGuessed;
+		return false;
 	},
 	checkKeyPressed: function(guessCode) {
 		if((event.keyCode >= 48 && event.keyCode <= 57) || (guessCode >= 65 && guessCode <= 90) || (guessCode >= 97 && guessCode <= 122)) {
@@ -147,9 +146,9 @@ var game = {
 	},
 	checkForWinner: function() {
 		if(this.lettersGotten == this.currentAnswer.length) {
-			this.isWinner = true;
+			return true;
 		}
-		return this.isWinner;
+		return false;
 	},
 	checkForGameOver: function() {
 		if(this.isWinner || this.triesLeft == 0) {
@@ -242,8 +241,8 @@ $(document).ready(function () {
 			game.isValidKeyPress = game.checkKeyPressed(userGuessCode);
 			if(game.isValidKeyPress) {
 				//check to see if user guessed a new letter
-				var isNewGuess = game.checkForNewGuess(userGuess.toUpperCase());
-				if(!isNewGuess) {
+				game.alreadyGuessed = game.checkForNewGuess(userGuess.toUpperCase());
+				if(!game.alreadyGuessed) {
 					game.hideErrors();
 					// process guess and update game display if needed
 					game.processGuess(userGuess.toUpperCase());
@@ -252,9 +251,9 @@ $(document).ready(function () {
 					game.showErrors();
 				}
 				// check for win status
-				var justWon = game.checkForWinner();
-				// if the user guesses a new letter and guesses wrong, reveal more Chuck. Otherwise, play a happy sound.
-				if (!game.isGameOver && !isNewGuess && !justWon) {
+				game.isWinner = game.checkForWinner();
+				// if the user guesses a new letter and guesses wrong, open curtain slightly and play lame sound. Otherwise, play a happy sound.
+				if (!game.isGameOver && !game.alreadyGuessed && !game.isWinner) {
 					if(!game.correctGuess) {
 						game.animateOverlay();
 						if(game.triesLeft > 1) {
