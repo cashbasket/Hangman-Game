@@ -17,78 +17,84 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 </head>
-<body class="site">
+<body>
 	<audio id="soundEffect"></audio>
-	<header>
-		<h1>Don't Let Chuck Norris <span class="pulsate">Kick You In The Face</span></h1>
-	</header>
-	<div class="container site-content">
-		<div class="contents-inner">
-			<div class="row">
-				<div class="col-md-7">
-					<section class="main-section">
-						<h2>About the Game</h2>
-						<p><span class="strong red">Don't be fooled.</span> Chuck Norris, our country's greatest hero, is nearby. Trust me. Just because you can't see him doesn't mean he isn't there. There's no telling what kind of mood he's in right now, either, so I'd tread lightly if I were you.</p>
-						<p>It's a well known fact that Chuck is good at kicking stuff, but what you might <em>not</em> know is that <span class="strong red">Chuck absolutely hates it when he comes up with a random word or phrase about himself and people can't guess all the letters in the word or phrase</span>. It makes him so mad that when someone guesses a wrong letter enough times, things happen. Painful things.</p>
-						<p>Chuck has come up with a word/phrase for you that has to do with... well, Chuck. <span class="strong red">Use the keyboard</span> to guess the letters or numbers in it, but beware: every time you guess incorrectly, Chuck reveals himself a bit more, and <span class="strong red">if you guess wrong</span> <span id="maxTriesText" class="strong red"></span>, he will be upon you... and will most likely <span class="strong red">kick you in the face</span>.</p>
-						<div class="row inst-row">
-							<div class="col-md-2">
-								<img src="assets/images/kick-right.png" class="img-responsive pull-right" alt="silhouette of a person kicking" />
-							</div>
-							<div class="col-md-8">
-								<p class="big-text get-started text-center">Press any key to get started!</p>
-							</div>
-							<div class="col-md-2">
-								<img src="assets/images/kick-left.png" alt="silhouette of a person kicking" class="img-responsive pull-left" />
-							</div>
-						</div>
-					</section>
+	<div class="container site">
+		<div class="site-content">
+			<div class="contents-inner">
+				<div class="row">
+					<div class="col-md-12">
+						<header>
+							<h1>Don't Let Chuck Norris <span class="pulsate">Kick You In The Face</span></h1>
+						</header>
+					</div>
 				</div>
-				<div class="col-md-5">
-					<div class="game-container">
-						<div id="chuckHolder">
-							<img src="assets/images/chuck-norris.png"  class="img-responsive" alt="Image of Chuck Norris Kicking">
-							<div id="overlay">
-								<div class="overlay-text"></div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="stats">
-									Wins: <span class="wins yellow"></span>
-									Times Kicked in Face: <span class="face-kicks yellow"></span>
+				<div class="row">
+					<div class="col-md-7">
+						<section class="main-section">
+							<h2>About the Game</h2>
+							<p><span class="strong red">Don't be fooled.</span> Chuck Norris, our country's greatest hero, is nearby. Trust me. Just because you can't see him doesn't mean he isn't there. There's no telling what kind of mood he's in right now, either, so I'd tread lightly if I were you.</p>
+							<p>It's a well known fact that Chuck is good at kicking stuff, but what you might <em>not</em> know is that <span class="strong red">Chuck absolutely hates it when he comes up with a random word or phrase about himself and people can't guess all the letters in the word or phrase</span>. It makes him so mad that when someone guesses a wrong letter enough times, things happen. Painful things.</p>
+							<p>Chuck has come up with a word/phrase for you that has to do with... well, Chuck. <span class="strong red">Use the keyboard</span> to guess the letters or numbers in it, but beware: every time you guess incorrectly, Chuck reveals himself a bit more, and <span class="strong red">if you guess wrong</span> <span id="maxTriesText" class="strong red"></span>, he will be upon you... and will most likely <span class="strong red">kick you in the face</span>.</p>
+							<div class="row inst-row">
+								<div class="col-md-2">
+									<img src="assets/images/kick-right.png" class="img-responsive pull-right" alt="silhouette of a person kicking" />
+								</div>
+								<div class="col-md-8">
+									<p class="big-text get-started text-center">Press any key to get started!</p>
+								</div>
+								<div class="col-md-2">
+									<img src="assets/images/kick-left.png" alt="silhouette of a person kicking" class="img-responsive pull-left" />
 								</div>
 							</div>
-						</div>
-						<div class="results">		
-							<span class="result-text"></span>
-						</div>
-						<div class="instructions">
-							<p class="big-text get-started text-center">Press a letter or number key to get started!</p>
-						</div>
-						<div class="errors">
-							<span class="strong red"></span>
-						</div>
-						<div class="game-display">
-							<h3>Current <span id="answerType"></span> (<span id="triesLeft"></span>):</h3>
-							<p class="word"></p>
-							<p class="tries-p">
-								<span class="letters-tried">Letters you've tried:</span> <span id="tries"></span>
-							</p>
-						</div>
-					</div>			
+						</section>
+					</div>
+					<div class="col-md-5">
+						<div class="game-container">
+							<div id="chuckHolder">
+								<img src="assets/images/chuck-norris.png"  class="img-responsive" alt="Image of Chuck Norris Kicking">
+								<div id="overlay">
+									<div class="overlay-text"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="stats">
+										Wins: <span class="wins yellow"></span>
+										Times Kicked in Face: <span class="face-kicks yellow"></span>
+									</div>
+								</div>
+							</div>
+							<div class="results">		
+								<span class="result-text"></span>
+							</div>
+							<div class="instructions">
+								<p class="big-text get-started text-center">Press a letter or number key to get started!</p>
+							</div>
+							<div class="errors">
+								<span class="strong red"></span>
+							</div>
+							<div class="game-display">
+								<h3>Current <span id="answerType"></span> (<span id="triesLeft"></span>):</h3>
+								<p class="word"></p>
+								<p class="tries-p">
+									<span class="letters-tried">Letters you've tried:</span> <span id="tries"></span>
+								</p>
+							</div>
+						</div>			
+					</div>
 				</div>
+				<footer>A baffling concept by Ryan Machan 
+					<span class="social">
+						<a href="mailto:rjm21@case.edu"><i class="fa fa-envelope"></i></a> 
+						<a href="http://www.github.com/cashbasket" target="_blank"><i class="fa fa-github"></i></a> 
+						<a href="https://stackoverflow.com/users/8508714/cashbasket" target="_blank"><i class="fa fa-stack-overflow"></i></a> 
+						<a href="https://www.linkedin.com/in/ryan-machan-27a404148/" target="_blank"><i class="fa fa-linkedin"></i></a>
+					</span>
+				</footer>
 			</div>
 		</div>
 	</div>
-	<footer>A baffling concept by Ryan Machan 
-		<span class="social">
-			<a href="mailto:rjm21@case.edu"><i class="fa fa-envelope"></i></a> 
-			<a href="http://www.github.com/cashbasket" target="_blank"><i class="fa fa-github"></i></a> 
-			<a href="https://stackoverflow.com/users/8508714/cashbasket" target="_blank"><i class="fa fa-stack-overflow"></i></a> 
-			<a href="https://www.linkedin.com/in/ryan-machan-27a404148/" target="_blank"><i class="fa fa-linkedin"></i></a>
-		</span>
-	</footer>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="assets/js/game.js"></script>
 </body>

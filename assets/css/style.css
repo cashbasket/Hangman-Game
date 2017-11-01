@@ -13,7 +13,6 @@ body {
 
 header {
 	background: #000;
-	margin: 0;
 	padding: 20px 0;
 	width: 100%;
 	text-align: center;
@@ -78,14 +77,12 @@ h3 {
 	margin-left: 5px;
 }
 
-.site-content {
-	display: flex;
-	justify-content: center;
-	align-items: center; 
-}
-
 .contents-inner {
-	margin: 30px 0;
+	background-color: #fff;
+	border: 1px solid #000;
+	border-radius: 5px;
+	width: 100%;
+	margin: 20px 0;
 }
 
 .main-section p {
@@ -98,11 +95,16 @@ h3 {
 }
 
 .game-container {
-	border: 1px solid #666;
 	max-width: 500px;
 	border-radius: 5px;
 	padding: 0;
 	box-sizing: border-box;
+}
+
+.site-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .instructions {
@@ -114,6 +116,7 @@ h3 {
 	opacity: 0.9;
 }
 
+
 .instructions p {
 	margin-bottom: 0;
 }
@@ -121,7 +124,6 @@ h3 {
 .main-section {
 	margin-bottom: 0;
 	background-color: #fff;
-	border: 1px solid #666;
 	border-radius: 5px;
 	padding: 20px;
 	opacity: 0.9;
@@ -141,9 +143,7 @@ h3 {
 	width: 100%;
 	max-width: 500px;
 	max-height: 400px;
-	margin: 0 auto;
 	overflow: hidden;
-	border-radius: 5px 5px 0 0;
 	background: #fff url(../images/explosion.jpg);
 	background-size: 100% 100%;
 }
@@ -195,10 +195,6 @@ h3 {
 	color: #fff;
 	letter-spacing: 10px;
 	line-height: 1.5;
-}
-
-.letterbox:last-of-type {
-	margin-right: 0;
 }
 
 .clearfix::after {
@@ -256,7 +252,6 @@ h3 {
 	background: #be1c1c;
 	color: #ccc;
 	opacity: 0.9;
-	border-radius: 0 0 5px 5px;
 	margin: 0 auto;
 	text-align: center;
 	width: 100%;
@@ -325,6 +320,9 @@ footer a:hover{
 	.main-section{
 		display: none;
 	}
+	.contents-inner {
+		background-color: #000;
+	}
 	.game-container {
 		margin: 0 auto;
 	}
@@ -338,6 +336,9 @@ footer a:hover{
 		margin-top: 0;
 		font-size: 20px;
 	}
+	.contents-inner {
+		max-width: 500px;
+	}
 }
 
 @media screen and (max-width: 480px) {
@@ -345,9 +346,8 @@ footer a:hover{
 		font-size: 24px;
 		line-height: 1.5;
 	}
-	.img-main {
-		float: none;
-		margin: 0 auto;
+	.instructions p {
+		font-size: 16px;
 	}
 	.overlay-text,
 	.result-text {
