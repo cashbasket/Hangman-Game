@@ -116,7 +116,6 @@ h3 {
 	opacity: 0.9;
 }
 
-
 .instructions p {
 	margin-bottom: 0;
 }
@@ -267,13 +266,12 @@ footer {
 	background-color: #000;
 	color: #fff;
 	font-size: 14px;
-	text-align: center;
 	width: 100%;
-	padding: 10px 0;
+	padding: 10px 20px;
 }
 
 .social {
-	margin-left: 10px;
+	float: right;
 }
 
 .social a {
@@ -324,7 +322,6 @@ footer a:hover{
 		background-color: #000;
 	}
 	.game-container {
-		margin: 0 auto;
 		border-left: none;
 	}
 	.word {
@@ -339,6 +336,13 @@ footer a:hover{
 	}
 	.contents-inner {
 		max-width: 500px;
+	}
+	.social {
+		float: none;
+	}
+	footer {
+		text-align: center;
+		line-height: 1.5;
 	}
 }
 
