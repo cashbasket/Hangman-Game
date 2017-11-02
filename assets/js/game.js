@@ -2,10 +2,10 @@
 var maxTries = 10;
 var answers = ['walker, texas ranger','martial artist','roundhouse kick','the hitman','the delta force','flying kick','hellbound','missing in action','knockout punch','devout christian','conservative','republican','military man','patriot','greatest person ever','american hero','oklahoma rules','the most awesome living human','firewalker','karate master','code of silence','the expendables 2','the colombian connection','sidekicks','the octagon','eye for an eye','forced vengeance','silent rage','trial by fire','invasion u.s.a.','lone wolf mcquade','the way of the dragon','a force of one','karate kommandos'];
 var specialCharacters = [' ',',','.',':','\'','-'];
-var winnerText = 'You got it! Chuck is pleased. He wants to keep playing, though, so he picked a new word/phrase for you.';
-var loserText = 'You ran out of tries, and have therefore been kicked in the face. However, Chuck just thought up a new word (or phrase)! Do not disappoint him again.';
+var winnerText = 'You got it! Chuck is pleased. He wants to keep playing, though, so he picked something else for you.';
+var loserText = 'Chuck got real mad, so you have just been kicked in the face. However, he wants you to try again on something new.';
 var factHeader = '<span class="fact-header">Fact:</span>';
-var facts = ['Chuck Norris was bitten by a cobra, and after five days of excruciating pain, the cobra died.','Chuck Norris once kicked a horse in the chin. Its descendants today are known as giraffes.','Chuck Norris doesn\'t breathe air; he holds air hostage.','When Chuck Norris turned 18, his parents moved out.','Chuck Norris doesn\'t dial the wrong number; you answered the wrong phone.','If Chuck Norris were a Spartan in the movie "300," the movie would be called "1."','Chuck Norris is currently suing NBC, claiming "Law" and "Order" are trademarked names for his left and right legs.','Chuck Norris will never have a heart attack; his heart isn\'t nearly foolish enough to attack him.','Chuck Norris can kill two stones with one bird.','Chuck Norris does not sleep; he waits.','The easiest way to determine Chuck Norris\' age is to cut him in half and count the rings.','There is no chin underneath Chuck Norris\' beard; there is only another fist.'];
+var facts = ['Chuck Norris was bitten by a cobra, and after five days of excruciating pain, the cobra died.','Chuck Norris once kicked a horse in the chin. Its descendants today are known as giraffes.','Chuck Norris doesn\'t breathe air; he holds air hostage.','When Chuck Norris turned 18, his parents moved out.','Chuck Norris doesn\'t dial the wrong number; you answer the wrong phone.','If Chuck Norris were a Spartan in the movie "300," the movie would be called "1."','Chuck Norris is currently suing NBC, claiming "Law" and "Order" are trademarked names for his left and right legs.','Chuck Norris will never have a heart attack; his heart isn\'t nearly foolish enough to attack him.','Chuck Norris can kill two stones with one bird.','Chuck Norris does not sleep; he waits.','The easiest way to determine Chuck Norris\' age is to cut him in half and count the rings.','There is no chin underneath Chuck Norris\' beard; there is only another fist.'];
 var alreadyGuessedError = 'You already tried that one!';
 var invalidGuessError = 'Only letter and number keys are allowed.';
 var instructionText = 'Press a letter or number key to get started!';
@@ -38,7 +38,7 @@ var game = {
 		audio.preload = true;
 		$('#triesLeft').text(maxTries + ' tries remaining');
 		$('.wins').text(this.wins);
-		$('.face-kicks').text(this.losses);
+		$('.losses').text(this.losses);
 		$('#maxTriesText').text(maxTries + ' times');
 		$('#tries').text('None').css('color','#ffcc00');
 		$('.results').hide();
@@ -170,7 +170,7 @@ var game = {
 			$('.wins').text(this.wins);
 		}
 		else {
-			$('.face-kicks').text(this.losses);
+			$('.losses').text(this.losses);
 		}
 	},
 	showResults: function() {	
