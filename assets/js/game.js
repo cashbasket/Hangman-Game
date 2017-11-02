@@ -37,7 +37,7 @@ var game = {
 		var audio = document.createElement('audio');
 		audio.id = 'soundEffect';
 		$('body').prepend(audio);
-		$('.triesLeft').text(maxTries + ' tries remaining');
+		$('#triesLeft').text(maxTries + ' tries remaining');
 		$('.wins').text(this.wins);
 		$('.losses').text(this.losses);
 		$('#maxTriesText').text(maxTries + ' times');
