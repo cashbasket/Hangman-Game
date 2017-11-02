@@ -26,7 +26,6 @@ String.prototype.replaceAt = function(index, replacement) {
 var game = { 
 	currentAnswer: '',
 	triesLeft: maxTries,
-	charsGotten: 0,
 	triedLetters: [],
 	uniqueChars: [],
 	correctGuesses: 0,
@@ -54,9 +53,6 @@ var game = {
 		return facts[getRandomInt(0, facts.length - 1)];
 	},
 	chooseAnswer: function() {
-		//reset charsGotten every time!
-		this.charsGotten = 0;
-
 		//if answersLeft is empty, populate it with all values from answerBank
 		if(this.answersLeft.length == 0) {
 			this.answersLeft = answerBank.slice(0);
@@ -81,10 +77,6 @@ var game = {
 		for(var i=0; i < answer.length; i++) {
 			if(!specialCharacters.includes(answer.charAt(i)))
 				displayed = displayed.replaceAt(i, '_');
-			else {
-				//add special characters to characters gotten total
-				this.charsGotten++;
-			}
 		}
 		$('.word').text(displayed);
 
@@ -103,7 +95,6 @@ var game = {
 		for(var i=0; i < this.currentAnswer.length; i++) {
 			if (this.currentAnswer.charAt(i) == guess.toLowerCase()) {
 				displayed = displayed.replaceAt(i, guess.toUpperCase());
-				this.charsGotten++;
 				correctGuess = true;
 			}
 		}
@@ -174,7 +165,7 @@ var game = {
 		return ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122));
 	},
 	isWinner: function() {
-		return this.charsGotten == this.currentAnswer.length;
+		return this.correctGuesses == this.uniqueChars.length;
 	},
 	isGameOver: function() {
 		return (this.isWinner() || this.triesLeft == 0);
