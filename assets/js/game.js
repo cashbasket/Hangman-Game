@@ -135,9 +135,9 @@ var game = {
 	},
 	updateTriesLeftDisplay: function () {
 		var triesSuffix = this.triesLeft > 1 ? ' tries remaining' : ' try remaining';
-		$('.triesLeft').text(this.triesLeft + triesSuffix);
+		$('#triesLeft').text(this.triesLeft + triesSuffix);
 		if (this.triesLeft <= parseFloat(maxTries/2)) {
-			$('.triesLeft').addClass('yellow');
+			$('#triesLeft').addClass('yellow');
 		}	
 	},
 	showErrors: function(type) {
@@ -219,7 +219,7 @@ var game = {
 		$('.word').text('');
 		$('#gameDisplay').addClass('pulsate');
 		$('.tries').text('None').addClass('yellow');
-		$('.triesLeft').text(maxTries + ' tries remaining').removeClass('yellow');
+		$('#triesLeft').text(maxTries + ' tries remaining').removeClass('yellow');
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
 		$('.result').removeClass('resultWin').removeClass('resultLoss');
 		//choose new word
