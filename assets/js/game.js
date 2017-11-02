@@ -40,7 +40,7 @@ var game = {
 		$('.wins').text(this.wins);
 		$('.losses').text(this.losses);
 		$('#maxTriesText').text(maxTries + ' times');
-		$('.tries').text('None').css('color','#ffcc00');
+		$('.tries').text('None').addClass('yellow');
 		$('.results').hide();
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
 		$('.errors').hide();
@@ -103,7 +103,7 @@ var game = {
 		// update tried characters display
 		if (!this.isWinner()) {
 			if($('.tries').text() == 'None') {
-				$('.tries').text('').css('color','#fff');
+				$('.tries').text('').removeClass('yellow');
 			} 
 			if(this.triedLetters.length >= 1) {
 				$('.tries').append(', ');
@@ -219,7 +219,7 @@ var game = {
 		this.correctGuesses = 0;
 		$('.word').text('');
 		$('#gameDisplay').addClass('pulsate');
-		$('.tries').text('None').css('color','#ffcc00');
+		$('.tries').text('None').addClass('yellow');
 		$('.triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
 		//choose new word
