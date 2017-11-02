@@ -26,13 +26,13 @@ String.prototype.replaceAt = function(index, replacement) {
 var game = { 
 	currentAnswer: '',
 	triesLeft: maxTries,
-	lettersGotten: 0,
+	charsGotten: 0,
 	triedLetters: [],
 	answersLeft: answers,
 	wins: 0,
 	losses: 0,
 	isReset: false,
-	init: function() {
+	init: function() { 
 		var audio = document.getElementById('soundEffect');
 		audio.volume = 0.8;
 		audio.preload = true;
@@ -54,8 +54,8 @@ var game = {
 		return selectedFact;
 	},
 	chooseAnswer: function() {
-		//reset lettersGotten every time!
-		this.lettersGotten = 0;
+		//reset charsGotten every time!
+		this.charsGotten = 0;
 		//select random answer from answersLeft array
 		var selectedAnswer = this.answersLeft[getRandomInt(0, this.answersLeft.length - 1)];
 		//remove selected answer from answersLeft array
@@ -65,15 +65,13 @@ var game = {
 	},
 	prepareGameDisplay: function(answer) {
 		var displayed = answer;
-		//add new letter span for each character in new word
+		//replace all non-special characters in answer with underscores
 		for(var i=0; i < answer.length; i++) {
-			displayed = displayed.replaceAt(i, '_');
-		}
-		//whenever there's a space or special character an answer, display them and add 1 to lettersGotten
-		for(var i=0; i < answer.length; i++) {
-			if(specialCharacters.includes(answer.charAt(i))) {
-				displayed = displayed.replaceAt(i, answer.charAt(i))
-				this.lettersGotten++;
+			if(!specialCharacters.includes(answer.charAt(i)))
+				displayed = displayed.replaceAt(i, '_');
+			else {
+				//add special characters to characters gotten total
+				this.charsGotten++;
 			}
 		}
 		$('.word').text(displayed);
@@ -93,7 +91,7 @@ var game = {
 		for(var i=0; i < this.currentAnswer.length; i++) {
 			if (this.currentAnswer.charAt(i) == guess.toLowerCase()) {
 				displayed = displayed.replaceAt(i, guess.toUpperCase());
-				this.lettersGotten++;
+				this.charsGotten++;
 				correctGuess = true;
 			}
 		}
@@ -112,11 +110,19 @@ var game = {
 		}
 		$('#gameDisplay').removeClass('pulsate');
 
-		if(correctGuess) {
-			return true;
+		if(!correctGuess) {
+			this.openCurtain();
+			if(this.triesLeft > 1) {
+				this.playSound('incorrect');
+			}
+			this.triesLeft--;
+			this.updateTriesLeftDisplay();
+			if(this.triesLeft < maxTries) {
+				$('.overlay-text').fadeOut(200);
+			}
 		}
 		else {
-			return false;
+			this.playSound('correct');
 		}
 	},
 	updateTriesLeftDisplay: function () {
@@ -126,12 +132,14 @@ var game = {
 			$('#triesLeft').css('color', '#ffcc00');
 		}	
 	},
-	showErrors: function(keyCode) {
-		if(this.checkForValidKeyCode(keyCode)) {
-			$('.errors > span').text(alreadyGuessedError);
-		}
-		else {
-			$('.errors > span').text(invalidGuessError);
+	showErrors: function(type) {
+		switch(type) {
+			case 'already-guessed':
+				$('.errors > span').text(alreadyGuessedError);
+				break;
+			case 'invalid-guess':
+			default:
+				$('.errors > span').text(invalidGuessError);
 		}
 		$('.errors').slideDown(200);
 	},
@@ -154,7 +162,7 @@ var game = {
 		return false;
 	},
 	checkForWinner: function() {
-		if(this.lettersGotten == this.currentAnswer.length) {
+		if(this.charsGotten == this.currentAnswer.length) {
 			return true;
 		}
 		return false;
@@ -224,9 +232,9 @@ var game = {
 		this.prepareGameDisplay(this.currentAnswer);
 		this.isReset = true;
 	},
-	onKeyPress: function (keyCode) {
+	onGuess: function (keyCode) {
 		var key = String.fromCharCode(keyCode);
-		var isCorrectGuess, alreadyGuessed;
+		var alreadyGuessed;
 
 		//don't do anything until game resets
 		if(!(this.checkForGameOver() && !this.isReset)) {
@@ -237,30 +245,15 @@ var game = {
 				alreadyGuessed = this.checkForNewGuess(key.toUpperCase());
 				if(!alreadyGuessed) {
 					this.hideErrors();
-					isCorrectGuess = this.processGuess(key.toUpperCase());
+					//if it's a new letter, process the guess
+					this.processGuess(key.toUpperCase());
 				}
 				else {
-					this.showErrors(keyCode);
+					//otherwise, let 'em know they already guessed that letter
+					this.showErrors('already-guessed');
 				}
 
-				// if the user guesses a new letter and guesses wrong, open curtain slightly and play lame sound. Otherwise, play a happy sound.
-				if (!this.checkForGameOver() && !alreadyGuessed && !this.checkForWinner()) {
-					if(!isCorrectGuess) {
-						this.openCurtain();
-						if(this.triesLeft > 1) {
-							this.playSound('incorrect');
-						}
-						this.triesLeft--;
-						this.updateTriesLeftDisplay();
-						if(this.triesLeft < maxTries) {
-							$('.overlay-text').fadeOut(200);
-						}
-					}
-					else {
-						this.playSound('correct');
-					}
-				}
-				//check to see if game is over
+				//check to see if guess results in game over
 				if(this.checkForGameOver()) {
 					// congratulate user if user won
 					if(this.checkForWinner()) {
@@ -284,7 +277,7 @@ var game = {
 				}
 			}
 			else {
-				this.showErrors(keyCode);
+				this.showErrors('invalid-guess');
 			}
 		}
 	}
@@ -297,7 +290,7 @@ $(document).ready(function () {
 	// do stuff when key is pressed
 	$(document).keyup(function(event) {
 		//after key is pressed, check to see if the guess results in game over
-		var over = game.onKeyPress(event.keyCode);
+		var over = game.onGuess(event.keyCode);
 		//if game is over, reset game
 		if (over) {
 			// if the curtain isn't closed, close it and THEN reset the game
