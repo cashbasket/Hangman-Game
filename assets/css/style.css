@@ -42,7 +42,7 @@ h2 {
 }
 
 h3 {
-	font-size: 16px;
+	font-size: 1.25em;
 	font-weight: bold;
 	font-family: 'Roboto Slab', serif;
 	line-height: 1.5;
@@ -55,26 +55,6 @@ h3 {
     -ms-animation: pulsate 4s infinite;
     -o-animation: pulsate 4s infinite;
     animation: pulsate 4s infinite;
-}
-
-.tries-p {
-	font-size: 16px;
-	margin: 15px 0 0 0;
-	line-height: 1.5;
-}
-
-.letters-tried {
-	font-family: 'Roboto Slab', serif;
-	font-weight: bold;
-}
-
-.game-display h3,
-.tries-p {
-	color: #fff;
-}
-
-#tries {
-	margin-left: 5px;
 }
 
 .contents-inner {
@@ -245,16 +225,15 @@ h3 {
 	padding: 10px 0;
 	text-align: center;
 	color: #fff;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: bold;
 	margin: 0 auto;
 	width: 100%;
 }
 
-.wins {
+.stats > span:not(:last-child) {
 	padding:0 20px 0 3px;
 }
-
 
 .game-display {
 	background: #be1c1c;
@@ -266,9 +245,26 @@ h3 {
 	padding: 10px 20px;
 }
 
-#tries {
+.tries-p {
+	font-size: 16px;
+	margin: 15px 0 0 0;
+	line-height: 1.5;
+}
+
+.letters-tried {
+	font-family: 'Roboto Slab', serif;
+	font-weight: bold;
+}
+
+.game-display h3,
+.tries-p {
+	color: #fff;
+}
+
+.tries {
 	font-size: 16px;
 	color: #fff;
+	margin-left: 5px;
 }
 
 footer {
