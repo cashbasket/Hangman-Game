@@ -279,7 +279,7 @@ $(document).ready(function () {
 	// initialize game for first time
 	game.init();
 	// do stuff when key is pressed
-	$(document).keyup(function(event) {
+	$(document).on('keyup', function(event) {
 		//after key is pressed, check to see if the guess results in game over
 		var over = game.onGuess(event.keyCode);
 		//if game is over, reset game
