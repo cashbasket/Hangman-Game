@@ -136,7 +136,7 @@ var game = {
 		var triesSuffix = this.triesLeft > 1 ? ' tries remaining' : ' try remaining';
 		$('.triesLeft').text(this.triesLeft + triesSuffix);
 		if (this.triesLeft <= parseFloat(maxTries/2)) {
-			$('.triesLeft').css('color', '#ffcc00');
+			$('.triesLeft').addClass('yellow');
 		}	
 	},
 	showErrors: function(type) {
@@ -220,7 +220,7 @@ var game = {
 		$('.word').text('');
 		$('#gameDisplay').addClass('pulsate');
 		$('.tries').text('None').addClass('yellow');
-		$('.triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
+		$('.triesLeft').text(maxTries + ' tries remaining').removeClass('yellow');
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
 		//choose new word
 		this.currentAnswer = this.chooseAnswer();
