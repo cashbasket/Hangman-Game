@@ -127,7 +127,7 @@ var game = {
 		}	
 	},
 	showErrors: function(keyCode) {
-		if(this.checkKeyPressed(keyCode)) {
+		if(this.checkForValidKeyCode(keyCode)) {
 			$('.errors > span').text(alreadyGuessedError);
 		}
 		else {
@@ -147,8 +147,8 @@ var game = {
 		}
 		return false;
 	},
-	checkKeyPressed: function(guessCode) {
-		if((event.keyCode >= 48 && event.keyCode <= 57) || (guessCode >= 65 && guessCode <= 90) || (guessCode >= 97 && guessCode <= 122)) {
+	checkForValidKeyCode: function(keyCode) {
+		if((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122)) {
 			return true;
 		}
 		return false;
@@ -186,7 +186,7 @@ var game = {
 	},
 	openCurtain: function() {
 		var curPct = getPctWidthOfOverlay();
-		var newPct = curPct - (100/maxTries);
+		var newPct = curPct - parseFloat(100/maxTries);
 		$('#overlay').animate({ maxWidth: newPct + "%"},100);
 	},
 	playSound: function(type) {
@@ -232,7 +232,7 @@ var game = {
 		if(!(this.checkForGameOver() && !this.isReset)) {
 			this.isReset = false;
 			// check key code so ONLY letters are accepted
-			if(this.checkKeyPressed(keyCode)) {
+			if(this.checkForValidKeyCode(keyCode)) {
 				//check to see if user guessed a new letter
 				alreadyGuessed = this.checkForNewGuess(key.toUpperCase());
 				if(!alreadyGuessed) {
@@ -242,6 +242,7 @@ var game = {
 				else {
 					this.showErrors(keyCode);
 				}
+
 				// if the user guesses a new letter and guesses wrong, open curtain slightly and play lame sound. Otherwise, play a happy sound.
 				if (!this.checkForGameOver() && !alreadyGuessed && !this.checkForWinner()) {
 					if(!isCorrectGuess) {
