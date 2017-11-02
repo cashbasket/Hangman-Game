@@ -345,7 +345,7 @@ footer a:hover{
 	.contents-inner {
 		max-width: 500px;
 	}
-	.main-section{
+	.main-section {
 		display: none;
 	}
 	.contents-inner {
@@ -353,9 +353,6 @@ footer a:hover{
 	}
 	.game-container {
 		border-right: none;
-	}
-	.word {
-		font-size: 20px;
 	}
 	.instructions {
 		display: block;
@@ -387,14 +384,15 @@ footer a:hover{
 	h1 {
 		font-size: 20px;
 	}
-	.instructions p {
-		font-size: 16px;
-	}
+	.instructions p,
 	.overlay-text,
 	.result-text {
 		font-size: 16px;
 	}
 	.stats {
 		font-size: 14px;
+	}
+	.word {
+		font-size: 20px;
 	}
 }
