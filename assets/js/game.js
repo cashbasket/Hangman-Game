@@ -44,7 +44,7 @@ var game = {
 		$('.tries').text('None').addClass('yellow');
 		$('.results').hide();
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
-		$('.errors').hide();
+		$('#errors').hide();
 		$('.get-started').text(instructionText);
 
 		this.currentAnswer = this.chooseAnswer();
@@ -143,16 +143,16 @@ var game = {
 	showErrors: function(type) {
 		switch(type) {
 			case 'already-guessed':
-				$('.errors > span').text(alreadyGuessedError);
+				$('#errors').text(alreadyGuessedError);
 				break;
 			case 'invalid-guess':
 			default:
-				$('.errors > span').text(invalidGuessError);
+				$('#errors').text(invalidGuessError);
 		}
-		$('.errors').slideDown(200);
+		$('#errors').slideDown(200);
 	},
 	hideErrors: function() {
-		$('.errors').slideUp(200);
+		$('#errors').slideUp(200);
 	},
 	isNewGuess: function(guess) {
 		for(var i=0; i < game.triedLetters.length; i++) {
@@ -229,7 +229,6 @@ var game = {
 	},
 	onGuess: function (keyCode) {
 		var key = String.fromCharCode(keyCode);
-		var newGuess;
 
 		//don't do anything until game resets
 		if(!(this.isGameOver() && !this.isReset)) {
