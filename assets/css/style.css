@@ -204,9 +204,6 @@ h3 {
 	padding: 10px 20px;
 	width: 100%;
 	text-align: center;
-}
-
-.result-text {
 	font-weight: bold;
 	font-size: 18px;
 	line-height: 1.2;
@@ -318,6 +315,16 @@ footer a:hover{
 	padding: 10px 20px;
 	width: 100%;
 	opacity: 0.9;
+}
+
+.resultWin {
+	background-color: #b9ddb4;
+	color: #317a27;
+}
+
+.resultLoss {
+	background-color: #eecdcd;
+	color: #be1c1c;
 }
 
 /* Media queries */

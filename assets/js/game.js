@@ -34,7 +34,8 @@ var game = {
 	losses: 0,
 	isReset: false,
 	init: function() { 
-		var audio = $('<audio>', {id: 'soundEffect'});
+		var audio = document.createElement('audio');
+		audio.id = 'soundEffect';
 		$('body').prepend(audio);
 		$('.triesLeft').text(maxTries + ' tries remaining');
 		$('.wins').text(this.wins);
@@ -180,12 +181,10 @@ var game = {
 	},
 	showResults: function() {	
 		if (this.isWinner()) {
-			$('.results').css('background-color','#b9ddb4');
-			$('.result-text').css('color', '#317a27').text(winnerText);
+			$('.results').addClass('resultWin').text(winnerText);
 		}
 		else {
-			$('.results').css('background-color', '#eecdcd');
-			$('.result-text').css('color', '#be1c1c').text(loserText);
+			$('.results').addClass('resultLoss').text(loserText);
 		}
 		$('.results').slideDown().delay(7000).slideUp();
 	},
@@ -222,6 +221,7 @@ var game = {
 		$('.tries').text('None').addClass('yellow');
 		$('.triesLeft').text(maxTries + ' tries remaining').removeClass('yellow');
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
+		$('.result').removeClass('resultWin').removeClass('resultLoss');
 		//choose new word
 		this.currentAnswer = this.chooseAnswer();
 		this.prepareGameDisplay(this.currentAnswer);
