@@ -1,6 +1,6 @@
 //global variables / text I want to be able to find and edit easily
 var maxTries = 10;
-var answers = ['walker, texas ranger','martial artist','roundhouse kick','the hitman','the delta force','flying kick','hellbound','missing in action','knockout punch','devout christian','conservative','republican','military man','patriot','greatest person ever','american hero','oklahoma rules','the most awesome living human','firewalker','karate master','code of silence','the expendables 2','the colombian connection','sidekicks','the octagon','eye for an eye','forced vengeance','silent rage','trial by fire','invasion u.s.a.','lone wolf mcquade','the way of the dragon','a force of one','karate kommandos'];
+var answerBank = ['walker, texas ranger','martial artist','roundhouse kick','the hitman','the delta force','flying kick','hellbound','missing in action','knockout punch','devout christian','conservative','republican','military man','patriot','greatest person ever','american hero','oklahoma rules','the most awesome living human','firewalker','karate master','code of silence','the expendables 2','the colombian connection','sidekicks','the octagon','an eye for an eye','forced vengeance','silent rage','trial by fire','invasion u.s.a.','lone wolf mcquade','the way of the dragon','a force of one','karate kommandos','the president\'s man','logan\'s war','forest warrior','wind in the wire','hero and the terror','black tigers','the cutter'];
 var specialCharacters = [' ',',','.',':','\'','-'];
 var winnerText = 'You got it! Chuck is pleased. He wants to keep playing, though, so he picked something else for you.';
 var loserText = 'Chuck got real mad, so you have just been kicked in the face. However, he wants you to try again on something new.';
@@ -28,7 +28,9 @@ var game = {
 	triesLeft: maxTries,
 	charsGotten: 0,
 	triedLetters: [],
-	answersLeft: answers,
+	uniqueChars: [],
+	correctGuesses: 0,
+	answersLeft: [],
 	wins: 0,
 	losses: 0,
 	isReset: false,
@@ -36,11 +38,11 @@ var game = {
 		var audio = document.getElementById('soundEffect');
 		audio.volume = 0.8;
 		audio.preload = true;
-		$('#triesLeft').text(maxTries + ' tries remaining');
+		$('.triesLeft').text(maxTries + ' tries remaining');
 		$('.wins').text(this.wins);
 		$('.losses').text(this.losses);
 		$('#maxTriesText').text(maxTries + ' times');
-		$('#tries').text('None').css('color','#ffcc00');
+		$('.tries').text('None').css('color','#ffcc00');
 		$('.results').hide();
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
 		$('.errors').hide();
@@ -50,17 +52,28 @@ var game = {
 		this.prepareGameDisplay(this.currentAnswer);
 	},
 	getRandomFact: function() {
-		var selectedFact = facts[getRandomInt(0, facts.length - 1)];
-		return selectedFact;
+		return facts[getRandomInt(0, facts.length - 1)];
 	},
 	chooseAnswer: function() {
 		//reset charsGotten every time!
 		this.charsGotten = 0;
+
+		//if answersLeft is empty, populate it with all values from answerBank
+		if(this.answersLeft.length == 0) {
+			this.answersLeft = answerBank.slice(0);
+		}
 		//select random answer from answersLeft array
 		var selectedAnswer = this.answersLeft[getRandomInt(0, this.answersLeft.length - 1)];
+		
 		//remove selected answer from answersLeft array
 		this.answersLeft.splice(this.answersLeft.indexOf(selectedAnswer), 1);
 
+		//keep track of the unique non-special characters in each answer
+		for (var i = 0; i < selectedAnswer.length; i++) {
+			if(!specialCharacters.includes(selectedAnswer.charAt(i)) && !this.uniqueChars.includes(selectedAnswer.charAt(i).toUpperCase())) {
+				this.uniqueChars.push(selectedAnswer.charAt(i).toUpperCase());
+			}
+		}
 		return selectedAnswer;
 	},
 	prepareGameDisplay: function(answer) {
@@ -97,15 +110,15 @@ var game = {
 		}
 		$('.word').text(displayed);
 
-		// update tried letters
-		if (!this.checkForWinner()) {
-			if($('#tries').text() == 'None') {
-				$('#tries').text('').css('color','#fff');
+		// update tried characters display
+		if (!this.isWinner()) {
+			if($('.tries').text() == 'None') {
+				$('.tries').text('').css('color','#fff');
 			} 
 			if(this.triedLetters.length >= 1) {
-				$('#tries').append(', ');
+				$('.tries').append(', ');
 			}
-			$('#tries').append(guess.toUpperCase());
+			$('.tries').append(guess.toUpperCase());
 			this.triedLetters.push(guess.toUpperCase());
 		}
 		$('#gameDisplay').removeClass('pulsate');
@@ -122,14 +135,18 @@ var game = {
 			}
 		}
 		else {
-			this.playSound('correct');
+			this.correctGuesses++;
+			//don't play the 'correct' sound for the last remaining guess. Otherwise, it creates a conflict with the 'victory' sound and throws a JS error.
+			if(this.uniqueChars.length != this.correctGuesses) {
+				this.playSound('correct');
+			}
 		}
 	},
 	updateTriesLeftDisplay: function () {
 		var triesSuffix = this.triesLeft > 1 ? ' tries remaining' : ' try remaining';
-		$('#triesLeft').text(this.triesLeft + triesSuffix);
+		$('.triesLeft').text(this.triesLeft + triesSuffix);
 		if (this.triesLeft <= parseFloat(maxTries/2)) {
-			$('#triesLeft').css('color', '#ffcc00');
+			$('.triesLeft').css('color', '#ffcc00');
 		}	
 	},
 	showErrors: function(type) {
@@ -146,35 +163,25 @@ var game = {
 	hideErrors: function() {
 		$('.errors').slideUp(200);
 	},
-	checkForNewGuess: function(guess) {
-		// check to see if user already guessed the letter
+	isNewGuess: function(guess) {
 		for(var i=0; i < game.triedLetters.length; i++) {
 			if(game.triedLetters[i] == guess.toUpperCase()) {
-				return true;
+				return false;
 			}
 		}
-		return false;
+		return true;
 	},
-	checkForValidKeyCode: function(keyCode) {
-		if((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122)) {
-			return true;
-		}
-		return false;
+	isValidKeyCode: function(keyCode) {
+		return ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122));
 	},
-	checkForWinner: function() {
-		if(this.charsGotten == this.currentAnswer.length) {
-			return true;
-		}
-		return false;
+	isWinner: function() {
+		return this.charsGotten == this.currentAnswer.length;
 	},
-	checkForGameOver: function() {
-		if(this.checkForWinner() || this.triesLeft == 0) {
-			return true;
-		}
-		return false;
+	isGameOver: function() {
+		return (this.isWinner() || this.triesLeft == 0);
 	},
 	updateStats: function() {
-		if (this.checkForWinner()) {
+		if (this.isWinner()) {
 			$('.wins').text(this.wins);
 		}
 		else {
@@ -182,7 +189,7 @@ var game = {
 		}
 	},
 	showResults: function() {	
-		if (this.checkForWinner()) {
+		if (this.isWinner()) {
 			$('.results').css('background-color','#b9ddb4');
 			$('.result-text').css('color', '#317a27').text(winnerText);
 		}
@@ -203,7 +210,7 @@ var game = {
 			case 'correct':
 				audio.src = 'assets/mp3/correct.mp3';
 				break;
-			case 'absolutely-right':
+			case 'victory':
 				audio.src = 'assets/mp3/absolutely-right.mp3';
 				break;
 			case 'incorrect':
@@ -218,15 +225,13 @@ var game = {
 	reset: function() {
 		this.triesLeft = maxTries;
 		this.triedLetters = [];
+		this.uniqueChars = [];
+		this.correctGuesses = 0;
 		$('.word').text('');
 		$('#gameDisplay').addClass('pulsate');
-		$('#tries').text('None').css('color','#ffcc00');
-		$('#triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
+		$('.tries').text('None').css('color','#ffcc00');
+		$('.triesLeft').text(maxTries + ' tries remaining').css('color', '#fff');
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
-		//if all answers have been used, repopulate array
-		if(this.answersLeft.length == 0) {
-			this.answersLeft = answers;
-		}
 		//choose new word
 		this.currentAnswer = this.chooseAnswer();
 		this.prepareGameDisplay(this.currentAnswer);
@@ -234,16 +239,15 @@ var game = {
 	},
 	onGuess: function (keyCode) {
 		var key = String.fromCharCode(keyCode);
-		var alreadyGuessed;
+		var newGuess;
 
 		//don't do anything until game resets
-		if(!(this.checkForGameOver() && !this.isReset)) {
+		if(!(this.isGameOver() && !this.isReset)) {
 			this.isReset = false;
 			// check key code so ONLY letters are accepted
-			if(this.checkForValidKeyCode(keyCode)) {
+			if(this.isValidKeyCode(keyCode)) {
 				//check to see if user guessed a new letter
-				alreadyGuessed = this.checkForNewGuess(key.toUpperCase());
-				if(!alreadyGuessed) {
+				if(this.isNewGuess(key.toUpperCase())) {
 					this.hideErrors();
 					//if it's a new letter, process the guess
 					this.processGuess(key.toUpperCase());
@@ -253,12 +257,13 @@ var game = {
 					this.showErrors('already-guessed');
 				}
 
+				var gameOver = this.isGameOver();
 				//check to see if guess results in game over
-				if(this.checkForGameOver()) {
+				if(gameOver) {
 					// congratulate user if user won
-					if(this.checkForWinner()) {
+					if(this.isWinner()) {
 						this.wins++;
-						this.playSound('absolutely-right');
+						this.playSound('victory');
 					}
 					// kick user in face if user lost
 					else {
@@ -269,12 +274,9 @@ var game = {
 					// update wins/losses and show results
 					this.updateStats();
 					this.showResults();	
-					
-					return true;
 				}
-				else {
-					return false;
-				}
+
+				return gameOver;
 			}
 			else {
 				this.showErrors('invalid-guess');
