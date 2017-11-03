@@ -221,7 +221,7 @@ var game = {
 		$('.tries').text('None').addClass('yellow');
 		$('#triesLeft').text(maxTries + ' tries remaining').removeClass('yellow');
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
-		$('.result').removeClass('resultWin').removeClass('resultLoss');
+		$('.result').removeClass('resultWin resultLoss');
 		//choose new word
 		this.currentAnswer = this.chooseAnswer();
 		this.prepareGameDisplay(this.currentAnswer);
