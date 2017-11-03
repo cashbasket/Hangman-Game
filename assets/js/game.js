@@ -245,7 +245,7 @@ var game = {
 		this.updateTriesLeftDisplay();
 		this.isReset = true;
 	},
-	onGuess: function (keyCode) {
+	performGuess: function (keyCode) {
 		var key = String.fromCharCode(keyCode);
 
 		//don't do anything until game resets
@@ -294,15 +294,13 @@ var game = {
 
 // once the DOM is all loaded, we're good to go
 $(document).ready(function () {
-	// initialize game for first time
+	// initialize game
 	game.init();
-	// do stuff when key is pressed
+
 	$(document).on('keyup', function(event) {
-		//after key is pressed, check to see if the guess results in game over
-		var over = game.onGuess(event.keyCode);
-		//if game is over, reset game
-		if (over) {
-			//pause for a few seconds so user can see either the correct answer OR the awesome image of Chuck, and THEN reset
+		//performGuess returns whether or not the game is over after the key is pressed
+		if (game.performGuess(event.keyCode)) {
+			//if game is over, pause for a few seconds so user can see either the correct answer OR the awesome image of Chuck, and THEN reset
 			setTimeout((function() {
 				$('#overlay').stop().animate({maxWidth: '100%'}, 500, function() {
 					game.reset();
