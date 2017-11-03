@@ -134,7 +134,7 @@ var game = {
 		}
 	},
 	updateTriesLeftDisplay: function () {
-		var triesSuffix = this.triesLeft > 1 ? ' tries remaining' : ' try remaining';
+		var triesSuffix = this.triesLeft != 1 ? ' tries remaining' : ' try remaining';
 		$('#triesLeft').text(this.triesLeft + triesSuffix);
 		if (this.triesLeft <= parseFloat(maxTries/2)) {
 			$('#triesLeft').addClass('yellow');
