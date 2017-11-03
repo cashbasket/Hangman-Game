@@ -238,6 +238,8 @@ var game = {
 		$('#gameDisplay').addClass('pulsate');
 		$('#tries').text('None').addClass('yellow');
 		$('#fact').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
+		//don't forget to reset Chuck!
+		$('#imgContainer').css('left','0');
 		//choose new word
 		this.currentAnswer = this.chooseAnswer();
 		this.prepareGameDisplay(this.currentAnswer);
@@ -275,6 +277,10 @@ var game = {
 					else {
 						this.losses++;
 						this.playSound('kick');
+						// animate Chuck!
+						 $('#imgContainer').stop().animate({
+				         	left: '100%'
+				         });
 					}
 
 					// update wins/losses and show results
