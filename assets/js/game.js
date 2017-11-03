@@ -294,19 +294,12 @@ $(document).ready(function () {
 		var over = game.onGuess(event.keyCode);
 		//if game is over, reset game
 		if (over) {
-			// if curtain is open, pause for a few seconds so people can see the awesome image or the correct answer, and THEN reset
-			if(getPctWidthOfOverlay() < 100) {
-				// 
-				setTimeout((function() {
-					$('#overlay').stop().animate({maxWidth: '100%'}, 500, function() {
-						game.reset();
-					});
-	            }), 5200);
-			}
-			// otherwise, skip the closing animation entirely and just reset the damn game
-			else {
-				game.reset();
-			}
+			//pause for a few seconds so user can see either the correct answer OR the awesome image of Chuck, and THEN reset
+			setTimeout((function() {
+				$('#overlay').stop().animate({maxWidth: '100%'}, 500, function() {
+					game.reset();
+				});
+            }), 5200);
 		}
 	});
 });
