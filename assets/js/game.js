@@ -1,4 +1,4 @@
-//global variables and stuff I want to be able to access easily
+//global variables and stuff I want to be able to find and edit easily
 var answerBank = ['walker, texas ranger', 'martial artist', 'roundhouse kick', 'the hitman', 'the delta force', 'flying kick', 'hellbound', 'missing in action', 'knockout punch', 'devout christian', 'conservative', 'republican', 'military man', 'patriot', 'greatest person ever', 'american hero', 'oklahoma rules', 'the most awesome living human', 'firewalker', 'karate master', 'code of silence', 'the expendables 2', 'the colombian connection', 'sidekicks', 'the octagon', 'an eye for an eye', 'forced vengeance', 'silent rage', 'trial by fire', 'invasion u.s.a.', 'lone wolf mcquade', 'the way of the dragon', 'a force of one', 'karate kommandos', 'the president\'s man', 'logan\'s war', 'forest warrior', 'wind in the wire', 'hero and the terror', 'black tigers', 'the cutter'];
 var specialCharacters = [' ', ',', '.', ':', '\'', '-'];
 var winnerText = 'You got it! Chuck is pleased, and wants to keep this game going. Give him a second to think up a new answer.';
