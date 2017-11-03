@@ -2,7 +2,7 @@
 var maxTries = 10;
 var answerBank = ['walker, texas ranger', 'martial artist', 'roundhouse kick', 'the hitman', 'the delta force', 'flying kick', 'hellbound', 'missing in action', 'knockout punch', 'devout christian', 'conservative', 'republican', 'military man', 'patriot', 'greatest person ever', 'american hero', 'oklahoma rules', 'the most awesome living human', 'firewalker', 'karate master', 'code of silence', 'the expendables 2', 'the colombian connection', 'sidekicks', 'the octagon', 'an eye for an eye', 'forced vengeance', 'silent rage', 'trial by fire', 'invasion u.s.a.', 'lone wolf mcquade', 'the way of the dragon', 'a force of one', 'karate kommandos', 'the president\'s man', 'logan\'s war', 'forest warrior', 'wind in the wire', 'hero and the terror', 'black tigers', 'the cutter'];
 var specialCharacters = [' ', ',', '.', ':', '\'', '-'];
-var winnerText = 'You got it! Chuck is pleased. He wants to keep playing, though, so he picked something else for you.';
+var winnerText = 'You got it! Chuck is pleased, and wants to keep this game going. Give him a second to think up a new answer';
 var loserText = 'Chuck got real mad and kicked you in the face. However, he wants to keep playing. Give him a second to think up a new answer';
 var factHeader = '<span class="fact-header">Fact:</span>';
 var facts = ['Chuck Norris was bitten by a cobra, and after five days of excruciating pain, the cobra died.', 'Chuck Norris once kicked a horse in the chin. Its descendants today are known as giraffes.', 'Chuck Norris doesn\'t breathe air; he holds air hostage.', 'When Chuck Norris turned 18, his parents moved out.', 'Chuck Norris doesn\'t dial the wrong number; you answer the wrong phone.', 'If Chuck Norris were a Spartan in the movie "300," the movie would be called "1."', 'Chuck Norris is currently suing NBC, claiming "Law" and "Order" are trademarked names for his left and right legs.', 'Chuck Norris will never have a heart attack; his heart isn\'t nearly foolish enough to attack him.', 'Chuck Norris can kill two stones with one bird.', 'Chuck Norris does not sleep; he waits.', 'The easiest way to determine Chuck Norris\' age is to cut him in half and count the rings.', 'There is no chin underneath Chuck Norris\' beard; there is only another fist.'];
@@ -38,11 +38,11 @@ var game = {
 		audio.id = 'soundEffect';
 		$('body').prepend(audio);
 		$('#triesLeft').text(maxTries + ' tries remaining');
-		$('.wins').text(this.wins);
-		$('.losses').text(this.losses);
+		$('#wins').text(this.wins);
+		$('#losses').text(this.losses);
 		$('#maxTriesText').text(maxTries + ' times');
-		$('.tries').text('None').addClass('yellow');
-		$('.results').hide();
+		$('#tries').text('None').addClass('yellow');
+		$('#results').hide();
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
 		$('#errors').hide();
 		$('.get-started').text(instructionText);
@@ -79,7 +79,7 @@ var game = {
 			if(!specialCharacters.includes(answer.charAt(i)))
 				displayed = displayed.replaceAt(i, '_');
 		}
-		$('.word').text(displayed);
+		$('#word').text(displayed);
 
 		//display either "current word" or "current phrase" depending on how many words are in the answer
 		if(answer.indexOf(' ') > 0) {
@@ -90,7 +90,7 @@ var game = {
 		}
 	},
 	processGuess: function(guess) {
-		var displayed = $('.word').text();
+		var displayed = $('#word').text();
 		var correctGuess = false;
 		// update word/phase with guess if correct
 		for(var i=0; i < this.currentAnswer.length; i++) {
@@ -99,17 +99,17 @@ var game = {
 				correctGuess = true;
 			}
 		}
-		$('.word').text(displayed);
+		$('#word').text(displayed);
 
 		// update tried characters display
 		if (!this.isWinner()) {
-			if($('.tries').text() == 'None') {
-				$('.tries').text('').removeClass('yellow');
+			if($('#tries').text() == 'None') {
+				$('#tries').text('').removeClass('yellow');
 			} 
 			if(this.triedLetters.length >= 1) {
-				$('.tries').append(', ');
+				$('#tries').append(', ');
 			}
-			$('.tries').append(guess.toUpperCase());
+			$('#tries').append(guess.toUpperCase());
 			this.triedLetters.push(guess.toUpperCase());
 		}
 		$('#gameDisplay').removeClass('pulsate');
@@ -173,29 +173,30 @@ var game = {
 	},
 	updateStats: function() {
 		if (this.isWinner()) {
-			$('.wins').text(this.wins);
+			$('#wins').text(this.wins);
 		}
 		else {
-			$('.losses').text(this.losses);
+			$('#losses').text(this.losses);
 		}
 	},
 	showResults: function() {	
-		$('.results').removeClass('resultWin resultLoss');
+		$('#results').removeClass('resultWin resultLoss');
 		if (this.isWinner()) {
-			$('.results').addClass('resultWin').text(winnerText);
+			$('#results').addClass('resultWin').text(winnerText);
 		}
 		else {
-			$('.results').addClass('resultLoss').text(loserText);
-			var dotCount = 0;
-			var dotInterval = setInterval(function() {
-			    $('.results').append('.');
-			    dotCount++;
-			    if(dotCount == 10) {
-			    	clearInterval(dotInterval);
-			    }
-			  }, 700);
-		}
-		$('.results').slideDown(200).delay(5000).slideUp(200);
+			$('#results').addClass('resultLoss').text(loserText);
+		}	
+		var dotCount = 0;
+		var dotInterval = setInterval(function() {
+		    $('#results').append('.');
+		    dotCount++;
+		    if(dotCount == 10) {
+		    	clearInterval(dotInterval);
+		    }
+		  }, 700);
+		
+		$('#results').slideDown(200).delay(5000).slideUp(200);
 	},
 	openCurtain: function() {
 		var curPct = getPctWidthOfOverlay();
@@ -225,9 +226,9 @@ var game = {
 		this.triedLetters = [];
 		this.uniqueChars = [];
 		this.correctGuesses = 0;
-		$('.word').text('');
+		$('#word').text('');
 		$('#gameDisplay').addClass('pulsate');
-		$('.tries').text('None').addClass('yellow');
+		$('#tries').text('None').addClass('yellow');
 		$('#triesLeft').text(maxTries + ' tries remaining').removeClass('yellow');
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
 		$('.result').removeClass('resultWin resultLoss');
@@ -293,24 +294,16 @@ $(document).ready(function () {
 		var over = game.onGuess(event.keyCode);
 		//if game is over, reset game
 		if (over) {
-			// if the curtain isn't closed...
+			// if curtain is open, pause for a few seconds so people can see the awesome image or the correct answer, and THEN reset
 			if(getPctWidthOfOverlay() < 100) {
-				// if user lost the game, pause for a few seconds so people can see the awesome image, and THEN reset
-				if(!game.isWinner()) {
-					var t = setTimeout((function() {
-						$('#overlay').stop().animate({maxWidth: '100%'}, 500, function() {
-							game.reset();
-						});
-	            	}), 5200);
-				}
-				// if user won, then just close it and reset
-				else {
-					$('#overlay').animate({maxWidth: '100%'}, 500, function() {
+				// 
+				setTimeout((function() {
+					$('#overlay').stop().animate({maxWidth: '100%'}, 500, function() {
 						game.reset();
 					});
-				}
+	            }), 5200);
 			}
-			// otherwise, skip the closing animation and just reset the damn game
+			// otherwise, skip the closing animation entirely and just reset the damn game
 			else {
 				game.reset();
 			}

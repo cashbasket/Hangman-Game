@@ -60,23 +60,21 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="stats">
-										Wins: <span class="wins yellow"></span>
-										Times Kicked in Face: <span class="losses yellow"></span>
+										Wins: <span id="wins" class="yellow"></span>
+										Times Kicked in Face: <span id="losses" class="yellow"></span>
 									</div>
 								</div>
 							</div>
-							<div class="results">		
-								<span class="result-text"></span>
-							</div>
-							<div class="instructions">
+							<div id="results" class="results-panel"></div>
+							<div class="instructions-sm">
 								<p class="big-text get-started text-center"></p>
 							</div>
 							<div id="errors" class="strong red"></div>
 							<div id="gameDisplay" class="game-display pulsate">
 								<h3>Current <span id="answerType"></span> (<span id="triesLeft"></span>):</h3>
-								<p class="word"></p>
+								<p id="word" class="answer"></p>
 								<p class="tries-p">
-									<span class="letters-tried">Letters you've tried:</span> <span class="tries"></span>
+									<span class="letters-tried">Letters you've tried:</span> <span id="tries"></span>
 								</p>
 							</div>
 						</div>			

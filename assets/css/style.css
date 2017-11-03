@@ -43,6 +43,7 @@ h2 {
 
 h3 {
 	font-size: 1.25em;
+	color: #fff;
 	font-weight: bold;
 	font-family: 'Roboto Slab', serif;
 	line-height: 1.5;
@@ -75,10 +76,6 @@ h3 {
 .main-section p {
 	margin-bottom: 1em;
 	line-height: 1.5;
-}
-
-.inst-row p {
-	margin-bottom: 0;
 }
 
 .game-container {
@@ -114,7 +111,7 @@ h3 {
   padding-left: 0;
 }
 
-.instructions {
+.instructions-sm {
 	width: 100%;
 	background-color: #fff;
 	color: #000;
@@ -122,7 +119,7 @@ h3 {
 	display: none;
 }
 
-.instructions p {
+.instructions-sm p {
 	margin-bottom: 0;
 }
 
@@ -186,7 +183,7 @@ h3 {
     margin-top: 15px;
 }
 
-.word {
+.answer {
 	padding-bottom: 5px;
 	font-size: 24px;
 	color: #fff;
@@ -200,7 +197,7 @@ h3 {
 	clear: both;
 }
 
-.results {
+.results-panel {
 	padding: 10px 20px;
 	width: 100%;
 	text-align: center;
@@ -245,22 +242,14 @@ h3 {
 	font-size: 16px;
 	margin: 15px 0 0 0;
 	line-height: 1.5;
+	color: #fff;
+	font-size: 16px;
 }
 
 .letters-tried {
 	font-family: 'Roboto Slab', serif;
 	font-weight: bold;
-}
-
-.game-display h3,
-.tries-p {
-	color: #fff;
-}
-
-.tries {
-	font-size: 16px;
-	color: #fff;
-	margin-left: 5px;
+	margin-right: 5px;
 }
 
 footer {
@@ -356,7 +345,7 @@ footer a:hover{
 	.game-container {
 		border-right: none;
 	}
-	.instructions {
+	.instructions-sm {
 		display: block;
 	}
 	.get-started {
@@ -386,15 +375,15 @@ footer a:hover{
 	h1 {
 		font-size: 20px;
 	}
-	.instructions p,
+	.instructions-sm p,
 	.overlay-text,
-	.result-text {
+	#results {
 		font-size: 16px;
 	}
 	.stats {
 		font-size: 14px;
 	}
-	.word {
+	.answer {
 		font-size: 20px;
 	}
 }
