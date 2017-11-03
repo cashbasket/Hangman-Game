@@ -180,7 +180,7 @@ var game = {
 		}
 	},
 	showResults: function() {	
-		$('.results').removeClass('resultWin').removeClass('resultLoss');
+		$('.results').removeClass('resultWin resultLoss');
 		if (this.isWinner()) {
 			$('.results').addClass('resultWin').text(winnerText);
 		}
