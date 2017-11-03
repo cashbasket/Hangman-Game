@@ -47,7 +47,8 @@ var game = {
 		$('#maxTriesText').text(this.maxTries + ' times');
 		$('#tries').text('None').addClass('yellow');
 		$('#results').hide();
-		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
+		$('#fact').html(factHeader + '<br>' + this.getRandomFact())
+				  .fadeIn(200);
 		$('#errors').hide();
 		$('.get-started').text(instructionText);
 
@@ -127,7 +128,7 @@ var game = {
 			this.triesLeft--;
 			this.updateTriesLeftDisplay();
 			if(this.triesLeft < this.maxTries) {
-				$('.overlay-text').fadeOut(200);
+				$('#fact').fadeOut(200);
 			}
 		}
 		else {
@@ -237,8 +238,7 @@ var game = {
 		$('#word').text('');
 		$('#gameDisplay').addClass('pulsate');
 		$('#tries').text('None').addClass('yellow');
-		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
-		$('.result').removeClass('resultWin resultLoss');
+		$('#fact').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
 		//choose new word
 		this.currentAnswer = this.chooseAnswer();
 		this.prepareGameDisplay(this.currentAnswer);
