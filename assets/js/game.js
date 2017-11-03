@@ -1,9 +1,9 @@
-//global variables / text I want to be able to find and edit easily
+//global variables
 var maxTries = 10;
 var answerBank = ['walker, texas ranger', 'martial artist', 'roundhouse kick', 'the hitman', 'the delta force', 'flying kick', 'hellbound', 'missing in action', 'knockout punch', 'devout christian', 'conservative', 'republican', 'military man', 'patriot', 'greatest person ever', 'american hero', 'oklahoma rules', 'the most awesome living human', 'firewalker', 'karate master', 'code of silence', 'the expendables 2', 'the colombian connection', 'sidekicks', 'the octagon', 'an eye for an eye', 'forced vengeance', 'silent rage', 'trial by fire', 'invasion u.s.a.', 'lone wolf mcquade', 'the way of the dragon', 'a force of one', 'karate kommandos', 'the president\'s man', 'logan\'s war', 'forest warrior', 'wind in the wire', 'hero and the terror', 'black tigers', 'the cutter'];
 var specialCharacters = [' ', ',', '.', ':', '\'', '-'];
 var winnerText = 'You got it! Chuck is pleased. He wants to keep playing, though, so he picked something else for you.';
-var loserText = 'Chuck got real mad, so you have just been kicked in the face. However, he wants you to try again on something new.';
+var loserText = 'Chuck got real mad and kicked you in the face. However, he wants to keep playing. Give him a second to think up a new answer';
 var factHeader = '<span class="fact-header">Fact:</span>';
 var facts = ['Chuck Norris was bitten by a cobra, and after five days of excruciating pain, the cobra died.', 'Chuck Norris once kicked a horse in the chin. Its descendants today are known as giraffes.', 'Chuck Norris doesn\'t breathe air; he holds air hostage.', 'When Chuck Norris turned 18, his parents moved out.', 'Chuck Norris doesn\'t dial the wrong number; you answer the wrong phone.', 'If Chuck Norris were a Spartan in the movie "300," the movie would be called "1."', 'Chuck Norris is currently suing NBC, claiming "Law" and "Order" are trademarked names for his left and right legs.', 'Chuck Norris will never have a heart attack; his heart isn\'t nearly foolish enough to attack him.', 'Chuck Norris can kill two stones with one bird.', 'Chuck Norris does not sleep; he waits.', 'The easiest way to determine Chuck Norris\' age is to cut him in half and count the rings.', 'There is no chin underneath Chuck Norris\' beard; there is only another fist.'];
 var alreadyGuessedError = 'You already tried that one!';
@@ -180,13 +180,22 @@ var game = {
 		}
 	},
 	showResults: function() {	
+		$('.results').removeClass('resultWin resultLoss');
 		if (this.isWinner()) {
 			$('.results').addClass('resultWin').text(winnerText);
 		}
 		else {
 			$('.results').addClass('resultLoss').text(loserText);
+			var dotCount = 0;
+			var dotInterval = setInterval(function() {
+			    $('.results').append('.');
+			    dotCount++;
+			    if(dotCount == 10) {
+			    	clearInterval(dotInterval);
+			    }
+			  }, 700);
 		}
-		$('.results').slideDown().delay(7000).slideUp();
+		$('.results').slideDown(200).delay(5000).slideUp(200);
 	},
 	openCurtain: function() {
 		var curPct = getPctWidthOfOverlay();
@@ -284,12 +293,24 @@ $(document).ready(function () {
 		var over = game.onGuess(event.keyCode);
 		//if game is over, reset game
 		if (over) {
-			// if the curtain isn't closed, close it and THEN reset the game
-			if(getPctWidthOfOverlay() < 100)
-				$('#overlay').animate({ maxWidth: '100%' }, 500, function() {
-					game.reset();
-				});
-			// otherwise, just reset the game
+			// if the curtain isn't closed...
+			if(getPctWidthOfOverlay() < 100) {
+				// if user lost the game, pause for a few seconds so people can see the awesome image, and THEN reset
+				if(!game.isWinner()) {
+					var t = setTimeout((function() {
+						$('#overlay').stop().animate({maxWidth: '100%'}, 500, function() {
+							game.reset();
+						});
+	            	}), 5200);
+				}
+				// if user won, then just close it and reset
+				else {
+					$('#overlay').animate({maxWidth: '100%'}, 500, function() {
+						game.reset();
+					});
+				}
+			}
+			// otherwise, skip the closing animation and just reset the damn game
 			else {
 				game.reset();
 			}
