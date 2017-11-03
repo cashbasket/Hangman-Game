@@ -208,8 +208,7 @@ var game = {
 		$('#results').slideDown(200).delay(5000).slideUp(200);
 	},
 	openCurtain: function() {
-		var curPct = getPctWidthOfOverlay();
-		var newPct = curPct - parseFloat(100/this.maxTries);
+		var newPct = getPctWidthOfOverlay() - parseFloat(100/this.maxTries);
 		$('#overlay').animate({ maxWidth: newPct + "%"},100);
 	},
 	playSound: function(type) {
