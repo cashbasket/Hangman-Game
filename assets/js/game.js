@@ -60,7 +60,7 @@ var game = {
 	},
 	chooseAnswer: function() {
 		//if answersLeft is empty, populate it with all values from answerBank
-		if(this.answersLeft.length == 0) {
+		if(this.answersLeft.length === 0) {
 			this.answersLeft = answerBank.slice(0);
 		}
 		//select random answer from answersLeft array
@@ -177,7 +177,7 @@ var game = {
 		return this.correctGuesses == this.uniqueChars.length;
 	},
 	isGameOver: function() {
-		return (this.isWinner() || this.triesLeft == 0);
+		return (this.isWinner() || this.triesLeft === 0);
 	},
 	updateStats: function() {
 		if (this.isWinner()) {
@@ -237,8 +237,6 @@ var game = {
 		$('#word').text('');
 		$('#gameDisplay').addClass('pulsate');
 		$('#tries').text('None').addClass('yellow');
-		//$('#triesLeft').text(this.triesLeft + ' tries remaining').removeClass('yellow');
-
 		$('.overlay-text').html(factHeader + '<br>' + this.getRandomFact()).fadeIn(200);
 		$('.result').removeClass('resultWin resultLoss');
 		//choose new word
