@@ -8,6 +8,8 @@ var facts = ['Chuck Norris was bitten by a cobra, and after five days of excruci
 var alreadyGuessedError = 'You already tried that one!';
 var invalidGuessError = 'Only letter and number keys are allowed.';
 var instructionText = 'Press a letter or number key to get started!';
+var onplaying = true;
+var onpause = false;
 
 //global math functions
 function getRandomInt(min, max) {
@@ -39,7 +41,7 @@ var game = {
 
 		//create audio element that plays all the awesome sounds
 		var audio = document.createElement('audio');
-		audio.id = 'soundEffect';
+		audio.id = 'audio';
 		$('body').prepend(audio);
 
 		$('#wins').text(this.wins);
@@ -212,7 +214,7 @@ var game = {
 		$('#overlay').animate({ maxWidth: newPct + "%"},100);
 	},
 	playSound: function(type) {
-		var audio = document.getElementById('soundEffect');
+		var audio = document.getElementById('audio');
 		switch (type) {
 			case 'correct':
 				audio.src = 'assets/mp3/correct.mp3';
@@ -227,7 +229,7 @@ var game = {
 			default:
 				audio.src = 'assets/mp3/slap.mp3';
 		}
-	    audio.play();     
+		audio.play();
 	},
 	reset: function() {
 		this.triesLeft = this.maxTries;
