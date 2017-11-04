@@ -229,6 +229,7 @@ var game = {
 			default:
 				audio.src = 'assets/mp3/slap.mp3';
 		}
+		// I know this isn't the best way to do it and that it produces an annoying Chrome console error on occasion, but I went deep into a web audio rabbit-hole after I saw the error and barely made it out alive.  Will get to this at some point.
 		audio.play();
 	},
 	reset: function() {
